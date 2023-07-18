@@ -1,3 +1,40 @@
 <resources>
     <string name="app_name">EBC</string>
+
+    <!-- Welcome. -->
+    <string name="welcome">Welcome!</string>
+    <string name="greeting_title1">Shop Now</string>
+    <string name="greeting">Come join us and buy many products UMKM from your home!</string>
+    <string name="greeting_title2">On The Way</string>
+    <string name="greeting2">Shop anywhere and anytime! </string>
+    <string name="greeting_title3">Work Done</string>
+    <string name="greeting3">See interesting products from UMKM in Bojong Picung! </string>
+    <string name="greeting_picture">Greeting picture</string>
+    <string name="learn_now">Belajar Sekarang</string>
+    <string name="get_started">Get Started</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="tombol_logout">tombol_logout</string>
+    <string name="let_s_register">Let\'s Register</string>
+    <string name="do_you_have_an_account_log_in">Do you have an account? log in</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="register">Register</string>
+    <string name="facebook">Facebook</string>
+    <string name="google">Google</string>
+
+    <!-- CustomView. -->
+    <string name="name_cannot_empty">Name cannot be empty</string>
+    <string name="valid_email">Please input a valid email</string>
+    <string name="email_cannot_empty">Email cannot be empty</string>
+    <string name="password_minimum">Password must consist of minimum 8 characters</string>
+
+    <!-- Login. -->
+    <string name="Login">Login</string>
+    <string name="Login_Desc">Please login to continue!</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="not_have_account">Don\'t have an account yet?</string>
+    <string name="register_login">Register</string>
+
 </resources>

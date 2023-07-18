@@ -53,7 +53,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth-ktx:21.0.3'
     implementation 'com.google.firebase:firebase-firestore-ktx:24.1.1'
 
-    //loading button
+//    loading button
     implementation 'br.com.simplepass:loading-button-android:2.2.0'
 
     //Glide
@@ -63,10 +63,10 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:3.1.0'
 
     //viewpager2 indicatior
-    implementation 'io.github.vejei.viewpagerindicator:viewpagerindicator:1.0.0-alpha.1'
+//    implementation 'io.github.vejei.viewpagerindicator:viewpagerindicator:1.0.0-alpha.1'
 
     //stepView
-    implementation 'com.shuhart.stepview:stepview:1.5.1'
+//    implementation 'com.shuhart.stepview:stepview:1.5.1'
 
     //Android Ktx
     implementation 'androidx.navigation:navigation-fragment-ktx:2.4.2'
