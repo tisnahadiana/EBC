@@ -18,7 +18,7 @@ class WelcomeActivity : AppCompatActivity() {
     private val welcomeViewModel: WelcomeViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_welcome)
+        setContentView(binding.root)
         supportActionBar?.hide()
 
         binding.button.setOnClickListener {

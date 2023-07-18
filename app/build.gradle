@@ -53,20 +53,13 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth-ktx:21.0.3'
     implementation 'com.google.firebase:firebase-firestore-ktx:24.1.1'
 
-//    loading button
-    implementation 'br.com.simplepass:loading-button-android:2.2.0'
+    implementation 'com.github.leandroborgesferreira:loading-button-android:2.3.0'
 
     //Glide
     implementation 'com.github.bumptech.glide:glide:4.13.0'
 
     //circular image
     implementation 'de.hdodenhof:circleimageview:3.1.0'
-
-    //viewpager2 indicatior
-//    implementation 'io.github.vejei.viewpagerindicator:viewpagerindicator:1.0.0-alpha.1'
-
-    //stepView
-//    implementation 'com.shuhart.stepview:stepview:1.5.1'
 
     //Android Ktx
     implementation 'androidx.navigation:navigation-fragment-ktx:2.4.2'
@@ -85,8 +78,5 @@ dependencies {
 
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.6.1'
     implementation "androidx.lifecycle:lifecycle-livedata-core-ktx:2.6.1"
-}
 
-kapt {
-    correctErrorTypes true
 }
