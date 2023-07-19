@@ -23,6 +23,7 @@
     <string name="register">Register</string>
     <string name="facebook">Facebook</string>
     <string name="google">Google</string>
+    <string name="skip">Skip</string>
 
     <!-- CustomView. -->
     <string name="name_cannot_empty">Name cannot be empty</string>
@@ -36,5 +37,25 @@
     <string name="forgot_password">Forgot Password?</string>
     <string name="not_have_account">Don\'t have an account yet?</string>
     <string name="register_login">Register</string>
+    <string name="tv_or">Or</string>
+    <string name="login_with">Login with</string>
+    <string name="google_account">Google Account</string>
+    <string name="logo_ebc">logo ebc</string>
+    <string name="illustration_login">Illustration Login</string>
+    <string name="success_message_login">Login Account Success</string>
+    <string name="failure_message_login">Login Account Failed</string>
+
+
+    <!-- Register. -->
+    <string name="register_desc">Please register to create account!</string>
+    <string name="hint_register_name">Enter Name</string>
+    <string name="hint_register_email">Enter E-mail</string>
+    <string name="hint_register_phone">Enter Phone Number</string>
+    <string name="hint_register_password">Enter Password</string>
+    <string name="already_have_an_account">Already have an account?</string>
+    <string name="signup_with">Signup with</string>
+    <string name="success_message_register">Register Account Success</string>
+    <string name="failure_message_register">Register Account Failed</string>
+
 
 </resources>

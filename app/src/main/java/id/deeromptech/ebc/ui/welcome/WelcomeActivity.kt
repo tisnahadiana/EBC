@@ -18,10 +18,17 @@ class WelcomeActivity : AppCompatActivity() {
     private val welcomeViewModel: WelcomeViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_welcome)
+        setContentView(binding.root)
         supportActionBar?.hide()
 
         binding.button.setOnClickListener {
+            val intent = Intent(this, LoginActivity::class.java)
+            welcomeViewModel.setFirstTime(false)
+            startActivity(intent)
+            finish()
+        }
+
+        binding.btnSkip.setOnClickListener {
             val intent = Intent(this, LoginActivity::class.java)
             welcomeViewModel.setFirstTime(false)
             startActivity(intent)
