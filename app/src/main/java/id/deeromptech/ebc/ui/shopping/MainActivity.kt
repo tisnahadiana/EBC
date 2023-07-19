@@ -15,7 +15,7 @@ import com.google.firebase.ktx.Firebase
 import id.deeromptech.ebc.R
 import id.deeromptech.ebc.databinding.ActivityMainBinding
 import id.deeromptech.ebc.ui.auth.login.LoginActivity
-import id.deeromptech.ebc.util.DialogResult
+import id.deeromptech.ebc.dialog.DialogResult
 
 class MainActivity : AppCompatActivity() {
 
@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        supportActionBar?.setIcon(R.drawable.logo_ebc)
+        supportActionBar?.title = ""
 
         auth = Firebase.auth
         val gso = GoogleSignInOptions
@@ -62,7 +62,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun signOut() {
-        val dialogResult:DialogResult = DialogResult(this@MainActivity)
+        val dialogResult: DialogResult = DialogResult(this@MainActivity)
         dialogResult.setTitle("Logout")
         dialogResult.setImage(R.drawable.logout)
         dialogResult.setMessage("Apakah anda yakin ingin logout?")
