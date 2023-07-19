@@ -110,25 +110,25 @@
         android:id="@+id/tv_no_account"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
+        android:layout_marginStart="70dp"
         android:layout_marginTop="8dp"
         android:fontFamily="@font/montserrat"
         android:text="@string/not_have_account"
         android:textColor="@color/font_colour"
         android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="@+id/btn_login_activity"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_login_activity" />
 
     <View
         android:id="@+id/line1"
         android:layout_width="0dp"
         android:layout_height="2dp"
-        android:layout_marginStart="24dp"
+        android:layout_marginStart="50dp"
         android:layout_marginEnd="8dp"
         android:background="@color/gray"
         app:layout_constraintBottom_toBottomOf="@id/tv_or"
         app:layout_constraintEnd_toStartOf="@+id/tv_or"
-        app:layout_constraintStart_toStartOf="@+id/btn_login_activity"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/tv_or"
         app:layout_constraintVertical_bias="0.6" />
 
@@ -150,10 +150,10 @@
         android:layout_width="0dp"
         android:layout_height="2dp"
         android:layout_marginStart="8dp"
-        android:layout_marginEnd="24dp"
+        android:layout_marginEnd="50dp"
         android:background="@color/gray"
         app:layout_constraintBottom_toBottomOf="@id/tv_or"
-        app:layout_constraintEnd_toEndOf="@+id/btn_login_activity"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/tv_or"
         app:layout_constraintTop_toTopOf="@id/tv_or"
         app:layout_constraintVertical_bias="0.6" />
@@ -172,9 +172,11 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_or" />
 
     <Button
-        android:id="@+id/signInButton"
+        android:id="@+id/btn_login_google"
         android:layout_width="0dp"
         android:layout_height="60dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="50dp"
         android:backgroundTint="@color/white"
         android:contentDescription="@string/Login"
         android:drawableLeft="@drawable/ic_google"
@@ -187,9 +189,9 @@
         android:textSize="14sp"
         android:textStyle="bold"
         app:cornerRadius="20dp"
-        app:layout_constraintEnd_toEndOf="@+id/btn_login_activity"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.493"
-        app:layout_constraintStart_toStartOf="@+id/btn_login_activity"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2"
         app:strokeColor="@color/font_colour"
         app:strokeWidth="1dp" />
@@ -200,12 +202,12 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="36dp"
+        android:layout_marginEnd="70dp"
         android:fontFamily="@font/montserrat_semibold"
         android:text="@string/register"
         android:textColor="@color/font_colour"
         android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="@+id/btn_login_activity"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/tv_no_account"
         app:layout_constraintTop_toBottomOf="@+id/btn_login_activity" />
 

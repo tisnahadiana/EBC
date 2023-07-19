@@ -23,6 +23,7 @@
     <string name="register">Register</string>
     <string name="facebook">Facebook</string>
     <string name="google">Google</string>
+    <string name="skip">Skip</string>
 
     <!-- CustomView. -->
     <string name="name_cannot_empty">Name cannot be empty</string>
@@ -41,6 +42,8 @@
     <string name="google_account">Google Account</string>
     <string name="logo_ebc">logo ebc</string>
     <string name="illustration_login">Illustration Login</string>
+    <string name="success_message_login">Login Account Success</string>
+    <string name="failure_message_login">Login Account Failed</string>
 
 
     <!-- Register. -->
@@ -51,5 +54,8 @@
     <string name="hint_register_password">Enter Password</string>
     <string name="already_have_an_account">Already have an account?</string>
     <string name="signup_with">Signup with</string>
+    <string name="success_message_register">Register Account Success</string>
+    <string name="failure_message_register">Register Account Failed</string>
+
 
 </resources>
