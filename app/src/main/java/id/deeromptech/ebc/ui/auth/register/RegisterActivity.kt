@@ -63,7 +63,7 @@ class RegisterActivity : AppCompatActivity() {
                     is Resource.Error -> {
                         Log.e(TAG, it.message.toString())
                         binding.btnRegisterActivity.revertAnimation()
-                        ToastUtils.showMessage(this@RegisterActivity, getString(R.string.failure_message_register))
+                        ToastUtils.showMessage(this@RegisterActivity, "Register Failed : ${it.message}")
                     }
 
                     else -> Unit

@@ -1,4 +1,4 @@
-package id.deeromptech.ebc.util
+package id.deeromptech.ebc.dialog
 
 import android.app.Dialog
 import android.content.Context

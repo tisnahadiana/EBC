@@ -25,6 +25,7 @@ import id.deeromptech.ebc.ui.auth.register.RegisterActivity
 import id.deeromptech.ebc.ui.shopping.MainActivity
 import id.deeromptech.ebc.util.Resource
 import id.deeromptech.ebc.util.ToastUtils
+import id.deeromptech.ebc.dialog.setupBottomSheetDialog
 
 @AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
@@ -87,6 +88,29 @@ class LoginActivity : AppCompatActivity() {
 
         binding.btnLoginGoogle.setOnClickListener {
             signIn()
+        }
+
+        binding.tvForgotPassword.setOnClickListener {
+            setupBottomSheetDialog { email ->
+                viewModel.resetPassword(email)
+            }
+        }
+
+        lifecycleScope.launchWhenStarted {
+            viewModel.resetPassword.collect{
+                when(it){
+                    is Resource.Loading -> {
+
+                    }
+                    is Resource.Success -> {
+                        ToastUtils.showMessage(this@LoginActivity, getString(R.string.message_reset))
+                    }
+                    is Resource.Error -> {
+                        ToastUtils.showMessage(this@LoginActivity, "Error: ${it.message}")
+                    }
+                    else -> Unit
+                }
+            }
         }
     }
 

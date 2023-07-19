@@ -57,5 +57,10 @@
     <string name="success_message_register">Register Account Success</string>
     <string name="failure_message_register">Register Account Failed</string>
 
+    <string name="g_reset_password">Reset Password</string>
+    <string name="g_reset_password_message">We will send you password reset link on your Email</string>
+    <string name="g_cancel">Cancel</string>
+    <string name="g_send">Send</string>
+    <string name="message_reset">Reset link was sent to your email</string>
 
 </resources>
