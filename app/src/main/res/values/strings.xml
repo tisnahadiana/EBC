@@ -63,4 +63,14 @@
     <string name="g_send">Send</string>
     <string name="message_reset">Reset link was sent to your email</string>
 
+
+    <string name="title_activity_shopping">ShoppingActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_profile">Profile</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_search">Search</string>
+    <string name="logout">Logout</string>
+
 </resources>

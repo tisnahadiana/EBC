@@ -11,7 +11,7 @@ import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 import id.deeromptech.ebc.R
 import id.deeromptech.ebc.ui.auth.login.LoginActivity
-import id.deeromptech.ebc.ui.shopping.MainActivity
+import id.deeromptech.ebc.ui.shopping.ShoppingActivity
 import id.deeromptech.ebc.ui.welcome.WelcomeActivity
 
 @SuppressLint("CustomSplashScreen")
@@ -45,7 +45,7 @@ class SplashActivity : AppCompatActivity() {
             } else {
                 val currentUser = auth.currentUser
                 if (currentUser != null) {
-                    startActivity(Intent(this, MainActivity::class.java))
+                    startActivity(Intent(this, ShoppingActivity::class.java))
                 } else {
                     startActivity(Intent(this, LoginActivity::class.java))
                 }

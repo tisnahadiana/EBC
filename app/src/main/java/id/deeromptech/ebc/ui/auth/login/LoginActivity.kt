@@ -22,10 +22,10 @@ import dagger.hilt.android.AndroidEntryPoint
 import id.deeromptech.ebc.R
 import id.deeromptech.ebc.databinding.ActivityLoginBinding
 import id.deeromptech.ebc.ui.auth.register.RegisterActivity
-import id.deeromptech.ebc.ui.shopping.MainActivity
 import id.deeromptech.ebc.util.Resource
 import id.deeromptech.ebc.util.ToastUtils
 import id.deeromptech.ebc.dialog.setupBottomSheetDialog
+import id.deeromptech.ebc.ui.shopping.ShoppingActivity
 
 @AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
@@ -72,7 +72,7 @@ class LoginActivity : AppCompatActivity() {
                     is Resource.Success -> {
                         binding.btnLoginActivity.revertAnimation()
                         ToastUtils.showMessage(this@LoginActivity, getString(R.string.success_message_login))
-                        Intent(this@LoginActivity, MainActivity::class.java).also { intent ->
+                        Intent(this@LoginActivity, ShoppingActivity::class.java).also { intent ->
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
                             startActivity(intent)
                         }
@@ -151,7 +151,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun updateUI(currentUser: FirebaseUser?) {
         if (currentUser != null) {
-            startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+            startActivity(Intent(this@LoginActivity, ShoppingActivity::class.java))
             finish()
         }
     }
