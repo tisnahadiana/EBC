@@ -14,6 +14,7 @@
             android:id="@+id/img_best_deal"
             android:layout_width="64dp"
             android:layout_height="64dp"
+            android:scaleType="fitXY"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginStart="16dp"
@@ -62,7 +63,7 @@
             android:id="@+id/btn_see_product"
             android:layout_width="83dp"
             android:layout_height="28dp"
-            android:layout_marginStart="32dp"
+            android:layout_marginStart="8dp"
             android:background="@color/green_variant"
             android:fontFamily="@font/montserrat_semibold"
             android:text="See product"
@@ -71,7 +72,7 @@
             android:textSize="10dp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/tv_deal_product_name"
+            app:layout_constraintStart_toEndOf="@+id/tv_old_price"
             app:layout_constraintTop_toTopOf="@id/tv_deal_product_name" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

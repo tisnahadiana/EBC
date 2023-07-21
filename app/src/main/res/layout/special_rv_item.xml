@@ -17,6 +17,7 @@
             android:id="@+id/img_special_rv"
             android:layout_width="90dp"
             android:layout_height="90dp"
+            android:scaleType="fitXY"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginStart="16dp"
