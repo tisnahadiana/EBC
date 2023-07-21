@@ -58,6 +58,9 @@ class RegisterActivity : AppCompatActivity() {
                         Log.d("test", it.message.toString())
                         binding.btnRegisterActivity.revertAnimation()
                         ToastUtils.showMessage(this@RegisterActivity, getString(R.string.success_message_register))
+                        val loginIntent = Intent(this@RegisterActivity, LoginActivity::class.java)
+                        startActivity(loginIntent)
+                        finish()
                     }
 
                     is Resource.Error -> {

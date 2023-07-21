@@ -22,7 +22,7 @@ import kotlinx.coroutines.flow.collectLatest
 
 private val TAG = "MainCategory"
 @AndroidEntryPoint
-class MainCategory : Fragment(R.layout.fragment_main_category) {
+class MainCategoryFragment : Fragment(R.layout.fragment_main_category) {
 
     private lateinit var binding: FragmentMainCategoryBinding
     private lateinit var specialProductsAdapter: SpecialProductsAdapter

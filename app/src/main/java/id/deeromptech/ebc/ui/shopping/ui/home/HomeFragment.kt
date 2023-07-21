@@ -6,15 +6,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
+import id.deeromptech.ebc.HandycraftsCategoryFragment
 import id.deeromptech.ebc.R
 import id.deeromptech.ebc.adapter.HomeViewPagerAdapter
 import id.deeromptech.ebc.databinding.FragmentHomeBinding
-import id.deeromptech.ebc.ui.shopping.categories.MainCategory
+import id.deeromptech.ebc.ui.shopping.categories.*
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
@@ -45,7 +44,13 @@ class HomeFragment : Fragment() {
         }
 
         val categoriesFragments = arrayListOf<Fragment>(
-            MainCategory()
+            MainCategoryFragment(),
+            BeautyCategoryFragment(),
+            ElectronicsCategoryFragment(),
+            FashionCategoryFragment(),
+            FoodCategoryFragment(),
+            HandycraftsCategoryFragment(),
+            HouseholdCategoryFragment()
         )
 
         binding.viewPagerHome.isUserInputEnabled = false
@@ -55,6 +60,12 @@ class HomeFragment : Fragment() {
         TabLayoutMediator(binding.tabLayout, binding.viewPagerHome) { tab, position ->
             when (position) {
                 0 -> tab.text = "Main"
+                1 -> tab.text = "Beauty"
+                2 -> tab.text = "Electronic"
+                3 -> tab.text = "Fashion"
+                4 -> tab.text = "Food"
+                5 -> tab.text = "Handycraft"
+                6 -> tab.text = "Household"
             }
         }.attach()
     }
