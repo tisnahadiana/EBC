@@ -75,5 +75,7 @@
     <!-- Help. -->
     <string name="admin_email">admin@example.com</string>
     <string name="email_subject">Help Request</string>
+    <string name="best_deals">Best Deals</string>
+    <string name="best_products">Best Products</string>
 
 </resources>

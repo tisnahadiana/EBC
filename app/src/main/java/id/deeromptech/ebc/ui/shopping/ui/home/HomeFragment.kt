@@ -9,15 +9,17 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.tabs.TabLayoutMediator
+import dagger.hilt.android.AndroidEntryPoint
 import id.deeromptech.ebc.R
+import id.deeromptech.ebc.adapter.HomeViewPagerAdapter
 import id.deeromptech.ebc.databinding.FragmentHomeBinding
+import id.deeromptech.ebc.ui.shopping.categories.MainCategory
 
+@AndroidEntryPoint
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -25,23 +27,34 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val homeViewModel =
-            ViewModelProvider(this).get(HomeViewModel::class.java)
 
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textHome
-        homeViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
+        return root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         binding.btnHelp.setOnClickListener {
             sendEmailToAdmin()
         }
         binding.btnNotification.setOnClickListener {
 
         }
-        return root
+
+        val categoriesFragments = arrayListOf<Fragment>(
+            MainCategory()
+        )
+
+        val viewPagerAdapter = HomeViewPagerAdapter(categoriesFragments, childFragmentManager, lifecycle)
+        binding.viewPagerHome.adapter = viewPagerAdapter
+        TabLayoutMediator(binding.tabLayout, binding.viewPagerHome) { tab, position ->
+            when (position) {
+                0 -> tab.text = "Main"
+            }
+        }.attach()
     }
 
     override fun onDestroyView() {
