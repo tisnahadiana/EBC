@@ -6,6 +6,12 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
 import id.deeromptech.ebc.R
 import id.deeromptech.ebc.data.local.User
@@ -25,10 +31,22 @@ class RegisterActivity : AppCompatActivity() {
         ActivityRegisterBinding.inflate(layoutInflater)
     }
     private val viewModel by viewModels<RegisterViewModel>()
+    private lateinit var auth: FirebaseAuth
+    private lateinit var googleSignInClient: GoogleSignInClient
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         supportActionBar?.hide()
+
+        auth = Firebase.auth
+        val gso = GoogleSignInOptions
+            .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(getString(R.string.default_web_client_id))
+            .requestEmail()
+            .build()
+        googleSignInClient = GoogleSignIn.getClient(this, gso)
+
+        val userRole = "user"
 
         binding.btnToLogin.setOnClickListener {
             startActivity(Intent(this, LoginActivity::class.java))
@@ -40,7 +58,8 @@ class RegisterActivity : AppCompatActivity() {
                 val user    = User(
                     edRegisterName.text.toString().trim(),
                     edRegisterEmail.text.toString().trim(),
-                    edRegisterPhone.text.toString().trim()
+                    edRegisterPhone.text.toString().trim(),
+                    role = userRole
                 )
                 val password = edRegisterPassword.text.toString()
                 viewModel.createAccount(user, password)
@@ -58,6 +77,8 @@ class RegisterActivity : AppCompatActivity() {
                         Log.d("test", it.message.toString())
                         binding.btnRegisterActivity.revertAnimation()
                         ToastUtils.showMessage(this@RegisterActivity, getString(R.string.success_message_register))
+                        auth.signOut()
+                        googleSignInClient.signOut()
                         val loginIntent = Intent(this@RegisterActivity, LoginActivity::class.java)
                         startActivity(loginIntent)
                         finish()

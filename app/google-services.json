@@ -7,6 +7,35 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:204592665221:android:d7319ddeb54372d9f0cfec",
+        "android_client_info": {
+          "package_name": "com.example.productsadder"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "204592665221-sufb52q9p8bonqhtl1agp7l3434o3t0r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBU5S_YB3H0Dse04qOjcUpmLOWPF6x1F8I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "204592665221-3u8dqt6pmtjle6mnmobts5glk3g22cgj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:204592665221:android:754e8462dcf61fa9f0cfec",
         "android_client_info": {
           "package_name": "id.deeromptech.ebc"
@@ -19,6 +48,14 @@
           "android_info": {
             "package_name": "id.deeromptech.ebc",
             "certificate_hash": "6485e670e1c422d052b28257f68805d39d44ebb3"
+          }
+        },
+        {
+          "client_id": "204592665221-om4pbl861ca6essd373cm492eqkuisj5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "id.deeromptech.ebc",
+            "certificate_hash": "4cfce0dc4358081420907c09786990208da22b02"
           }
         },
         {

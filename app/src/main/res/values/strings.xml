@@ -78,4 +78,15 @@
     <string name="best_deals">Best Deals</string>
     <string name="best_products">Best Products</string>
 
+
+    <string name="want_to_be_seller">Want to be Seller?</string>
+    <string name="my_store">My Store</string>
+    <string name="track_order">Track Order</string>
+    <string name="language">Language</string>
+    <string name="personal_info">Personal Info</string>
+    <string name="store_name">Store Name</string>
+    <string name="address_store">Alamat Toko</string>
+    <string name="rekening_number">Rekening Number</string>
+    <string name="save_data">Save Data</string>
+
 </resources>

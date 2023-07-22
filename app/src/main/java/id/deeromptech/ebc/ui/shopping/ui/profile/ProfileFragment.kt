@@ -18,6 +18,7 @@ import id.deeromptech.ebc.R
 import id.deeromptech.ebc.databinding.FragmentProfileBinding
 import id.deeromptech.ebc.dialog.DialogResult
 import id.deeromptech.ebc.ui.auth.login.LoginActivity
+import id.deeromptech.ebc.ui.shopping.ui.profile.seller.SellerVerificationActivity
 
 class ProfileFragment : Fragment() {
 
@@ -34,16 +35,17 @@ class ProfileFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val notificationsViewModel =
+        val viewModel =
             ViewModelProvider(this).get(ProfileViewModel::class.java)
 
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
         val root: View = binding.root
+        return root
+    }
 
-        val textView: TextView = binding.textNotifications
-        notificationsViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         auth = Firebase.auth
         val gso = GoogleSignInOptions
             .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -51,11 +53,14 @@ class ProfileFragment : Fragment() {
             .requestEmail()
             .build()
         googleSignInClient = GoogleSignIn.getClient(requireContext(), gso)
+
         binding.btnLogoutProfile.setOnClickListener {
             signOut()
         }
+        binding.btnTobeSeller.setOnClickListener {
+            startActivity(Intent(requireContext(), SellerVerificationActivity::class.java))
+        }
 
-        return root
     }
 
     override fun onDestroyView() {

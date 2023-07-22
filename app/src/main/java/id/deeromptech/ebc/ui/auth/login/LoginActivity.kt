@@ -68,7 +68,7 @@ class LoginActivity : AppCompatActivity() {
                 when(it){
                     is Resource.Loading -> {
                         binding.btnLoginActivity.startAnimation()
-                    }
+                     }
                     is Resource.Success -> {
                         binding.btnLoginActivity.revertAnimation()
                         ToastUtils.showMessage(this@LoginActivity, getString(R.string.success_message_login))
@@ -99,7 +99,7 @@ class LoginActivity : AppCompatActivity() {
         lifecycleScope.launchWhenStarted {
             viewModel.resetPassword.collect{
                 when(it){
-                    is Resource.Loading -> {
+                    is Resource.Loading ->      {
 
                     }
                     is Resource.Success -> {
@@ -156,11 +156,11 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-//    override fun onStart() {
-//        super.onStart()
-//        val currentUser = auth.currentUser
-//        updateUI(currentUser)
-//    }
+    override fun onStart() {
+        super.onStart()
+        val currentUser = auth.currentUser
+        updateUI(currentUser)
+    }
 
     companion object {
         private const val TAG = "LoginActivity"
