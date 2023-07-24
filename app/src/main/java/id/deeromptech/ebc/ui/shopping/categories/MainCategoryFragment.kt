@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -55,7 +56,7 @@ class MainCategoryFragment : Fragment(R.layout.fragment_main_category) {
                     is Resource.Success -> {
                         specialProductsAdapter.differ.submitList(it.data)
                         hideLoading()
-                        ToastUtils.showMessage(requireContext(), "Fetch Data Success")
+//                        ToastUtils.showMessage(requireContext(), "Fetch Data Success")
                     }
                     is Resource.Error -> {
                         hideLoading()
@@ -77,7 +78,7 @@ class MainCategoryFragment : Fragment(R.layout.fragment_main_category) {
                     is Resource.Success -> {
                         bestDealsAdapter.differ.submitList(it.data)
                         hideLoading()
-                        ToastUtils.showMessage(requireContext(), "Fetch Data Success")
+//                        ToastUtils.showMessage(requireContext(), "Fetch Data Success")
                     }
                     is Resource.Error -> {
                         hideLoading()
@@ -94,17 +95,18 @@ class MainCategoryFragment : Fragment(R.layout.fragment_main_category) {
             viewModel.bestProducts.collectLatest {
                 when (it) {
                     is Resource.Loading -> {
-                        showLoading()
+                        binding.bestProductProgressBar.visibility = View.VISIBLE
                     }
                     is Resource.Success -> {
                         bestProductsAdapter.differ.submitList(it.data)
-                        hideLoading()
-                        ToastUtils.showMessage(requireContext(), "Fetch Data Success")
+                        binding.bestProductProgressBar.visibility = View.GONE
+//                        ToastUtils.showMessage(requireContext(), "Fetch Data Success")
                     }
                     is Resource.Error -> {
                         hideLoading()
                         Log.e(TAG, it.message.toString())
                         ToastUtils.showMessage(requireContext(), "Fetch Data Failed : ${it.message}")
+                        binding.bestProductProgressBar.visibility = View.GONE
                     }
                     else -> Unit
                 }
@@ -112,6 +114,11 @@ class MainCategoryFragment : Fragment(R.layout.fragment_main_category) {
             }
         }
 
+        binding.nsMainCategory.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener{ v, _,scrolly,_,_ ->
+            if (v.getChildAt(0).bottom <= v.height + scrolly){
+                viewModel.fetchBestProducts()
+            }
+        })
     }
 
     private fun setupSpecialProductsRV() {

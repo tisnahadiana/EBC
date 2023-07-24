@@ -5,9 +5,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CircleCrop
+import com.bumptech.glide.request.RequestOptions
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -60,7 +62,26 @@ class ProfileFragment : Fragment() {
         binding.btnTobeSeller.setOnClickListener {
             startActivity(Intent(requireContext(), SellerVerificationActivity::class.java))
         }
+        val currentUser = auth.currentUser
+        if (currentUser != null) {
+            // User is logged in, set the profile image and name
+            binding.txtNameUser.text = currentUser.displayName
 
+            // Check if the user has a profile photo URL
+            val photoUrl = currentUser.photoUrl
+            if (photoUrl != null) {
+                // Load and display the profile image using Glide
+                Glide.with(this)
+                    .load(photoUrl)
+                    .apply(RequestOptions.bitmapTransform(CircleCrop()))
+                    .into(binding.imgProfile)
+            } else {
+                // If there is no profile photo URL, you can set a default image
+                // binding.imgProfile.setImageResource(R.drawable.default_profile_image)
+                // Or hide the image view if you prefer
+                // binding.imgProfile.visibility = View.GONE
+            }
+        }
     }
 
     override fun onDestroyView() {

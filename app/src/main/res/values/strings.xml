@@ -88,5 +88,6 @@
     <string name="address_store">Alamat Toko</string>
     <string name="rekening_number">Rekening Number</string>
     <string name="save_data">Save Data</string>
+    <string name="cart">Cart</string>
 
 </resources>

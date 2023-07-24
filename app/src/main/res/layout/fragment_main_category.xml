@@ -5,6 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/nsMainCategory"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true">
@@ -83,6 +84,17 @@
                 app:layout_constraintTop_toBottomOf="@id/tvBestProduct"
                 android:layout_marginEnd="15dp"
                 android:overScrollMode="never"/>
+
+            <ProgressBar
+                android:id="@+id/best_product_progressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:indeterminateTint="@color/green_variant"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginBottom="5dp"/>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
