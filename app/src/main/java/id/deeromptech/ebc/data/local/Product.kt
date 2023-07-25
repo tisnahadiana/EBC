@@ -1,5 +1,9 @@
 package id.deeromptech.ebc.data.local
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class Product(
     val id: String,
     val name: String,
@@ -10,6 +14,6 @@ data class Product(
     val stock: String,
     val detail: String,
     val images: List<String>
-) {
+): Parcelable {
     constructor(): this("0", "","",0f,0f,"", "","", images = emptyList())
 }

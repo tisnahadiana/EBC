@@ -9,6 +9,7 @@ import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
@@ -19,6 +20,7 @@ import id.deeromptech.ebc.adapter.SpecialProductsAdapter
 import id.deeromptech.ebc.databinding.FragmentMainCategoryBinding
 import id.deeromptech.ebc.util.Resource
 import id.deeromptech.ebc.util.ToastUtils
+import id.deeromptech.ebc.util.showBottomNavigationView
 import kotlinx.coroutines.flow.collectLatest
 
 private val TAG = "MainCategory"
@@ -46,6 +48,21 @@ class MainCategoryFragment : Fragment(R.layout.fragment_main_category) {
         setupSpecialProductsRV()
         setupBestDealsRV()
         setupBestProductsRV()
+
+        specialProductsAdapter.onClick = {
+            val b = Bundle().apply { putParcelable("product",it) }
+            findNavController().navigate(R.id.action_navigation_home_to_productDetailFragment, b)
+        }
+
+        bestDealsAdapter.onClick = {
+            val b = Bundle().apply { putParcelable("product",it) }
+            findNavController().navigate(R.id.action_navigation_home_to_productDetailFragment, b)
+        }
+
+        bestProductsAdapter.onClick = {
+            val b = Bundle().apply { putParcelable("product",it) }
+            findNavController().navigate(R.id.action_navigation_home_to_productDetailFragment, b)
+        }
 
         lifecycleScope.launchWhenStarted {
             viewModel.specialProducts.collectLatest {
@@ -152,4 +169,8 @@ class MainCategoryFragment : Fragment(R.layout.fragment_main_category) {
         binding.mainCategoryProgressBar.visibility = View.VISIBLE
     }
 
+    override fun onResume() {
+        super.onResume()
+        showBottomNavigationView()
+    }
 }

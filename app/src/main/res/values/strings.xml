@@ -88,6 +88,15 @@
     <string name="address_store">Alamat Toko</string>
     <string name="rekening_number">Rekening Number</string>
     <string name="save_data">Save Data</string>
+
+    <!-- Product Detail. -->
     <string name="cart">Cart</string>
+    <string name="productname">ProductName</string>
+    <string name="price">price</string>
+    <string name="product_detail">Product detail</string>
+    <string name="product_description">Product Description</string>
+    <string name="product_stok">Product Stok</string>
+    <string name="button_cart">Button Cart</string>
+    <string name="buy_now">Buy Now</string>
 
 </resources>

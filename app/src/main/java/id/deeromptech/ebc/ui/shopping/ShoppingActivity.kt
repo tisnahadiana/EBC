@@ -24,7 +24,7 @@ class ShoppingActivity : AppCompatActivity() {
 
         supportActionBar?.hide()
 
-        val navView: BottomNavigationView = binding.navView
+        val navView: BottomNavigationView = binding.bottomNavView
 
         val navController = findNavController(R.id.nav_host_fragment_activity_shopping)
 
