@@ -9,7 +9,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import id.deeromptech.ebc.R
 import id.deeromptech.ebc.adapter.ViewPager2Images
 import id.deeromptech.ebc.data.local.Cart
 import id.deeromptech.ebc.databinding.FragmentProductDetailBinding
@@ -17,6 +16,9 @@ import id.deeromptech.ebc.util.Resource
 import id.deeromptech.ebc.util.ToastUtils
 import id.deeromptech.ebc.util.hideBottomNavigationView
 import kotlinx.coroutines.flow.collectLatest
+import java.text.DecimalFormat
+import java.text.DecimalFormatSymbols
+import java.util.*
 
 class ProductDetailFragment : Fragment() {
 
@@ -24,6 +26,7 @@ class ProductDetailFragment : Fragment() {
     private lateinit var binding: FragmentProductDetailBinding
     private val viewPagerAdapter by lazy { ViewPager2Images() }
     private val viewModel by viewModels<ProductDetailViewModel>()
+    private val decimalFormat = DecimalFormat("#,###", DecimalFormatSymbols(Locale.getDefault()))
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -73,7 +76,11 @@ class ProductDetailFragment : Fragment() {
 
         binding.apply {
             tvProductName.text = product.name
-            tvProductPrice.text = "Rp. ${product.price}"
+
+            val formattedPrice = "Rp. ${decimalFormat.format(product.price)}"
+            tvProductPrice.text = formattedPrice
+
+//            tvProductPrice.text = "Rp. ${product.price}"
             tvProductDescription.text = product.description
             tvProductDetail.text = product.detail
             tvProductStock.text = product.stock

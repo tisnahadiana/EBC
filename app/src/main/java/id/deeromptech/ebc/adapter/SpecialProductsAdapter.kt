@@ -23,6 +23,7 @@ class SpecialProductsAdapter: RecyclerView.Adapter<SpecialProductsAdapter.Specia
                 binding.apply {
                     Glide.with(itemView).load(product.images[0]).into(imgSpecialRv)
                     tvSpecialName.text = product.name
+
                     val formattedPrice = "Rp. ${decimalFormat.format(product.price)}"
                     tvSpecialPrice.text = formattedPrice
                 }
