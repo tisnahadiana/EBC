@@ -46,7 +46,7 @@
         android:label="ProductDetailFragment"
         tools:layout="@layout/fragment_product_detail">
         <argument
-            android:name="Product"
+            android:name="product"
             app:argType="id.deeromptech.ebc.data.local.Product" />
     </fragment>
 </navigation>
