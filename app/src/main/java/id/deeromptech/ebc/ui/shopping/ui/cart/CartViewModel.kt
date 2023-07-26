@@ -8,9 +8,9 @@ import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.lifecycle.HiltViewModel
 import id.deeromptech.ebc.data.local.Cart
 import id.deeromptech.ebc.firebase.FirebaseCommon
+import id.deeromptech.ebc.helper.getProductPrice
 import id.deeromptech.ebc.util.Resource
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -24,7 +24,34 @@ class CartViewModel @Inject constructor(
     private val _cartProducts = MutableStateFlow<Resource<List<Cart>>>(Resource.Unspecified())
     val cartProducts = _cartProducts.asStateFlow()
 
+    val productPrice = cartProducts.map {
+        when(it){
+            is Resource.Success -> {
+                calculatePrice(it.data!!)
+            }
+            else -> null
+        }
+    }
+
     private var cartProductDocuments = emptyList<DocumentSnapshot>()
+
+    private val _deleteDialog = MutableSharedFlow<Cart>()
+    val deleteDialog = _deleteDialog.asSharedFlow()
+    fun deleteCartProduct(cart: Cart) {
+        val index = cartProducts.value.data?.indexOf(cart)
+        if (index != null && index != -1) {
+            val documentId = cartProductDocuments[index].id
+            firestore.collection("user").document(auth.uid!!).collection("cart")
+                .document(documentId).delete()
+        }
+    }
+
+    private fun calculatePrice(data: List<Cart>): Float {
+        return data.sumByDouble { cart ->
+            (cart.product.offerPercentage.getProductPrice(cart.product.price) * cart.quantity).toDouble()
+        }.toFloat()
+    }
+
     init {
         getCartProducts()
     }
@@ -57,9 +84,15 @@ class CartViewModel @Inject constructor(
             val documentId = cartProductDocuments[index].id
             when(quantityChanging) {
                 FirebaseCommon.QuantityChanging.INCREASE -> {
+                    viewModelScope.launch { _cartProducts.emit(Resource.Loading()) }
                     increaseQuantity(documentId)
                 }
                 FirebaseCommon.QuantityChanging.DECREASE -> {
+                    if (cartProduct.quantity == 1){
+                        viewModelScope.launch { _deleteDialog.emit(cartProduct) }
+                        return
+                    }
+                    viewModelScope.launch { _cartProducts.emit(Resource.Loading()) }
                     decreaseQuantity(documentId)
                 }
             }
