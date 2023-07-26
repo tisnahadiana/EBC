@@ -32,11 +32,11 @@ class BestProductsAdapter: RecyclerView.Adapter<BestProductsAdapter.BestProducts
                 }
                 if (product.offerPercentage == null)
                     tvNewPrice.visibility = View.INVISIBLE
-                tvPrice.text = "$ ${product.price}"
+//                tvPrice.text = "$ ${product.price}"
                 tvName.text = product.name
 
-//                val formattedPrice = "Rp. ${decimalFormat.format(product.price)}"
-//                tvNewPrice.text = formattedPrice
+                val formattedPrice = "Rp. ${decimalFormat.format(product.price)}"
+                tvNewPrice.text = formattedPrice
             }
         }
 
