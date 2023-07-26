@@ -1,4 +1,4 @@
-package id.deeromptech.ebc.ui.shopping.categories
+package id.deeromptech.ebc.ui.shopping.ui.categories
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -17,12 +17,13 @@ import kotlinx.coroutines.flow.collectLatest
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class FashionCategoryFragment : BaseCategoryFragment() {
+class ElectronicsCategoryFragment : BaseCategoryFragment() {
+
     @Inject
     lateinit var firestore: FirebaseFirestore
 
     val viewModel by viewModels<CategoryViewModel> {
-        BaseCategoryFactory(firestore, Category.Fashion)
+        BaseCategoryFactory(firestore, Category.Electronics)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -39,7 +40,10 @@ class FashionCategoryFragment : BaseCategoryFragment() {
                         hideOfferLoading()
                     }
                     is Resource.Error -> {
-                        ToastUtils.showMessage(requireContext(), "Fetch Data Failed : ${it.message}")
+                        ToastUtils.showMessage(
+                            requireContext(),
+                            "Fetch Data Failed : ${it.message}"
+                        )
                         hideOfferLoading()
                     }
                     else -> Unit
@@ -58,7 +62,10 @@ class FashionCategoryFragment : BaseCategoryFragment() {
                         hideBestLoading()
                     }
                     is Resource.Error -> {
-                        ToastUtils.showMessage(requireContext(), "Fetch Data Failed : ${it.message}")
+                        ToastUtils.showMessage(
+                            requireContext(),
+                            "Fetch Data Failed : ${it.message}"
+                        )
                         hideBestLoading()
                     }
                     else -> Unit

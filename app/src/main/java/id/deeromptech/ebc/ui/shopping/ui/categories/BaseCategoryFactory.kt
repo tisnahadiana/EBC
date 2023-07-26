@@ -1,4 +1,4 @@
-package id.deeromptech.ebc.ui.shopping.categories
+package id.deeromptech.ebc.ui.shopping.ui.categories
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

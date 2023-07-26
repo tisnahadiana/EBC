@@ -1,29 +1,25 @@
-package id.deeromptech.ebc.ui.shopping.categories
+package id.deeromptech.ebc.ui.shopping.ui.categories
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.AndroidEntryPoint
-import id.deeromptech.ebc.R
 import id.deeromptech.ebc.data.local.Category
 import id.deeromptech.ebc.util.Resource
 import id.deeromptech.ebc.util.ToastUtils
 import kotlinx.coroutines.flow.collectLatest
 import javax.inject.Inject
-
 @AndroidEntryPoint
-class ElectronicsCategoryFragment : BaseCategoryFragment() {
+class BeautyCategoryFragment : BaseCategoryFragment() {
 
     @Inject
     lateinit var firestore: FirebaseFirestore
 
     val viewModel by viewModels<CategoryViewModel> {
-        BaseCategoryFactory(firestore, Category.Electronics)
+        BaseCategoryFactory(firestore, Category.Beauty)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -40,10 +36,7 @@ class ElectronicsCategoryFragment : BaseCategoryFragment() {
                         hideOfferLoading()
                     }
                     is Resource.Error -> {
-                        ToastUtils.showMessage(
-                            requireContext(),
-                            "Fetch Data Failed : ${it.message}"
-                        )
+                        ToastUtils.showMessage(requireContext(), "Fetch Data Failed : ${it.message}")
                         hideOfferLoading()
                     }
                     else -> Unit
@@ -62,10 +55,7 @@ class ElectronicsCategoryFragment : BaseCategoryFragment() {
                         hideBestLoading()
                     }
                     is Resource.Error -> {
-                        ToastUtils.showMessage(
-                            requireContext(),
-                            "Fetch Data Failed : ${it.message}"
-                        )
+                        ToastUtils.showMessage(requireContext(), "Fetch Data Failed : ${it.message}")
                         hideBestLoading()
                     }
                     else -> Unit
@@ -81,4 +71,5 @@ class ElectronicsCategoryFragment : BaseCategoryFragment() {
     override fun onOfferPagingRequest() {
 
     }
+
 }

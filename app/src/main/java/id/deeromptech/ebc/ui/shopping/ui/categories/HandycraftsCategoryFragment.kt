@@ -1,10 +1,9 @@
-package id.deeromptech.ebc.ui.shopping.categories
+package id.deeromptech.ebc.ui.shopping.ui.categories
 
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.AndroidEntryPoint
 import id.deeromptech.ebc.data.local.Category
@@ -12,14 +11,15 @@ import id.deeromptech.ebc.util.Resource
 import id.deeromptech.ebc.util.ToastUtils
 import kotlinx.coroutines.flow.collectLatest
 import javax.inject.Inject
+
 @AndroidEntryPoint
-class BeautyCategoryFragment : BaseCategoryFragment() {
+class HandycraftsCategoryFragment: BaseCategoryFragment() {
 
     @Inject
     lateinit var firestore: FirebaseFirestore
 
     val viewModel by viewModels<CategoryViewModel> {
-        BaseCategoryFactory(firestore, Category.Beauty)
+        BaseCategoryFactory(firestore, Category.Handycrafts)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -71,5 +71,4 @@ class BeautyCategoryFragment : BaseCategoryFragment() {
     override fun onOfferPagingRequest() {
 
     }
-
 }

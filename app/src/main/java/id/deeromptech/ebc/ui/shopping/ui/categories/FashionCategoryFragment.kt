@@ -1,4 +1,4 @@
-package id.deeromptech.ebc.ui.shopping.categories
+package id.deeromptech.ebc.ui.shopping.ui.categories
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -17,12 +17,12 @@ import kotlinx.coroutines.flow.collectLatest
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class FoodCategoryFragment : BaseCategoryFragment() {
+class FashionCategoryFragment : BaseCategoryFragment() {
     @Inject
     lateinit var firestore: FirebaseFirestore
 
     val viewModel by viewModels<CategoryViewModel> {
-        BaseCategoryFactory(firestore, Category.Food)
+        BaseCategoryFactory(firestore, Category.Fashion)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

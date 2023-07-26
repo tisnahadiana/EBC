@@ -13,6 +13,7 @@ import id.deeromptech.ebc.R
 import id.deeromptech.ebc.adapter.HomeViewPagerAdapter
 import id.deeromptech.ebc.databinding.FragmentHomeBinding
 import id.deeromptech.ebc.ui.shopping.categories.*
+import id.deeromptech.ebc.ui.shopping.ui.categories.*
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {

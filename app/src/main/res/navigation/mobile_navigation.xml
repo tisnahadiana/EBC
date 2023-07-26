@@ -39,7 +39,11 @@
         android:id="@+id/navigation_profile"
         android:name="id.deeromptech.ebc.ui.shopping.ui.profile.ProfileFragment"
         android:label="@string/title_profile"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_navigation_profile_to_addressFragment"
+            app:destination="@id/addressFragment" />
+    </fragment>
     <fragment
         android:id="@+id/productDetailFragment"
         android:name="id.deeromptech.ebc.ui.shopping.ui.detail.ProductDetailFragment"
@@ -49,4 +53,9 @@
             android:name="product"
             app:argType="id.deeromptech.ebc.data.local.Product" />
     </fragment>
+    <fragment
+        android:id="@+id/addressFragment"
+        android:name="id.deeromptech.ebc.ui.shopping.ui.address.AddressFragment"
+        android:label="AddressFragment"
+        tools:layout="@layout/fragment_address"/>
 </navigation>

@@ -104,6 +104,16 @@
     <string name="my_cart">My Cart</string>
     <string name="checkout">checkout</string>
     <string name="address_location_ex_home">Address location Ex: Home</string>
+
+    <!-- Order. -->
     <string name="full_name">Full Name</string>
+    <string name="delete">Delete</string>
+    <string name="save">Save</string>
+    <string name="phone">Phone</string>
+    <string name="state">State</string>
+    <string name="city">City</string>
+    <string name="street">Street</string>
+    <string name="address_location">Address location Ex: Home</string>
+    <string name="addresses">Addresses</string>
 
 </resources>
