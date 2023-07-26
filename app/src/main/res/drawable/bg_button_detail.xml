@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Saat tombol tidak ditekan dan tidak dalam fokus -->
+    <item android:state_pressed="false" android:state_focused="false">
+        <shape android:shape="rectangle">
+            <corners android:radius="8dp" /> <!-- Radius untuk membuat sudut tombol bulat -->
+            <solid android:color="@android:color/white" /> <!-- Warna latar belakang putih -->
+            <stroke android:color="@color/green_variant" android:width="4dp" /> <!-- Garis sisinya hijau -->
+        </shape>
+    </item>
+
+    <!-- Saat tombol ditekan atau dalam fokus -->
+    <item android:state_pressed="true" android:state_focused="true">
+        <shape android:shape="rectangle">
+            <corners android:radius="8dp" /> <!-- Radius untuk membuat sudut tombol bulat -->
+            <solid android:color="@color/green_variant" /> <!-- Warna latar belakang hijau saat ditekan/fokus -->
+            <stroke android:color="@color/green_variant" android:width="1dp" /> <!-- Garis sisinya tetap hijau -->
+        </shape>
+    </item>
+
+</selector>

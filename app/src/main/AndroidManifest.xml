@@ -15,6 +15,13 @@
         android:theme="@style/Theme.EBC"
         tools:targetApi="31">
         <activity
+            android:name=".ui.shopping.ui.profile.seller.SellerVerificationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.shopping.ShoppingActivity"
+            android:exported="false"
+            android:label="@string/title_activity_shopping" />
+        <activity
             android:name=".ui.welcome.WelcomeActivity"
             android:exported="false" />
         <activity
@@ -32,9 +39,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ui.shopping.MainActivity"
-            android:exported="false"/>
 
         <meta-data
             android:name="preloaded_fonts"
