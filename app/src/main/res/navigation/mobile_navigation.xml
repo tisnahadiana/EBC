@@ -69,7 +69,13 @@
         android:id="@+id/addressFragment"
         android:name="id.deeromptech.ebc.ui.shopping.ui.address.AddressFragment"
         android:label="AddressFragment"
-        tools:layout="@layout/fragment_address"/>
+        tools:layout="@layout/fragment_address">
+        <argument
+            android:name="address"
+            app:argType="id.deeromptech.ebc.data.local.Address"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
     <fragment
         android:id="@+id/billingFragment"
         android:name="id.deeromptech.ebc.ui.shopping.ui.billing.BillingFragment"
@@ -84,6 +90,9 @@
         <argument
             android:name="products"
             app:argType="id.deeromptech.ebc.data.local.Cart[]" />
+        <argument
+            android:name="payment"
+            app:argType="boolean" />
     </fragment>
     <fragment
         android:id="@+id/userAccountFragment"
