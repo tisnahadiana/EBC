@@ -118,7 +118,6 @@ class CartFragment : Fragment() {
                     }
 
                     is Resource.Error -> {
-
                         ToastUtils.showMessage(requireContext(), it.message.toString())
                     }
                     else -> Unit

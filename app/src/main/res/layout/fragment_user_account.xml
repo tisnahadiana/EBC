@@ -87,14 +87,14 @@
 
 
         <EditText
-            android:id="@+id/edFirstName"
+            android:id="@+id/edNameUser"
             android:layout_width="0dp"
             android:layout_height="45dp"
             android:layout_marginTop="40dp"
             android:background="@color/white"
             android:fontFamily="@font/montserrat_medium"
             android:gravity="center"
-            android:hint="First Name"
+            android:hint="@string/full_name"
             android:singleLine="true"
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/rightGuideline"
@@ -102,25 +102,10 @@
             app:layout_constraintTop_toBottomOf="@+id/imageUser" />
 
         <EditText
-            android:id="@+id/edLastName"
-            android:layout_width="0dp"
-            android:layout_height="45dp"
-            android:layout_marginTop="15dp"
-            android:background="@color/white"
-            android:fontFamily="@font/montserrat_medium"
-            android:gravity="center"
-            android:hint="Last Name"
-            android:singleLine="true"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="@id/rightGuideline"
-            app:layout_constraintStart_toStartOf="@id/leftGuideline"
-            app:layout_constraintTop_toBottomOf="@id/edFirstName" />
-
-        <EditText
             android:id="@+id/edEmail"
             android:layout_width="0dp"
             android:layout_height="45dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="8dp"
             android:background="@color/white"
             android:editable="false"
             android:fontFamily="@font/montserrat_medium"
@@ -130,18 +115,35 @@
             android:textColor="@color/gray"
             app:layout_constraintEnd_toEndOf="@id/rightGuideline"
             app:layout_constraintStart_toStartOf="@id/leftGuideline"
-            app:layout_constraintTop_toBottomOf="@id/edLastName" />
+            app:layout_constraintTop_toBottomOf="@+id/edNameUser" />
+
+        <EditText
+            android:id="@+id/edPhone"
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/white"
+            android:editable="false"
+            android:fontFamily="@font/montserrat_medium"
+            android:gravity="center"
+            android:hint="@string/phone"
+            android:singleLine="true"
+            android:textColor="@color/gray"
+            app:layout_constraintEnd_toEndOf="@id/rightGuideline"
+            app:layout_constraintStart_toStartOf="@id/leftGuideline"
+            app:layout_constraintTop_toBottomOf="@+id/edEmail" />
+
 
         <TextView
             android:id="@+id/tvUpdatePassword"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="14sp"
             android:fontFamily="@font/montserrat_semibold"
-            android:textColor="@color/font_colour"
             android:text="@string/forgot_password"
+            android:textColor="@color/font_colour"
+            android:textSize="14sp"
             app:layout_constraintStart_toStartOf="@id/leftGuideline"
-            app:layout_constraintTop_toBottomOf="@+id/edEmail" />
+            app:layout_constraintTop_toBottomOf="@+id/edPhone" />
 
         <com.github.leandroborgesferreira.loadingbutton.customViews.CircularProgressButton
             android:id="@+id/buttonSave"

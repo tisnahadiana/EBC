@@ -76,4 +76,9 @@
             android:name="products"
             app:argType="id.deeromptech.ebc.data.local.Cart[]" />
     </fragment>
+    <fragment
+        android:id="@+id/userAccountFragment"
+        android:name="id.deeromptech.ebc.ui.shopping.ui.setting.UserAccountFragment"
+        android:label="UserAccountFragment"
+        tools:layout="@layout/fragment_user_account"/>
 </navigation>

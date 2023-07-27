@@ -58,8 +58,7 @@ class RegisterActivity : AppCompatActivity() {
                 val user    = User(
                     edRegisterName.text.toString().trim(),
                     edRegisterEmail.text.toString().trim(),
-                    edRegisterPhone.text.toString().trim(),
-                    role = userRole
+                    edRegisterPhone.text.toString().trim()
                 )
                 val password = edRegisterPassword.text.toString()
                 viewModel.createAccount(user, password)
