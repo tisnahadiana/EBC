@@ -115,5 +115,7 @@
     <string name="street">Street</string>
     <string name="address_location">Address location Ex: Home</string>
     <string name="addresses">Addresses</string>
+    <string name="place_order">Place Order</string>
+    <string name="payment_explanation">EBC does not support virtual payments. You can pay when you receive your order.</string>
 
 </resources>
