@@ -15,8 +15,13 @@ import dagger.hilt.android.AndroidEntryPoint
 import id.deeromptech.ebc.R
 import id.deeromptech.ebc.adapter.AddressAdapter
 import id.deeromptech.ebc.adapter.BillingProductsAdapter
+import id.deeromptech.ebc.data.local.Address
 import id.deeromptech.ebc.data.local.Cart
+import id.deeromptech.ebc.data.local.Order
+import id.deeromptech.ebc.data.local.OrderStatus
 import id.deeromptech.ebc.databinding.FragmentBillingBinding
+import id.deeromptech.ebc.dialog.DialogResult
+import id.deeromptech.ebc.ui.shopping.ui.order.OrderViewModel
 import id.deeromptech.ebc.util.HorizontalItemDecoration
 import id.deeromptech.ebc.util.Resource
 import id.deeromptech.ebc.util.ToastUtils
@@ -31,11 +36,14 @@ class BillingFragment : Fragment() {
     private lateinit var binding: FragmentBillingBinding
     private val addressAdapter by lazy { AddressAdapter() }
     private val billingProductsAdapter by lazy { BillingProductsAdapter() }
-    private val viewModel by viewModels<BillingViewModel>()
+    private val billingViewModel by viewModels<BillingViewModel>()
     private val args by navArgs<BillingFragmentArgs>()
     private var products = emptyList<Cart>()
     private var totalPrice = 0f
     private val decimalFormat = DecimalFormat("#,###", DecimalFormatSymbols(Locale.getDefault()))
+
+    private var selectedAddress: Address? = null
+    private val orderViewModel by viewModels<OrderViewModel> ()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,7 +72,7 @@ class BillingFragment : Fragment() {
         }
 
         lifecycleScope.launchWhenStarted {
-            viewModel.address.collectLatest {
+            billingViewModel.address.collectLatest {
                 when (it) {
                     is Resource.Loading -> {
                         binding.progressbarAddress.visibility = View.VISIBLE
@@ -84,10 +92,65 @@ class BillingFragment : Fragment() {
             }
         }
 
+        lifecycleScope.launchWhenStarted {
+            orderViewModel.order.collectLatest {
+                when (it) {
+                    is Resource.Loading -> {
+                        binding.buttonPlaceOrder.startAnimation()
+                    }
+
+                    is Resource.Success -> {
+                        binding.buttonPlaceOrder.revertAnimation()
+                        findNavController().navigateUp()
+                        ToastUtils.showMessage(requireContext(), "Your order was placed")
+                    }
+
+                    is Resource.Error -> {
+                        binding.buttonPlaceOrder.revertAnimation()
+                        ToastUtils.showMessage(requireContext(), it.message.toString())
+                    }
+                    else -> Unit
+                }
+            }
+        }
+
         billingProductsAdapter.differ.submitList(products)
 
         val formattedPrice = "Rp. ${decimalFormat.format(totalPrice)}"
         binding.tvTotalPrice.text = formattedPrice
+
+        addressAdapter.onClick = {
+            selectedAddress = it
+        }
+
+        binding.buttonPlaceOrder.setOnClickListener {
+            if (selectedAddress == null) {
+                ToastUtils.showMessage(requireContext(), "Please Select address")
+                return@setOnClickListener
+            }
+            showOrderConfirmationDialog()
+        }
+    }
+
+    private fun showOrderConfirmationDialog() {
+        val dialogResult = DialogResult(requireContext())
+        dialogResult.setTitle("Order Items")
+        dialogResult.setImage(R.drawable.ic_order)
+        dialogResult.setMessage("Do you want to order your cart item?")
+        dialogResult.setPositiveButton("Yes", onClickListener = {
+            val order = Order(
+                OrderStatus.Ordered.status,
+                totalPrice,
+                products,
+                selectedAddress!!
+            )
+            orderViewModel.placeOrder(order)
+            dialogResult.dismiss()
+        })
+        dialogResult.setNegativeButton("No", onClickListener = {
+            dialogResult.dismiss()
+        })
+        dialogResult.show()
     }
 
     private fun setupAddressRv() {
