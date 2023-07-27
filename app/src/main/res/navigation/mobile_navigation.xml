@@ -46,6 +46,15 @@
         <action
             android:id="@+id/action_navigation_profile_to_addressFragment"
             app:destination="@id/addressFragment" />
+        <action
+            android:id="@+id/action_navigation_profile_to_userAccountFragment"
+            app:destination="@id/userAccountFragment" />
+        <action
+            android:id="@+id/action_navigation_profile_to_billingFragment"
+            app:destination="@id/billingFragment" />
+        <action
+            android:id="@+id/action_navigation_profile_to_allOrdersFragment"
+            app:destination="@id/allOrdersFragment" />
     </fragment>
     <fragment
         android:id="@+id/productDetailFragment"

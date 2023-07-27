@@ -62,8 +62,8 @@ class OrderDetailFragment: Fragment() {
             tvTotalPrice.text = formattedPrice
 
             stepsView.setLabels(stepLabels.toTypedArray())
-                .setBarColorIndicator(getContext()?.getResources()!!.getColor(R.color.green))
-                .setProgressColorIndicator(getContext()?.getResources()!!.getColor(R.color.green))
+                .setBarColorIndicator(getContext()?.getResources()!!.getColor(com.anton46.stepsview.R.color.yellow))
+                .setProgressColorIndicator(getContext()?.getResources()!!.getColor(R.color.green_variant))
                 .setLabelColorIndicator(getContext()?.getResources()!!.getColor(R.color.green))
                 .setCompletedPosition(getCurrentOrderState(order.orderStatus))
                 .drawView();
