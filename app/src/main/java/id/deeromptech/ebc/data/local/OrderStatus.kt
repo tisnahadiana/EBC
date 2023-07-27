@@ -10,3 +10,24 @@ sealed class OrderStatus(val status: String) {
     object Returned: OrderStatus("Returned")
 
 }
+
+fun getOrderStatus(status: String): OrderStatus {
+    return when (status) {
+        "Ordered" -> {
+            OrderStatus.Ordered
+        }
+        "Canceled" -> {
+            OrderStatus.Ordered
+        }
+        "Confirmed" -> {
+            OrderStatus.Ordered
+        }
+        "Shipped" -> {
+            OrderStatus.Ordered
+        }
+        "Delivered" -> {
+            OrderStatus.Ordered
+        }
+        else -> OrderStatus.Returned
+    }
+}

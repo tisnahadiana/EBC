@@ -81,4 +81,9 @@
         android:name="id.deeromptech.ebc.ui.shopping.ui.setting.UserAccountFragment"
         android:label="UserAccountFragment"
         tools:layout="@layout/fragment_user_account"/>
+    <fragment
+        android:id="@+id/allOrdersFragment"
+        android:name="id.deeromptech.ebc.ui.shopping.ui.order.AllOrdersFragment"
+        android:label="AllOrdersFragment"
+        tools:layout="@layout/fragment_orders"/>
 </navigation>

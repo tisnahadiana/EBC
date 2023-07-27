@@ -17,4 +17,6 @@
     <color name="gray">#AFAFAF</color>
     <color name="green_variant">#689F38</color>
     <color name="darker_blue">#37516F</color>
+    <color name="orang_yellow">#FF9800</color>
+    <color name="red">#E4190A</color>
 </resources>
