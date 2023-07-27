@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import id.deeromptech.ebc.R
 import id.deeromptech.ebc.adapter.BillingProductsAdapter
 import id.deeromptech.ebc.data.local.OrderStatus
 import id.deeromptech.ebc.data.local.getOrderStatus
@@ -44,27 +45,13 @@ class OrderDetailFragment: Fragment() {
 
             tvOrderId.text = "Order #${order.orderId}"
 
-//            linearStepView.setSteps(
-//                mutableListOf(
-//                    OrderStatus.Ordered.status,
-//                    OrderStatus.Confirmed.status,
-//                    OrderStatus.Shipped.status,
-//                    OrderStatus.Delivered.status,
-//                )
-//            )
+            val stepLabels = listOf(
+                OrderStatus.Ordered.status,
+                OrderStatus.Confirmed.status,
+                OrderStatus.Shipped.status,
+                OrderStatus.Delivered.status
+            )
 
-            val currentOrderState = when(getOrderStatus(order.orderStatus)){
-                is OrderStatus.Ordered -> 0
-                is OrderStatus.Confirmed -> 1
-                is OrderStatus.Shipped -> 2
-                is OrderStatus.Delivered -> 3
-                else -> 0
-            }
-
-//            linearStepView.go(currentOrderState, false)
-//            if (currentOrderState == 3) {
-//                linearStepView.done(true)
-//            }
 
             tvFullName.text = order.address.fullname
             tvAddress.text = "${order.address.street} ${order.address.city}"
@@ -74,9 +61,25 @@ class OrderDetailFragment: Fragment() {
             val formattedPrice = "Rp. ${decimalFormat.format(order.totalPrice)}"
             tvTotalPrice.text = formattedPrice
 
+            stepsView.setLabels(stepLabels.toTypedArray())
+                .setBarColorIndicator(getContext()?.getResources()!!.getColor(R.color.green))
+                .setProgressColorIndicator(getContext()?.getResources()!!.getColor(R.color.green))
+                .setLabelColorIndicator(getContext()?.getResources()!!.getColor(R.color.green))
+                .setCompletedPosition(getCurrentOrderState(order.orderStatus))
+                .drawView();
         }
 
         billingProductsAdapter.differ.submitList(order.products)
+    }
+
+    private fun getCurrentOrderState(orderStatus: String): Int {
+        return when (getOrderStatus(orderStatus)) {
+            is OrderStatus.Ordered -> 0
+            is OrderStatus.Confirmed -> 1
+            is OrderStatus.Shipped -> 2
+            is OrderStatus.Delivered -> 3
+            else -> 0
+        }
     }
 
     private fun setupOrderRv() {
