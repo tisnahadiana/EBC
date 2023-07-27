@@ -19,13 +19,17 @@ import id.deeromptech.ebc.util.Resource
 import id.deeromptech.ebc.util.ToastUtils
 import id.deeromptech.ebc.util.VerticalItemDecoration
 import kotlinx.coroutines.flow.collectLatest
+import java.text.DecimalFormat
+import java.text.DecimalFormatSymbols
+import java.util.*
 
 class CartFragment : Fragment() {
 
     private var _binding: FragmentCartBinding? = null
     private val binding get() = _binding!!
     private val cartAdapter by lazy { CartProductAdapter() }
-    private val viewModel by activityViewModels<CartViewModel> ()
+    private val viewModel by activityViewModels<CartViewModel>()
+    private val decimalFormat = DecimalFormat("#,###", DecimalFormatSymbols(Locale.getDefault()))
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,10 +47,16 @@ class CartFragment : Fragment() {
 
         setupCartRv()
 
+        var totalPrice = 0f
+
         lifecycleScope.launchWhenStarted {
             viewModel.productPrice.collectLatest { price ->
                 price?.let {
+                    totalPrice = it
                     binding.tvTotalPrice.text = "Rp. $price"
+
+                    val formattedPrice = "Rp. ${decimalFormat.format(price)}"
+                    binding.tvTotalPrice.text = formattedPrice
                 }
             }
         }
@@ -64,15 +74,21 @@ class CartFragment : Fragment() {
             viewModel.changeQuantity(it, FirebaseCommon.QuantityChanging.DECREASE)
         }
 
+        binding.buttonCheckout.setOnClickListener {
+            val action = CartFragmentDirections
+                .actionNavigationCartToBillingFragment(totalPrice, cartAdapter.differ.currentList.toTypedArray())
+            findNavController().navigate(action)
+        }
+
         lifecycleScope.launchWhenStarted {
             viewModel.deleteDialog.collectLatest {
                 val alertDialog = AlertDialog.Builder(requireContext()).apply {
                     setTitle("Delete item from cart")
                     setMessage("Do you want to delete this item from your cart?")
-                    setNegativeButton("Cancel"){dialog,_ ->
+                    setNegativeButton("Cancel") { dialog, _ ->
                         dialog.dismiss()
                     }
-                    setPositiveButton("Yes"){ dialog, _ ->
+                    setPositiveButton("Yes") { dialog, _ ->
                         viewModel.deleteCartProduct(it)
                         dialog.dismiss()
                     }
@@ -84,7 +100,7 @@ class CartFragment : Fragment() {
 
         lifecycleScope.launchWhenStarted {
             viewModel.cartProducts.collectLatest {
-                when(it){
+                when (it) {
                     is Resource.Loading -> {
                         binding.progressbarCart.visibility = View.VISIBLE
                     }
@@ -103,7 +119,7 @@ class CartFragment : Fragment() {
 
                     is Resource.Error -> {
 
-                        ToastUtils.showMessage(requireContext(), it.message.toString() )
+                        ToastUtils.showMessage(requireContext(), it.message.toString())
                     }
                     else -> Unit
                 }
@@ -118,6 +134,7 @@ class CartFragment : Fragment() {
             buttonCheckout.visibility = View.GONE
         }
     }
+
     private fun showOtherViews() {
         binding.apply {
             rvCart.visibility = View.VISIBLE
@@ -125,6 +142,7 @@ class CartFragment : Fragment() {
             buttonCheckout.visibility = View.VISIBLE
         }
     }
+
     private fun hideEmptyCart() {
         binding.apply {
             layoutCartEmpty.visibility = View.GONE
