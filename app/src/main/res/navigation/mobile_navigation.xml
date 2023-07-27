@@ -33,6 +33,9 @@
         <action
             android:id="@+id/action_navigation_cart_to_productDetailFragment"
             app:destination="@id/productDetailFragment" />
+        <action
+            android:id="@+id/action_navigation_cart_to_billingFragment"
+            app:destination="@id/billingFragment" />
     </fragment>
 
     <fragment
@@ -58,4 +61,19 @@
         android:name="id.deeromptech.ebc.ui.shopping.ui.address.AddressFragment"
         android:label="AddressFragment"
         tools:layout="@layout/fragment_address"/>
+    <fragment
+        android:id="@+id/billingFragment"
+        android:name="id.deeromptech.ebc.ui.shopping.ui.billing.BillingFragment"
+        android:label="BillingFragment"
+        tools:layout="@layout/fragment_billing">
+        <action
+            android:id="@+id/action_billingFragment_to_addressFragment"
+            app:destination="@id/addressFragment" />
+        <argument
+            android:name="totalPrice"
+            app:argType="float" />
+        <argument
+            android:name="products"
+            app:argType="id.deeromptech.ebc.data.local.Cart[]" />
+    </fragment>
 </navigation>
