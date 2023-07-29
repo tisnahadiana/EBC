@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import dagger.hilt.android.AndroidEntryPoint
 import id.deeromptech.ebc.adapter.ViewPager2Images
 import id.deeromptech.ebc.data.local.Cart
 import id.deeromptech.ebc.databinding.FragmentProductDetailBinding
@@ -19,7 +20,7 @@ import kotlinx.coroutines.flow.collectLatest
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.util.*
-
+@AndroidEntryPoint
 class ProductDetailFragment : Fragment() {
 
     val args by navArgs<ProductDetailFragmentArgs>()
