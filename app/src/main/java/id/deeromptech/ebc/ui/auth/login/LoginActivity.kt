@@ -25,6 +25,7 @@ import id.deeromptech.ebc.ui.auth.register.RegisterActivity
 import id.deeromptech.ebc.util.Resource
 import id.deeromptech.ebc.util.ToastUtils
 import id.deeromptech.ebc.dialog.setupBottomSheetDialog
+import id.deeromptech.ebc.ui.auth.register.RegisterViewModel
 import id.deeromptech.ebc.ui.shopping.ShoppingActivity
 
 @AndroidEntryPoint
@@ -34,6 +35,7 @@ class LoginActivity : AppCompatActivity() {
         ActivityLoginBinding.inflate(layoutInflater)
     }
     private val viewModel by viewModels<LoginViewModel>()
+    private val viewModelRegister by viewModels<RegisterViewModel>()
     private lateinit var googleSignInClient: GoogleSignInClient
     private lateinit var auth: FirebaseAuth
     override fun onCreate(savedInstanceState: Bundle?) {

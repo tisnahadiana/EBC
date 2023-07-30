@@ -54,16 +54,15 @@ class UserAccountViewModel @Inject constructor(
                         _user.emit(Resource.Success(it))
                     }
                 }
-             }.addOnFailureListener {
-                 viewModelScope.launch {
-                     _user.emit(Resource.Error(it.message.toString()))
-                 }
+            }.addOnFailureListener {
+                viewModelScope.launch {
+                    _user.emit(Resource.Error(it.message.toString()))
+                }
             }
     }
 
     fun updateUser(user: User, imageUri: Uri?) {
-        val areInputValid = validateEmail(user.email) is RegisterValidation.Success
-                && user.name.trim().isNotEmpty()
+        val areInputValid = user.email.trim().isNotEmpty()  && user.name.trim().isNotEmpty()
 
         if (!areInputValid) {
             viewModelScope.launch {
@@ -76,12 +75,12 @@ class UserAccountViewModel @Inject constructor(
             _updateInfo.emit(Resource.Loading())
         }
 
-        if (imageUri == null){
+        if (imageUri == null) {
             saveUserInformation(user, true)
-        }
-        else {
+        } else {
             saveUserInformationWithNewImage(user, imageUri)
         }
+
     }
 
     private fun saveUserInformationWithNewImage(user: User, imageUri: Uri) {
@@ -101,7 +100,7 @@ class UserAccountViewModel @Inject constructor(
                 saveUserInformation(user.copy(imagePath = imageUrl), false)
             } catch (e: Exception) {
                 viewModelScope.launch {
-                    _updateInfo.emit(Resource.Error(e.message.toString()))
+                    _user.emit(Resource.Error(e.message.toString()))
                 }
             }
         }
@@ -114,7 +113,7 @@ class UserAccountViewModel @Inject constructor(
                 val currentUser = transaction.get(documentRef).toObject(User::class.java)
                 val newUser = user.copy(imagePath = currentUser?.imagePath ?: "")
                 transaction.set(documentRef, newUser)
-            }else{
+            } else {
                 transaction.set(documentRef, user)
             }
         }.addOnSuccessListener {
@@ -127,4 +126,5 @@ class UserAccountViewModel @Inject constructor(
             }
         }
     }
+
 }

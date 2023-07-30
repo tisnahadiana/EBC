@@ -94,8 +94,7 @@ class ProfileFragment : Fragment() {
 
                     is Resource.Success -> {
                         binding.progressbarSettings.visibility = View.GONE
-                        Glide.with(requireView()).load(it.data!!.imagePath).error(ColorDrawable(
-                            Color.BLACK)).into(binding.imageUser)
+                        Glide.with(requireView()).load(it.data!!.imagePath).placeholder(R.drawable.ic_profile_black).into(binding.imageUser)
                         binding.tvUserName.text = "${it.data.name}"
                     }
 

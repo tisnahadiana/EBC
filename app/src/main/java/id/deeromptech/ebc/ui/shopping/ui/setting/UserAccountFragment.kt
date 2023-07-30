@@ -1,10 +1,10 @@
 package id.deeromptech.ebc.ui.shopping.ui.setting
 
+import android.app.Activity
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +16,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
+import id.deeromptech.ebc.R
 import id.deeromptech.ebc.data.local.User
 import id.deeromptech.ebc.databinding.FragmentUserAccountBinding
 import id.deeromptech.ebc.util.Resource
@@ -33,17 +34,18 @@ class UserAccountFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        imageActivityResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
-            imageUri = it.data?.data
-            Glide.with(this).load(imageUri).into(binding.imageUser)
-        }
+        imageActivityResultLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+                imageUri = it.data?.data
+                updateImageUser()
+            }
     }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentUserAccountBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
@@ -59,12 +61,10 @@ class UserAccountFragment : Fragment() {
                     is Resource.Loading -> {
                         showUserLoading()
                     }
-
                     is Resource.Success -> {
                         hideUserLoading()
                         showUserInformation(it.data!!)
                     }
-
                     is Resource.Error -> {
                         ToastUtils.showMessage(requireContext(), it.message.toString())
                     }
@@ -79,13 +79,12 @@ class UserAccountFragment : Fragment() {
                     is Resource.Loading -> {
                         binding.buttonSave.startAnimation()
                     }
-
                     is Resource.Success -> {
                         binding.buttonSave.revertAnimation()
                         findNavController().navigateUp()
                     }
-
                     is Resource.Error -> {
+                        binding.buttonSave.revertAnimation()
                         ToastUtils.showMessage(requireContext(), it.message.toString())
                     }
                     else -> Unit
@@ -93,12 +92,16 @@ class UserAccountFragment : Fragment() {
             }
         }
 
+        binding.tvUpdatePassword.setOnClickListener {
+
+        }
+
         binding.buttonSave.setOnClickListener {
             binding.apply {
                 val userName = edNameUser.text.toString().trim()
                 val phone = edPhone.text.toString().trim()
                 val email = edEmail.text.toString().trim()
-                val user = User(userName, phone, email)
+                val user = User(name = userName, email = email, phone = phone)
                 viewmodel.updateUser(user, imageUri)
             }
         }
@@ -108,11 +111,26 @@ class UserAccountFragment : Fragment() {
             intent.type = "image/*"
             imageActivityResultLauncher.launch(intent)
         }
+
+    }
+
+    private fun updateImageUser() {
+        if (imageUri != null) {
+            val firstImageUri = imageUri
+            binding.imageUser.setImageURI(firstImageUri)
+        } else {
+            // Atur gambar default (jika tidak ada gambar yang dipilih)
+            binding.imageUser.setImageResource(R.drawable.ic_profile_black) // Ganti dengan gambar default Anda
+        }
     }
 
     private fun showUserInformation(data: User) {
         binding.apply {
-            Glide.with(this@UserAccountFragment).load(data.imagePath).error(ColorDrawable(Color.BLACK)).into(imageUser)
+            if (imageUri != null) {
+                Glide.with(this@UserAccountFragment).load(imageUri).placeholder(R.drawable.ic_profile_black).into(imageUser)
+            } else {
+                Glide.with(this@UserAccountFragment).load(data.imagePath).placeholder(R.drawable.ic_profile_black).into(imageUser)
+            }
             edNameUser.setText(data.name)
             edEmail.setText(data.email)
         }

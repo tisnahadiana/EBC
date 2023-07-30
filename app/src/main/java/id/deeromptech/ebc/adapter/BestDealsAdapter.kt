@@ -1,5 +1,6 @@
 package id.deeromptech.ebc.adapter
 
+import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
@@ -36,6 +37,7 @@ class BestDealsAdapter : RecyclerView.Adapter<BestDealsAdapter.BestDealsViewHold
 
                 val formattedOldPrice = "Rp. ${decimalFormat.format(product.price)}"
                 tvOldPrice.text = formattedOldPrice
+                tvOldPrice.paintFlags= Paint.STRIKE_THRU_TEXT_FLAG
             }
         }
 
