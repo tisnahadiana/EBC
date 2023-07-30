@@ -27,7 +27,8 @@ private val TAG = "MainCategory"
 @AndroidEntryPoint
 class MainCategoryFragment : Fragment(R.layout.fragment_main_category) {
 
-    private lateinit var binding: FragmentMainCategoryBinding
+    private var _binding: FragmentMainCategoryBinding? = null
+    private val binding get() = _binding!!
     private lateinit var specialProductsAdapter: SpecialProductsAdapter
     private lateinit var bestDealsAdapter: BestDealsAdapter
     private lateinit var bestProductsAdapter: BestProductsAdapter
@@ -38,8 +39,10 @@ class MainCategoryFragment : Fragment(R.layout.fragment_main_category) {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentMainCategoryBinding.inflate(inflater)
-        return binding.root
+        _binding = FragmentMainCategoryBinding.inflate(inflater, container, false)
+        val root: View = binding.root
+
+        return root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -172,5 +175,10 @@ class MainCategoryFragment : Fragment(R.layout.fragment_main_category) {
     override fun onResume() {
         super.onResume()
         showBottomNavigationView()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

@@ -24,7 +24,8 @@ import java.util.*
 class ProductDetailFragment : Fragment() {
 
     val args by navArgs<ProductDetailFragmentArgs>()
-    private lateinit var binding: FragmentProductDetailBinding
+    private var _binding: FragmentProductDetailBinding? = null
+    private val binding get() = _binding!!
     private val viewPagerAdapter by lazy { ViewPager2Images() }
     private val viewModel by viewModels<ProductDetailViewModel>()
     private val decimalFormat = DecimalFormat("#,###", DecimalFormatSymbols(Locale.getDefault()))
@@ -35,8 +36,10 @@ class ProductDetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         hideBottomNavigationView()
-        binding = FragmentProductDetailBinding.inflate(inflater)
-        return binding.root
+        _binding = FragmentProductDetailBinding.inflate(inflater, container, false)
+        val root: View = binding.root
+
+        return root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -95,5 +98,10 @@ class ProductDetailFragment : Fragment() {
         binding.apply {
             viewpagerProductImages.adapter = viewPagerAdapter
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

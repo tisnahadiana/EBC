@@ -19,7 +19,9 @@ import java.text.DecimalFormatSymbols
 import java.util.*
 
 class OrderDetailFragment: Fragment() {
-    private lateinit var binding: FragmentOrderDetailBinding
+
+    private var _binding: FragmentOrderDetailBinding? = null
+    private val binding get() = _binding!!
     private val billingProductsAdapter by lazy { BillingProductsAdapter() }
     private val args by navArgs<OrderDetailFragmentArgs>()
     private val decimalFormat =
@@ -30,8 +32,10 @@ class OrderDetailFragment: Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentOrderDetailBinding.inflate(inflater)
-        return binding.root
+        _binding = FragmentOrderDetailBinding.inflate(inflater, container, false)
+        val root: View = binding.root
+
+        return root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -88,5 +92,9 @@ class OrderDetailFragment: Fragment() {
             layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
             addItemDecoration(VerticalItemDecoration())
         }
+    }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

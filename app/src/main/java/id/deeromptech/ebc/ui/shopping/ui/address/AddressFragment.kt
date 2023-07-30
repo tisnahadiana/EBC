@@ -12,6 +12,7 @@ import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
 import id.deeromptech.ebc.data.local.Address
 import id.deeromptech.ebc.databinding.FragmentAddressBinding
+import id.deeromptech.ebc.databinding.FragmentProductDetailBinding
 import id.deeromptech.ebc.util.Resource
 import id.deeromptech.ebc.util.ToastUtils
 import kotlinx.coroutines.flow.collectLatest
@@ -19,7 +20,8 @@ import kotlinx.coroutines.flow.collectLatest
 @AndroidEntryPoint
 class AddressFragment: Fragment(){
 
-    private lateinit var binding: FragmentAddressBinding
+    private var _binding: FragmentAddressBinding? = null
+    private val binding get() = _binding!!
     val viewModel by viewModels<AddressViewModel>()
     val args by navArgs<AddressFragmentArgs>()
 
@@ -58,8 +60,10 @@ class AddressFragment: Fragment(){
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentAddressBinding.inflate(inflater)
-        return binding.root
+        _binding = FragmentAddressBinding.inflate(inflater, container, false)
+        val root: View = binding.root
+
+        return root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -92,5 +96,10 @@ class AddressFragment: Fragment(){
                 viewModel.addAddress(address)
             }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

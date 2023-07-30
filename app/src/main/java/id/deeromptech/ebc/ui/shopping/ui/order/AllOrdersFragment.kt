@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import id.deeromptech.ebc.adapter.AllOrdersAdapter
+import id.deeromptech.ebc.databinding.FragmentMainCategoryBinding
 import id.deeromptech.ebc.databinding.FragmentOrdersBinding
 import id.deeromptech.ebc.util.Resource
 import id.deeromptech.ebc.util.ToastUtils
@@ -20,7 +21,8 @@ import kotlinx.coroutines.flow.collectLatest
 @AndroidEntryPoint
 class AllOrdersFragment: Fragment() {
 
-    private lateinit var binding: FragmentOrdersBinding
+    private var _binding: FragmentOrdersBinding? = null
+    private val binding get() = _binding!!
     val viewModel by viewModels<AllOrdersViewModel> ()
     val allOrdersAdapter by lazy { AllOrdersAdapter() }
 
@@ -29,8 +31,10 @@ class AllOrdersFragment: Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentOrdersBinding.inflate(inflater)
-        return binding.root
+        _binding = FragmentOrdersBinding.inflate(inflater, container, false)
+        val root: View = binding.root
+
+        return root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -75,4 +79,8 @@ class AllOrdersFragment: Fragment() {
         }
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }

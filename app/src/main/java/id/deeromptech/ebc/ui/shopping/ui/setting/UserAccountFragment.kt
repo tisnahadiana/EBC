@@ -24,7 +24,8 @@ import kotlinx.coroutines.flow.collectLatest
 
 @AndroidEntryPoint
 class UserAccountFragment : Fragment() {
-    private lateinit var binding: FragmentUserAccountBinding
+    private var _binding: FragmentUserAccountBinding? = null
+    private val binding get() = _binding!!
     private val viewmodel by viewModels<UserAccountViewModel> ()
     private lateinit var imageActivityResultLauncher: ActivityResultLauncher<Intent>
     private var imageUri: Uri? = null
@@ -43,8 +44,10 @@ class UserAccountFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentUserAccountBinding.inflate(inflater)
-        return binding.root
+        _binding = FragmentUserAccountBinding.inflate(inflater, container, false)
+        val root: View = binding.root
+
+        return root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -137,5 +140,10 @@ class UserAccountFragment : Fragment() {
             tvUpdatePassword.visibility = View.INVISIBLE
             buttonSave.visibility = View.INVISIBLE
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

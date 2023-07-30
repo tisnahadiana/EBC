@@ -137,11 +137,6 @@ class ProfileFragment : Fragment() {
         showBottomNavigationView()
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
     private fun signOut() {
         val dialogResult = DialogResult(requireContext())
         dialogResult.setTitle("Logout")
@@ -157,6 +152,11 @@ class ProfileFragment : Fragment() {
             dialogResult.dismiss()
         })
         dialogResult.show()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
 }
