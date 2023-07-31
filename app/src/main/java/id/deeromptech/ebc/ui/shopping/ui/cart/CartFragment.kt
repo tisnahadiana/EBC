@@ -53,7 +53,7 @@ class CartFragment : Fragment() {
             viewModel.productPrice.collectLatest { price ->
                 price?.let {
                     totalPrice = it
-                    binding.tvTotalPrice.text = "Rp. $price"
+//                    binding.tvTotalPrice.text = "Rp. $price"
 
                     val formattedPrice = "Rp. ${decimalFormat.format(price)}"
                     binding.tvTotalPrice.text = formattedPrice
@@ -76,7 +76,7 @@ class CartFragment : Fragment() {
 
         binding.buttonCheckout.setOnClickListener {
             val action = CartFragmentDirections
-                .actionNavigationCartToBillingFragment(totalPrice, cartAdapter.differ.currentList.toTypedArray())
+                .actionNavigationCartToBillingFragment(totalPrice, cartAdapter.differ.currentList.toTypedArray(), true)
             findNavController().navigate(action)
         }
 
@@ -118,12 +118,15 @@ class CartFragment : Fragment() {
                     }
 
                     is Resource.Error -> {
-
                         ToastUtils.showMessage(requireContext(), it.message.toString())
                     }
                     else -> Unit
                 }
             }
+        }
+
+        binding.imageCloseCart.setOnClickListener {
+            findNavController().navigateUp()
         }
     }
 

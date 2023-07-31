@@ -27,13 +27,14 @@ class BillingProductsAdapter : RecyclerView.Adapter<BillingProductsAdapter.Billi
         fun bind(billingProduct: Cart){
             binding.apply {
                 Glide.with(itemView).load(billingProduct.product.images[0]).into(imageCartProduct)
-                tvProductCartName.text = billingProduct.quantity.toString()
+                tvBillingProductQuantity.text = billingProduct.quantity.toString()
 
                 val priceAfterPercentage = billingProduct.product.offerPercentage.getProductPrice(billingProduct.product.price)
-                tvProductCartName.text = "$ ${String.format("%.2f", priceAfterPercentage)}"
+                tvProductCartPrice.text = "$ ${String.format("%.2f", priceAfterPercentage)}"
 
                 val formattedPrice = "Rp. ${decimalFormat.format(billingProduct.product.price)}"
-                tvProductCartName.text = formattedPrice
+                tvProductCartPrice.text = formattedPrice
+                tvProductCartName.text = billingProduct.product.name
             }
         }
 

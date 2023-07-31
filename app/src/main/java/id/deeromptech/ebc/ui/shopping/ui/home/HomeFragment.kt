@@ -69,11 +69,6 @@ class HomeFragment : Fragment() {
         }.attach()
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
     private fun sendEmailToAdmin() {
         val adminEmail = getString(R.string.admin_email)
         val emailSubject = getString(R.string.email_subject)
@@ -87,5 +82,10 @@ class HomeFragment : Fragment() {
             startActivity(emailIntent)
         }
     }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
 
 }

@@ -13,11 +13,13 @@ import androidx.recyclerview.widget.RecyclerView
 import id.deeromptech.ebc.R
 import id.deeromptech.ebc.adapter.BestProductsAdapter
 import id.deeromptech.ebc.databinding.FragmentBaseCategoryBinding
+import id.deeromptech.ebc.databinding.FragmentBillingBinding
 import id.deeromptech.ebc.util.showBottomNavigationView
 
 open class BaseCategoryFragment: Fragment(R.layout.fragment_base_category) {
 
-    private lateinit var binding : FragmentBaseCategoryBinding
+    private var _binding: FragmentBaseCategoryBinding? = null
+    private val binding get() = _binding!!
     protected val offerAdapter: BestProductsAdapter by lazy { BestProductsAdapter() }
     protected val bestProductsAdapter: BestProductsAdapter by lazy { BestProductsAdapter() }
 
@@ -26,8 +28,10 @@ open class BaseCategoryFragment: Fragment(R.layout.fragment_base_category) {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentBaseCategoryBinding.inflate(inflater)
-        return binding.root
+        _binding = FragmentBaseCategoryBinding.inflate(inflater, container, false)
+        val root: View = binding.root
+
+        return root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -104,5 +108,10 @@ open class BaseCategoryFragment: Fragment(R.layout.fragment_base_category) {
     override fun onResume() {
         super.onResume()
         showBottomNavigationView()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

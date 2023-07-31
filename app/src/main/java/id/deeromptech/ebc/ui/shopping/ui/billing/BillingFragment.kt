@@ -19,6 +19,7 @@ import id.deeromptech.ebc.data.local.Address
 import id.deeromptech.ebc.data.local.Cart
 import id.deeromptech.ebc.data.local.Order
 import id.deeromptech.ebc.data.local.OrderStatus
+import id.deeromptech.ebc.databinding.FragmentAddressBinding
 import id.deeromptech.ebc.databinding.FragmentBillingBinding
 import id.deeromptech.ebc.dialog.DialogResult
 import id.deeromptech.ebc.ui.shopping.ui.order.OrderViewModel
@@ -33,7 +34,8 @@ import java.util.*
 @AndroidEntryPoint
 class BillingFragment : Fragment() {
 
-    private lateinit var binding: FragmentBillingBinding
+    private var _binding: FragmentBillingBinding? = null
+    private val binding get() = _binding!!
     private val addressAdapter by lazy { AddressAdapter() }
     private val billingProductsAdapter by lazy { BillingProductsAdapter() }
     private val billingViewModel by viewModels<BillingViewModel>()
@@ -57,8 +59,10 @@ class BillingFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentBillingBinding.inflate(inflater)
-        return binding.root
+        _binding = FragmentBillingBinding.inflate(inflater, container, false)
+        val root: View = binding.root
+
+        return root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -66,6 +70,15 @@ class BillingFragment : Fragment() {
 
         setupBillingProductsRv()
         setupAddressRv()
+
+        if (!args.payment){
+            binding.apply {
+                buttonPlaceOrder.visibility  = View.INVISIBLE
+                totalBoxContainer.visibility = View.INVISIBLE
+                middleLine.visibility = View.INVISIBLE
+                bottomLine.visibility = View.INVISIBLE
+            }
+        }
 
         binding.imageAddAddress.setOnClickListener {
             findNavController().navigate(R.id.action_billingFragment_to_addressFragment)
@@ -121,6 +134,10 @@ class BillingFragment : Fragment() {
 
         addressAdapter.onClick = {
             selectedAddress = it
+            if (!args.payment){
+                val b = Bundle().apply { putParcelable("address", selectedAddress) }
+                findNavController().navigate(R.id.action_billingFragment_to_addressFragment, b)
+            }
         }
 
         binding.buttonPlaceOrder.setOnClickListener {
@@ -167,5 +184,10 @@ class BillingFragment : Fragment() {
             adapter = billingProductsAdapter
             addItemDecoration(HorizontalItemDecoration())
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

@@ -1,12 +1,17 @@
 package id.deeromptech.ebc.ui.shopping.ui.profile
 
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.request.RequestOptions
@@ -16,20 +21,25 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import dagger.hilt.android.AndroidEntryPoint
+import id.deeromptech.ebc.BuildConfig
 import id.deeromptech.ebc.R
 import id.deeromptech.ebc.databinding.FragmentProfileBinding
 import id.deeromptech.ebc.dialog.DialogResult
 import id.deeromptech.ebc.ui.auth.login.LoginActivity
 import id.deeromptech.ebc.ui.shopping.ui.profile.seller.SellerVerificationActivity
-
+import id.deeromptech.ebc.util.Resource
+import id.deeromptech.ebc.util.ToastUtils
+import id.deeromptech.ebc.util.showBottomNavigationView
+import kotlinx.coroutines.flow.collectLatest
+@AndroidEntryPoint
 class ProfileFragment : Fragment() {
 
     private var _binding: FragmentProfileBinding? = null
     private lateinit var auth: FirebaseAuth
     private lateinit var googleSignInClient: GoogleSignInClient
+    val viewModel by viewModels<ProfileViewModel> ()
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -56,37 +66,74 @@ class ProfileFragment : Fragment() {
             .build()
         googleSignInClient = GoogleSignIn.getClient(requireContext(), gso)
 
-        binding.btnLogoutProfile.setOnClickListener {
+        binding.constraintProfile.setOnClickListener {
+            findNavController().navigate(R.id.action_navigation_profile_to_userAccountFragment)
+        }
+
+        binding.linearAllOrders.setOnClickListener {
+            findNavController().navigate(R.id.action_navigation_profile_to_allOrdersFragment)
+        }
+
+        binding.linearBilling.setOnClickListener {
+            val action = ProfileFragmentDirections.actionNavigationProfileToBillingFragment(0f, emptyArray(), false)
+            findNavController().navigate(action)
+        }
+
+        binding.linearLogOut.setOnClickListener {
             signOut()
         }
-        binding.btnTobeSeller.setOnClickListener {
-            startActivity(Intent(requireContext(), SellerVerificationActivity::class.java))
-        }
-        val currentUser = auth.currentUser
-        if (currentUser != null) {
-            // User is logged in, set the profile image and name
-            binding.txtNameUser.text = currentUser.displayName
 
-            // Check if the user has a profile photo URL
-            val photoUrl = currentUser.photoUrl
-            if (photoUrl != null) {
-                // Load and display the profile image using Glide
-                Glide.with(this)
-                    .load(photoUrl)
-                    .apply(RequestOptions.bitmapTransform(CircleCrop()))
-                    .into(binding.imgProfile)
-            } else {
-                // If there is no profile photo URL, you can set a default image
-                // binding.imgProfile.setImageResource(R.drawable.default_profile_image)
-                // Or hide the image view if you prefer
-                // binding.imgProfile.visibility = View.GONE
+        binding.tvVersion.text = "Version ${BuildConfig.VERSION_CODE}"
+
+        lifecycleScope.launchWhenStarted {
+            viewModel.user.collectLatest {
+                when (it) {
+                    is Resource.Loading -> {
+                        binding.progressbarSettings.visibility = View.VISIBLE
+                    }
+
+                    is Resource.Success -> {
+                        binding.progressbarSettings.visibility = View.GONE
+                        Glide.with(requireView()).load(it.data!!.imagePath).placeholder(R.drawable.ic_profile_black).into(binding.imageUser)
+                        binding.tvUserName.text = "${it.data.name}"
+                    }
+
+                    is Resource.Error -> {
+                        ToastUtils.showMessage(requireContext(), it.message.toString())
+                        binding.progressbarSettings.visibility = View.GONE
+                    }
+                    else -> Unit
+                }
             }
         }
+//        binding.btnTobeSeller.setOnClickListener {
+//            startActivity(Intent(requireContext(), SellerVerificationActivity::class.java))
+//        }
+//        val currentUser = auth.currentUser
+//        if (currentUser != null) {
+//            // User is logged in, set the profile image and name
+//            binding.txtNameUser.text = currentUser.displayName
+//
+//            // Check if the user has a profile photo URL
+//            val photoUrl = currentUser.photoUrl
+//            if (photoUrl != null) {
+//                // Load and display the profile image using Glide
+//                Glide.with(this)
+//                    .load(photoUrl)
+//                    .apply(RequestOptions.bitmapTransform(CircleCrop()))
+//                    .into(binding.imgProfile)
+//            } else {
+//                // If there is no profile photo URL, you can set a default image
+//                // binding.imgProfile.setImageResource(R.drawable.default_profile_image)
+//                // Or hide the image view if you prefer
+//                // binding.imgProfile.visibility = View.GONE
+//            }
+//        }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+    override fun onResume() {
+        super.onResume()
+        showBottomNavigationView()
     }
 
     private fun signOut() {
@@ -104,6 +151,11 @@ class ProfileFragment : Fragment() {
             dialogResult.dismiss()
         })
         dialogResult.show()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
 }

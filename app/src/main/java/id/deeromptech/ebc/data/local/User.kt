@@ -5,11 +5,11 @@ data class User(
     val email: String,
     val phone: String,
     val imagePath: String = "",
-    val role: String,
-    val addressUser: String = "",
+    val role: String? = null,
+    val addressUser: Address? = null,
     val storeName: String? = null,
     val addressStore: String? = null,
     val rekening: Int? = null
 ){
-    constructor(): this("","", "", "","")
+    constructor(): this("","", "", "","", Address(), "","",0)
 }
