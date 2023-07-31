@@ -2,6 +2,7 @@ package id.deeromptech.ebc.adapter
 
 import android.graphics.Paint
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
@@ -27,18 +28,21 @@ class BestDealsAdapter : RecyclerView.Adapter<BestDealsAdapter.BestDealsViewHold
                 Glide.with(itemView).load(product.images[0]).into(imgBestDeal)
 
                 val priceAfterOffer = product.offerPercentage.getProductPrice(product.price)
-                tvNewPrice.text = "$ ${String.format("%.2f", priceAfterOffer)}"
+                val oldPrice = priceAfterOffer + 10000
+                val formattedPriceAfterOffer = "$ ${decimalFormat.format(priceAfterOffer)}"
+                val formattedOldPrice = "Rp. ${decimalFormat.format(oldPrice)}"
+                tvNewPrice.text = formattedPriceAfterOffer
+                tvOldPrice.text = formattedOldPrice
+                tvOldPrice.paintFlags= Paint.STRIKE_THRU_TEXT_FLAG
 
-                tvOldPrice.text = "$ ${product.price}"
+                if (product.offerPercentage == null)
+                    tvNewPrice.visibility = View.INVISIBLE
                 tvDealProductName.text = product.name
 
                 val formattedPrice = "Rp. ${decimalFormat.format(product.price)}"
                 tvNewPrice.text = formattedPrice
-
-                val formattedOldPrice = "Rp. ${decimalFormat.format(product.price)}"
-                tvOldPrice.text = formattedOldPrice
-                tvOldPrice.paintFlags= Paint.STRIKE_THRU_TEXT_FLAG
             }
+
         }
 
     }

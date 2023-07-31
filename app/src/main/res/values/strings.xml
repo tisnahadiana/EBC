@@ -30,6 +30,7 @@
     <string name="valid_email">Please input a valid email</string>
     <string name="email_cannot_empty">Email cannot be empty</string>
     <string name="password_minimum">Password must consist of minimum 8 characters</string>
+    <string name="password_cannot_empty">Password must consist of minimum 8 characters</string>
 
     <!-- Login. -->
     <string name="Login">Login</string>
@@ -127,5 +128,13 @@
     <string name="billing">Billing</string>
     <string name="notifications">Notifications</string>
     <string name="regional">Regional</string>
+    <string name="old_price">old price</string>
+
+
+    <!-- Address. -->
+    <string name="village">Village | determine the location</string>
+    <string name="desa">Desa</string>
+    <string name="subdistrict">Subdistrict</string>
+    <string name="province">Province</string>
 
 </resources>

@@ -20,8 +20,10 @@ class AddressAdapter : RecyclerView.Adapter<AddressAdapter.AddressViewHolder>() 
                 buttonAddress.text = address.addressTitle
                 if (isSelected){
                     buttonAddress.background = ColorDrawable(itemView.context.resources.getColor(R.color.green))
+                    buttonAddress.setTextColor(itemView.context.resources.getColor(R.color.white))
                 } else {
                     buttonAddress.background = ColorDrawable(itemView.context.resources.getColor(R.color.white))
+                    buttonAddress.setTextColor(itemView.context.resources.getColor(R.color.gray))
                 }
             }
         }
@@ -30,7 +32,7 @@ class AddressAdapter : RecyclerView.Adapter<AddressAdapter.AddressViewHolder>() 
 
     private val diffCallback = object : DiffUtil.ItemCallback<Address>(){
         override fun areItemsTheSame(oldItem: Address, newItem: Address): Boolean {
-            return oldItem.addressTitle == newItem.addressTitle && oldItem.fullname == newItem.fullname
+            return oldItem.addressTitle == newItem.addressTitle && oldItem.kampung == newItem.kampung
         }
 
         override fun areContentsTheSame(oldItem: Address, newItem: Address): Boolean {

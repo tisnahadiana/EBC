@@ -5,12 +5,13 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Address(
+    val id: String,
     val addressTitle: String,
-    val fullname: String,
-    val street: String,
-    val phone: String,
+    val kampung: String,
+    val desa: String,
+    val kecamatan: String,
     val city: String,
-    val state: String
+    val provinsi: String
 ): Parcelable {
-    constructor(): this("","","","","","")
+    constructor(): this("","","","","","","")
 }

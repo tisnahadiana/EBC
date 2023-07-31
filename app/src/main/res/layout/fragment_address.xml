@@ -73,13 +73,13 @@
         android:layout_marginTop="15dp"/>
 
     <EditText
-        android:id="@+id/edFullName"
+        android:id="@+id/edKampung"
         android:layout_width="0dp"
         android:layout_height="45dp"
         android:background="@color/white"
         android:fontFamily="@font/montserrat_medium"
         android:gravity="start|center_vertical"
-        android:hint="@string/full_name"
+        android:hint="@string/village"
         android:paddingStart="20dp"
         android:paddingEnd="20dp"
         android:singleLine="true"
@@ -90,21 +90,21 @@
         android:layout_marginTop="15dp"/>
 
     <EditText
-        android:id="@+id/edStreet"
+        android:id="@+id/edDesa"
         android:layout_width="0dp"
         android:layout_height="45dp"
         android:layout_marginTop="10dp"
         android:background="@color/white"
         android:fontFamily="@font/montserrat_medium"
         android:gravity="start|center_vertical"
-        android:hint="@string/street"
+        android:hint="@string/desa"
         android:paddingStart="20dp"
         android:paddingEnd="20dp"
         android:singleLine="true"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@id/guideline2"
         app:layout_constraintStart_toStartOf="@id/guideline1"
-        app:layout_constraintTop_toBottomOf="@id/edFullName" />
+        app:layout_constraintTop_toBottomOf="@id/edKampung" />
 
     <LinearLayout
         android:id="@+id/linear"
@@ -113,7 +113,7 @@
         app:layout_constraintEnd_toEndOf="@id/guideline2"
         app:layout_constraintHorizontal_bias="0.484"
         app:layout_constraintStart_toStartOf="@id/guideline1"
-        app:layout_constraintTop_toBottomOf="@+id/edPhone"
+        app:layout_constraintTop_toBottomOf="@+id/edSubdistrict"
         android:orientation="horizontal">
 
         <EditText
@@ -133,13 +133,13 @@
             android:layout_marginEnd="5dp" />
 
         <EditText
-            android:id="@+id/edState"
+            android:id="@+id/edProvince"
             android:layout_width="378dp"
             android:layout_height="45dp"
             android:background="@color/white"
             android:fontFamily="@font/montserrat_medium"
             android:gravity="start|center_vertical"
-            android:hint="@string/state"
+            android:hint="@string/province"
             android:paddingStart="20dp"
             android:paddingEnd="20dp"
             android:singleLine="true"
@@ -149,23 +149,23 @@
             android:layout_marginStart="5dp"/>
 
     </LinearLayout>
+
     <EditText
-        android:id="@+id/edPhone"
+        android:id="@+id/edSubdistrict"
         android:layout_width="0dp"
         android:layout_height="45dp"
         android:background="@color/white"
         android:fontFamily="@font/montserrat_medium"
         android:layout_marginTop="10dp"
         android:gravity="start|center_vertical"
-        android:hint="@string/phone"
+        android:hint="@string/subdistrict"
         android:paddingStart="20dp"
         android:paddingEnd="20dp"
-        android:phoneNumber="true"
         android:singleLine="true"
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintStart_toStartOf="@+id/guideline1"
-        app:layout_constraintTop_toBottomOf="@+id/edStreet" />
+        app:layout_constraintTop_toBottomOf="@+id/edDesa" />
 
     <LinearLayout
         android:layout_width="0dp"

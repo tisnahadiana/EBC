@@ -56,11 +56,9 @@ class OrderDetailFragment: Fragment() {
                 OrderStatus.Delivered.status
             )
 
-
-            tvFullName.text = order.address.fullname
-            tvAddress.text = "${order.address.street} ${order.address.city}"
-            tvPhoneNumber.text = order.address.phone
-
+            tvFullName.text = order.address.addressTitle
+            tvAddress.text =
+                "${order.address.kampung} ${order.address.desa} ${order.address.kecamatan} ${order.address.city} ${order.address.provinsi}"
 
             val formattedPrice = "Rp. ${decimalFormat.format(order.totalPrice)}"
             tvTotalPrice.text = formattedPrice

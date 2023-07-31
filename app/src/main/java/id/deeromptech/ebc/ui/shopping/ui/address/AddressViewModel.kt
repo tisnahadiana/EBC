@@ -3,9 +3,11 @@ package id.deeromptech.ebc.ui.shopping.ui.address
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.lifecycle.HiltViewModel
 import id.deeromptech.ebc.data.local.Address
+import id.deeromptech.ebc.data.local.Cart
 import id.deeromptech.ebc.util.Resource
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -26,6 +28,22 @@ class AddressViewModel @Inject constructor(
     private val _error = MutableSharedFlow<String>()
     val error = _error.asSharedFlow()
 
+    private val _deleteAddress = MutableStateFlow<Resource<List<Address>>>(Resource.Unspecified())
+    val deleteAddress = _deleteAddress.asStateFlow()
+
+    private var addressDocuments = emptyList<DocumentSnapshot>()
+
+    private val _deleteDialog = MutableSharedFlow<Cart>()
+    val deleteDialog = _deleteDialog.asSharedFlow()
+    fun deleteAddress(address: Address) {
+        val index = deleteAddress.value.data?.indexOf(address)
+        if (index != null && index != -1) {
+            val documentId = addressDocuments[index].id
+            firestore.collection("user").document(auth.uid!!).collection("address")
+                .document(documentId).delete()
+        }
+    }
+
     fun addAddress(address: Address) {
         val validateInputs = validateInputs(address)
         if (validateInputs){
@@ -45,11 +63,13 @@ class AddressViewModel @Inject constructor(
 
     private fun validateInputs(address: Address): Boolean {
         return address.addressTitle.trim().isNotEmpty() &&
+                address.kampung.trim().isNotEmpty() &&
+                address.desa.trim().isNotEmpty() &&
+                address.kecamatan.trim().isNotEmpty() &&
                 address.city.trim().isNotEmpty() &&
-                address.phone.trim().isNotEmpty() &&
-                address.state.trim().isNotEmpty() &&
-                address.fullname.trim().isNotEmpty() &&
-                address.street.trim().isNotEmpty()
+                address.provinsi.trim().isNotEmpty()
     }
+
+
 
 }

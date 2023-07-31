@@ -133,6 +133,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Phone"
+                android:visibility="gone"
                 android:textSize="13sp" />
 
         </LinearLayout>
@@ -185,7 +186,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginTop="40dp"
             android:layout_marginBottom="20dp"
-            android:background="@color/gray">
+            android:background="@drawable/bg_total_billing">
 
             <TextView
                 android:layout_width="0dp"

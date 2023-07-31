@@ -2,11 +2,11 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:elevation="0dp"
     android:background="@color/transparent_gray"
-    app:cardCornerRadius="5dp">
+    app:cardCornerRadius="6dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -15,8 +15,8 @@
 
         <ImageView
             android:id="@+id/img_best_deal"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
@@ -27,7 +27,7 @@
 
         <TextView
             android:id="@+id/tv_deal_product_name"
-            android:layout_width="80dp"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:text="Scotch Premium"
             app:layout_constraintStart_toEndOf="@id/img_best_deal"
@@ -37,7 +37,7 @@
             android:fontFamily="@font/montserrat"
             android:textStyle="bold"
             android:textColor="@color/black"
-            android:textSize="9sp"/>
+            android:textSize="13sp"/>
 
         <TextView
             android:id="@+id/tv_old_price"
@@ -45,9 +45,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:fontFamily="@font/montserrat_medium"
-            android:text="Rp. 30.000"
+            android:text="@string/old_price"
             android:textColor="@color/gray"
-            android:textSize="12sp"
+            android:textSize="13sp"
             app:layout_constraintStart_toStartOf="@+id/tv_deal_product_name"
             app:layout_constraintTop_toBottomOf="@id/tv_deal_product_name" />
 
@@ -61,7 +61,7 @@
             android:fontFamily="@font/montserrat_medium"
             android:text="Rp. 20.000"
             android:textColor="@color/black"
-            android:textSize="12sp"
+            android:textSize="13sp"
             app:layout_constraintStart_toEndOf="@+id/tv_old_price"
             app:layout_constraintTop_toBottomOf="@id/tv_deal_product_name" />
 
@@ -76,11 +76,11 @@
             android:text="See product"
             android:textAllCaps="false"
             android:textColor="@color/white"
-            android:textSize="10dp"
+            android:textSize="12dp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/img_best_deal"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/tv_new_price"
+            app:layout_constraintStart_toEndOf="@+id/tv_deal_product_name"
             app:layout_constraintTop_toTopOf="@+id/img_best_deal" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
