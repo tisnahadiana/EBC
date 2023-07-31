@@ -29,8 +29,10 @@
     <string name="name_cannot_empty">Name cannot be empty</string>
     <string name="valid_email">Please input a valid email</string>
     <string name="email_cannot_empty">Email cannot be empty</string>
+    <string name="phone_cannot_empty">phone cannot be empty</string>
     <string name="password_minimum">Password must consist of minimum 8 characters</string>
     <string name="password_cannot_empty">Password must consist of minimum 8 characters</string>
+    <string name="g_check_your_email">Check your Email</string>
 
     <!-- Login. -->
     <string name="Login">Login</string>
@@ -45,6 +47,7 @@
     <string name="illustration_login">Illustration Login</string>
     <string name="success_message_login">Login Account Success</string>
     <string name="failure_message_login">Login Account Failed</string>
+    <string name="error_occurred">Oops error occurred</string>
 
     <!-- Register. -->
     <string name="register_desc">Please register to create account!</string>

@@ -4,8 +4,11 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -31,90 +34,127 @@ class RegisterActivity : AppCompatActivity() {
         ActivityRegisterBinding.inflate(layoutInflater)
     }
     private val viewModel by viewModels<RegisterViewModel>()
-    private lateinit var auth: FirebaseAuth
-    private lateinit var googleSignInClient: GoogleSignInClient
-    override fun onCreate(savedInstanceState: Bundle?) {
+     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         supportActionBar?.hide()
 
-        auth = Firebase.auth
-        val gso = GoogleSignInOptions
-            .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(getString(R.string.default_web_client_id))
-            .requestEmail()
-            .build()
-        googleSignInClient = GoogleSignIn.getClient(this, gso)
+         onRegisterBtnClick()
+         observeSaveUserInformation()
+         onLoginClick()
 
-        val userRole = "user"
 
+    }
+
+    private fun observeSaveUserInformation() {
+        viewModel.register.observe(this, Observer { response ->
+            when (response) {
+                is Resource.Loading -> {
+                    Log.d(TAG, "EmailRegister:Loading")
+                    binding.btnRegisterActivity.startAnimation()
+                }
+
+                is Resource.Success -> {
+                    Log.d(TAG, "EmailRegister:Successful")
+                    binding.btnRegisterActivity.stopAnimation()
+                    ToastUtils.showMessage(this@RegisterActivity, getString(R.string.success_message_register))
+                    viewModel.logOut()
+                    viewModel.register.postValue(null)
+                    val loginIntent = Intent(this@RegisterActivity, LoginActivity::class.java)
+                    startActivity(loginIntent)
+                    finish()
+                }
+
+                is Resource.Error -> {
+                    binding.btnRegisterActivity.stopAnimation()
+                    Log.e(TAG, "EmailRegister:Error ${response.message.toString()}")
+                    ToastUtils.showMessage(this@RegisterActivity, "Register Failed : ${response.message}")
+                }
+                else -> Unit
+            }
+        })
+    }
+
+    private fun onLoginClick() {
         binding.btnToLogin.setOnClickListener {
             startActivity(Intent(this, LoginActivity::class.java))
             finish()
         }
+    }
 
-        binding.apply {
-            btnRegisterActivity.setOnClickListener {
-                val user    = User(
-                    edRegisterName.text.toString().trim(),
-                    edRegisterEmail.text.toString().trim(),
-                    edRegisterPhone.text.toString().trim()
-                )
-                val password = edRegisterPassword.text.toString()
-                viewModel.createAccount(user, password)
-            }
-        }
-
-        lifecycleScope.launchWhenStarted {
-            viewModel.register.collect{
-                when(it){
-                    is Resource.Loading -> {
-                        binding.btnRegisterActivity.startAnimation()
-                    }
-
-                    is Resource.Success -> {
-                        Log.d("test", it.message.toString())
-                        binding.btnRegisterActivity.revertAnimation()
-                        ToastUtils.showMessage(this@RegisterActivity, getString(R.string.success_message_register))
-                        auth.signOut()
-                        googleSignInClient.signOut()
-                        val loginIntent = Intent(this@RegisterActivity, LoginActivity::class.java)
-                        startActivity(loginIntent)
-                        finish()
-                    }
-
-                    is Resource.Error -> {
-                        Log.e(TAG, it.message.toString())
-                        binding.btnRegisterActivity.revertAnimation()
-                        ToastUtils.showMessage(this@RegisterActivity, "Register Failed : ${it.message}")
-                    }
-
-                    else -> Unit
+    private fun onRegisterBtnClick() {
+        binding.btnRegisterActivity.setOnClickListener {
+            binding.btnRegisterActivity.spinningBarColor = resources.getColor(R.color.white)
+            binding.btnRegisterActivity.spinningBarWidth = resources.getDimension(com.intuit.sdp.R.dimen._3sdp)
+            val user = getUser()
+            val password = getPassword()
+            user?.let { user ->
+                password?.let { password ->
+                    viewModel.registerNewUser(user, password)
+                    binding.btnRegisterActivity.startAnimation()
                 }
             }
         }
+    }
 
-        lifecycleScope.launchWhenStarted {
-            viewModel.validation.collect{ validation ->
-                if (validation.email is RegisterValidation.Failed){
-                    withContext(Dispatchers.Main){
-                        binding.edRegisterEmail.apply {
-                            requestFocus()
-                            error = validation.email.message
-                        }
-                    }
-                }
+    private fun getUser(): User? {
+        val userName = binding.edRegisterName.text.toString().trim()
+        val phone = binding.edRegisterPhone.text.toString().trim()
+        val email = binding.edRegisterEmail.text.toString().trim()
 
-                if (validation.password is RegisterValidation.Failed){
-                    withContext(Dispatchers.Main){
-                        binding.edRegisterPassword.apply {
-                            requestFocus()
-                            error = validation.password.message
-                        }
-                    }
-                }
+        if (userName.isEmpty()) {
+            binding.edRegisterName.apply {
+                error = resources.getString(R.string.name_cannot_empty)
+                requestFocus()
             }
+            return null
         }
 
+        if (phone.isEmpty()) {
+            binding.edRegisterPhone.apply {
+                error = resources.getString(R.string.phone_cannot_empty)
+                requestFocus()
+            }
+            return null
+        }
+
+        if (email.isEmpty()) {
+            binding.edRegisterEmail.apply {
+                error = resources.getString(R.string.email_cannot_empty)
+                requestFocus()
+            }
+            return null
+        }
+
+        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            binding.edRegisterEmail.apply {
+                error = resources.getString(R.string.valid_email)
+                requestFocus()
+            }
+            return null
+        }
+
+
+        return User(userName, email, phone)
+    }
+
+    private fun getPassword(): String? {
+        val password = binding.edRegisterPassword.text.toString().trim()
+        if (password.isEmpty()) {
+            binding.edRegisterPassword.apply {
+                error = resources.getString(R.string.password_cannot_empty)
+                requestFocus()
+            }
+            return null
+        }
+
+        if (password.length < 8) {
+            binding.edRegisterPassword.apply {
+                error = resources.getString(R.string.password_minimum)
+                requestFocus()
+            }
+            return null
+        }
+        return password
     }
 }
