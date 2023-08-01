@@ -410,6 +410,81 @@
                 android:layout_marginTop="10dp">
 
                 <LinearLayout
+                    android:id="@+id/linear_language"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp"
+                    android:layout_margin="5dp"
+                    android:layout_marginBottom="10dp">
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/ic_language"
+                        android:layout_gravity="center_vertical"
+                        android:background="@drawable/settings_items_background"
+                        app:tint="@color/white"
+                        android:backgroundTint="#5856d6"/>
+
+                    <TextView
+                        android:id="@+id/dfgh"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Language"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        android:layout_marginStart="15dp"
+                        android:layout_gravity="center_vertical"/>
+
+                    <ImageView
+                        android:layout_width="@dimen/_15sdp"
+                        android:layout_height="@dimen/_15sdp"
+                        android:src="@drawable/ic_arrow"
+                        app:tint="@color/gray"
+                        android:layout_gravity="center_vertical"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linear_help"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp"
+                    android:layout_margin="5dp"
+                    android:layout_marginBottom="10dp">
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center_vertical"
+                        android:background="@drawable/settings_items_background"
+                        android:backgroundTint="#9C27B0"
+                        android:src="@drawable/ic_help"
+                        app:tint="@color/white" />
+
+                    <TextView
+                        android:id="@+id/tv_help"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/help"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        android:layout_marginStart="15dp"
+                        android:layout_gravity="center_vertical"/>
+
+                    <ImageView
+                        android:layout_width="@dimen/_15sdp"
+                        android:layout_height="@dimen/_15sdp"
+                        android:src="@drawable/ic_arrow"
+                        app:tint="@color/gray"
+                        android:layout_gravity="center_vertical"/>
+                </LinearLayout>
+
+
+                <LinearLayout
                     android:id="@+id/linearLogOut"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

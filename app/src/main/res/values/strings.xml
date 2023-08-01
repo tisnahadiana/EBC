@@ -81,7 +81,7 @@
     <string name="email_subject">Help Request</string>
     <string name="best_deals">Best Deals</string>
     <string name="best_products">Best Products</string>
-
+    <string name="help_text">Got a question? We\'re here to answer!</string>
 
     <string name="want_to_be_seller">Want to be Seller?</string>
     <string name="my_store">My Store</string>
@@ -132,6 +132,7 @@
     <string name="notifications">Notifications</string>
     <string name="regional">Regional</string>
     <string name="old_price">old price</string>
+    <string name="g_coming_soon">This feature is not available yet</string>
 
 
     <!-- Address. -->
@@ -139,5 +140,8 @@
     <string name="desa">Desa</string>
     <string name="subdistrict">Subdistrict</string>
     <string name="province">Province</string>
+    <string name="help">Help</string>
+    <string name="english">English</string>
+    <string name="indonesia">Indonesia</string>
 
 </resources>

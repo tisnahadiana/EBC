@@ -101,6 +101,7 @@ class RegisterActivity : AppCompatActivity() {
         val userName = binding.edRegisterName.text.toString().trim()
         val phone = binding.edRegisterPhone.text.toString().trim()
         val email = binding.edRegisterEmail.text.toString().trim()
+        val role = "user"
 
         if (userName.isEmpty()) {
             binding.edRegisterName.apply {
@@ -135,7 +136,7 @@ class RegisterActivity : AppCompatActivity() {
         }
 
 
-        return User(userName, email, phone)
+        return User(userName, email, phone, role = role)
     }
 
     private fun getPassword(): String? {

@@ -9,11 +9,14 @@ import com.bumptech.glide.Glide
 import id.deeromptech.ebc.data.local.Cart
 import id.deeromptech.ebc.databinding.ItemCartProductBinding
 import id.deeromptech.ebc.helper.getProductPrice
+import id.deeromptech.ebc.util.Constants.CART_FLAG
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.util.*
 
-class CartProductAdapter: RecyclerView.Adapter<CartProductAdapter.CartProductsViewHolder>() {
+class CartProductAdapter(
+    private val itemFlag: String = CART_FLAG
+): RecyclerView.Adapter<CartProductAdapter.CartProductsViewHolder>() {
 
     inner class CartProductsViewHolder( val binding: ItemCartProductBinding):
         RecyclerView.ViewHolder(binding.root) {

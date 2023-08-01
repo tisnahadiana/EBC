@@ -194,6 +194,16 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminateTint="@color/green"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@+id/totalBoxContainer"
+            app:layout_constraintEnd_toStartOf="@+id/rightGuideLine"
+            app:layout_constraintStart_toStartOf="@+id/leftGuideLine" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

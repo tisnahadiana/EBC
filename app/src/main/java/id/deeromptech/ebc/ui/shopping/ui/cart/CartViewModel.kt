@@ -1,5 +1,6 @@
 package id.deeromptech.ebc.ui.shopping.ui.cart
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
@@ -7,7 +8,9 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.lifecycle.HiltViewModel
 import id.deeromptech.ebc.data.local.Cart
+import id.deeromptech.ebc.data.local.Product
 import id.deeromptech.ebc.firebase.FirebaseCommon
+import id.deeromptech.ebc.firebase.FirebaseDb
 import id.deeromptech.ebc.helper.getProductPrice
 import id.deeromptech.ebc.util.Resource
 import kotlinx.coroutines.flow.*
@@ -21,97 +24,95 @@ class CartViewModel @Inject constructor(
     private val firebaseCommon: FirebaseCommon
 ) : ViewModel() {
 
-    private val _cartProducts = MutableStateFlow<Resource<List<Cart>>>(Resource.Unspecified())
-    val cartProducts = _cartProducts.asStateFlow()
-
-    val productPrice = cartProducts.map {
-        when(it){
-            is Resource.Success -> {
-                calculatePrice(it.data!!)
-            }
-            else -> null
-        }
-    }
-
-    private var cartProductDocuments = emptyList<DocumentSnapshot>()
-
-    private val _deleteDialog = MutableSharedFlow<Cart>()
-    val deleteDialog = _deleteDialog.asSharedFlow()
-    fun deleteCartProduct(cart: Cart) {
-        val index = cartProducts.value.data?.indexOf(cart)
-        if (index != null && index != -1) {
-            val documentId = cartProductDocuments[index].id
-            firestore.collection("user").document(auth.uid!!).collection("cart")
-                .document(documentId).delete()
-        }
-    }
-
-    private fun calculatePrice(data: List<Cart>): Float {
-        return data.sumByDouble { cart ->
-            val productPrice = cart.product.price * (1 - cart.product.offerPercentage!! / 100.0)
-            productPrice * cart.quantity
-        }.toFloat()
-    }
+    val cartProducts = MutableLiveData<Resource<List<Cart>>>()
+    val cartItemsCount = MutableLiveData<Resource<Int>>()
+    val plus = MutableLiveData<Resource<Int>>()
+    val minus = MutableLiveData<Resource<Int>>()
+    val deleteProduct = MutableLiveData<Resource<Boolean>>()
+    val product = MutableLiveData<Resource<Product>>()
+    var firebaseDb: FirebaseDb = FirebaseDb()
 
     init {
-        getCartProducts()
+        getItemsInCart()
     }
 
-    private fun getCartProducts() {
-        viewModelScope.launch { _cartProducts.emit(Resource.Loading()) }
-        firestore.collection("user").document(auth.uid!!).collection("cart")
-            .addSnapshotListener { value, error ->
-                if (error != null || value == null) {
-                    viewModelScope.launch { _cartProducts.emit(Resource.Error(error?.message.toString())) }
-                } else {
-                    cartProductDocuments = value.documents
-                    val cartProducts = value.toObjects(Cart::class.java)
-                    viewModelScope.launch { _cartProducts.emit(Resource.Success(cartProducts)) }
-                }
+    private fun getItemsInCart() {
+        cartProducts.postValue(Resource.Loading())
+        cartItemsCount.postValue(Resource.Loading())
+
+        firebaseDb.getItemsInCart().addSnapshotListener { value, error ->
+            if (error != null) {
+                cartProducts.postValue(Resource.Error(error.message ?: "Unknown error occurred"))
+                cartItemsCount.postValue(Resource.Error(error.message ?: "Unknown error occurred"))
+            } else {
+                val products = value!!.toObjects(Cart::class.java)
+                cartProducts.postValue(Resource.Success(products))
+                cartItemsCount.postValue(Resource.Success(products.size))
             }
+        }
     }
 
-    fun changeQuantity(
-        cartProduct: Cart,
-        quantityChanging: FirebaseCommon.QuantityChanging
-    ) {
-
-        val index = cartProducts.value.data?.indexOf(cartProduct)
-
-        // index could be equal to -1 if the function [getCartProducts] delays which will also delay the result
-        //
-
-        if (index != null && index != -1) {
-            val documentId = cartProductDocuments[index].id
-            when(quantityChanging) {
-                FirebaseCommon.QuantityChanging.INCREASE -> {
-                    viewModelScope.launch { _cartProducts.emit(Resource.Loading()) }
-                    increaseQuantity(documentId)
-                }
-                FirebaseCommon.QuantityChanging.DECREASE -> {
-                    if (cartProduct.quantity == 1){
-                        viewModelScope.launch { _deleteDialog.emit(cartProduct) }
-                        return
+    fun increaseQuantity(product: Cart) {
+        plus.postValue(Resource.Loading())
+        firebaseDb.getProductInCart(product).addOnCompleteListener {
+            if (it.isSuccessful) {
+                val productToIncrease = it.result!!.documents[0]
+                firebaseDb.increaseProductQuantity(productToIncrease.id)
+                    .addOnCompleteListener { increase ->
+                        if (increase.isSuccessful)
+                            plus.postValue(Resource.Success(product.quantity + 1))
+                        else
+                            plus.postValue(Resource.Error(increase.exception.toString()))
                     }
-                    viewModelScope.launch { _cartProducts.emit(Resource.Loading()) }
-                    decreaseQuantity(documentId)
+            } else
+                plus.postValue(Resource.Error(it.exception.toString()))
+
+        }
+    }
+
+    fun decreaseQuantity(product: Cart) {
+        minus.postValue(Resource.Loading())
+        firebaseDb.getProductInCart(product).addOnCompleteListener {
+            if (it.isSuccessful) {
+                val productToIncrease = it.result!!.documents[0]
+                firebaseDb.decreaseProductQuantity(productToIncrease.id)
+                    .addOnCompleteListener { decrease ->
+                        if (decrease.isSuccessful)
+                            minus.postValue(Resource.Success(product.quantity + 1))
+                        else
+                            minus.postValue(Resource.Error(decrease.exception.toString()))
+                    }
+            } else
+                minus.postValue(Resource.Error(it.exception.toString()))
+
+        }
+    }
+
+    fun deleteProductFromCart(product: Cart) {
+        deleteProduct.postValue(Resource.Loading())
+        firebaseDb.getProductInCart(product).addOnCompleteListener { productToDelete ->
+            if (productToDelete.isSuccessful) {
+                val documentId = productToDelete.result!!.documents[0].id
+                firebaseDb.deleteProductFromCart(documentId).addOnCompleteListener {
+                    if (it.isSuccessful)
+                        deleteProduct.postValue(Resource.Success(true))
+                    else
+                        deleteProduct.postValue(Resource.Error(it.exception.toString()))
                 }
-            }
-        }
 
-    }
-
-    private fun decreaseQuantity(documentId: String) {
-        firebaseCommon.decreaseQuantity(documentId){ result, exception ->
-            if (exception != null)
-                viewModelScope.launch { _cartProducts.emit(Resource.Error(exception.message.toString())) }
+            } else
+                deleteProduct.postValue(Resource.Error(productToDelete.exception.toString()))
         }
     }
 
-    private fun increaseQuantity(documentId: String) {
-        firebaseCommon.increaseQuantity(documentId){ result, exception ->
-            if (exception != null)
-                viewModelScope.launch { _cartProducts.emit(Resource.Error(exception.message.toString())) }
+    fun getProductFromCartProduct(cartProduct: Cart) {
+        product.postValue(Resource.Loading())
+        firebaseDb.getProductFromCartProduct(cartProduct).addOnCompleteListener {
+            if (it.isSuccessful) {
+                val tempProduct = it.result!!.toObjects(Product::class.java)[0]
+                product.postValue(Resource.Success(tempProduct))
+            } else
+                product.postValue(Resource.Error(it.exception.toString()))
         }
     }
 }

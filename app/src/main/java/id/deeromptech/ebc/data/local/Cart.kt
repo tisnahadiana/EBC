@@ -5,8 +5,10 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Cart(
+    val id:Int,
     val product: Product,
-    val quantity: Int
+    val quantity: Int,
+    val newPrice:String?,
 ): Parcelable {
-    constructor(): this(Product(), 1)
+    constructor(): this(0,Product(), 1,"")
 }

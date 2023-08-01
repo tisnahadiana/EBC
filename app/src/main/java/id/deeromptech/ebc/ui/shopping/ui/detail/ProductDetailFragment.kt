@@ -50,7 +50,7 @@ class ProductDetailFragment : Fragment() {
         setupViewpager()
 
         binding.btnAddToCart.setOnClickListener {
-            viewModel.addUpdateProductInCart(Cart(product, 1))
+//            viewModel.addUpdateProductInCart(Cart(product, 1))
         }
 
         lifecycleScope.launchWhenStarted {

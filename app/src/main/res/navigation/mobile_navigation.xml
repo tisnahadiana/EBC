@@ -51,10 +51,20 @@
             app:destination="@id/userAccountFragment" />
         <action
             android:id="@+id/action_navigation_profile_to_billingFragment"
-            app:destination="@id/billingFragment" />
+            app:destination="@id/billingFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"/>
         <action
             android:id="@+id/action_navigation_profile_to_allOrdersFragment"
             app:destination="@id/allOrdersFragment" />
+        <action
+            android:id="@+id/action_navigation_profile_to_languageFragment"
+            app:destination="@id/languageFragment" />
+        <action
+            android:id="@+id/action_navigation_profile_to_helpFragment"
+            app:destination="@id/helpFragment" />
     </fragment>
     <fragment
         android:id="@+id/productDetailFragment"
@@ -85,6 +95,9 @@
             android:id="@+id/action_billingFragment_to_addressFragment"
             app:destination="@id/addressFragment" />
         <argument
+            android:name="clickFlag"
+            app:argType="string" />
+        <argument
             android:name="totalPrice"
             app:argType="float" />
         <argument
@@ -92,7 +105,13 @@
             app:argType="id.deeromptech.ebc.data.local.Cart[]" />
         <argument
             android:name="payment"
-            app:argType="boolean" />
+            app:argType="boolean"/> 
+        <argument
+            android:name="price"
+            android:defaultValue="null"
+            app:argType="string"
+            app:nullable="true" />
+
     </fragment>
     <fragment
         android:id="@+id/userAccountFragment"
@@ -117,4 +136,14 @@
             android:name="order"
             app:argType="id.deeromptech.ebc.data.local.Order" />
     </fragment>
+    <fragment
+        android:id="@+id/languageFragment"
+        android:name="id.deeromptech.ebc.ui.shopping.ui.setting.LanguageFragment"
+        android:label="fragment_language"
+        tools:layout="@layout/fragment_language" />
+    <fragment
+        android:id="@+id/helpFragment"
+        android:name="id.deeromptech.ebc.ui.shopping.ui.setting.HelpFragment"
+        android:label="HelpFragment"
+        tools:layout="@layout/fragment_help"/>
 </navigation>
