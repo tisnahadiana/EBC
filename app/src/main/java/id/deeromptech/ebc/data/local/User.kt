@@ -8,7 +8,7 @@ data class User(
     val name: String,
     val email: String,
     val phone: String,
-    val imagePath: String = "",
+    var imagePath: String = "",
     val role: String? = null,
     val addressUser: Address? = null,
     val storeName: String? = null,
