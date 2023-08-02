@@ -3,7 +3,7 @@ package id.deeromptech.ebc.data.local
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
-
+@Parcelize
 data class Cart(
     val id:Int,
     val name:String,
@@ -12,6 +12,6 @@ data class Cart(
     val price:String,
     val newPrice:String?,
     val quantity:Int,
-) {
+) : Parcelable {
     constructor() : this(0,"","","","","",0 )
 }

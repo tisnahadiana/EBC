@@ -11,7 +11,10 @@ import com.google.firebase.storage.UploadTask
 import com.google.firebase.storage.ktx.storage
 import id.deeromptech.ebc.data.local.Cart
 import id.deeromptech.ebc.data.local.User
+import id.deeromptech.ebc.util.Constants.BEST_DEALS
 import id.deeromptech.ebc.util.Constants.CART_COLLECTION
+import id.deeromptech.ebc.util.Constants.CATEGORY
+import id.deeromptech.ebc.util.Constants.FASHION
 import id.deeromptech.ebc.util.Constants.ID
 import id.deeromptech.ebc.util.Constants.PRODUCTS_COLLECTION
 import id.deeromptech.ebc.util.Constants.QUANTITY
@@ -30,6 +33,7 @@ class FirebaseDb {
     private val userCartCollection = userUid?.let {
         Firebase.firestore.collection(USERS_COLLECTION).document(it).collection(CART_COLLECTION)
     }
+
     fun createNewUser(
         email: String, password: String
     ) = firebaseAuth.createUserWithEmailAndPassword(email, password)
@@ -152,4 +156,17 @@ class FirebaseDb {
         }
 
     fun addProductToCart(product: Cart) = userCartCollection?.document()!!.set(product)
+
+    fun getClothesProducts(pagingPage: Long) =
+        productsCollection.whereEqualTo(CATEGORY, FASHION).limit(pagingPage).get()
+
+    fun getBestDealsProducts(pagingPage: Long) =
+//        productsCollection.whereEqualTo(CATEGORY, BEST_DEALS).limit(pagingPage).get()
+        productsCollection.whereEqualTo(CATEGORY, FASHION).limit(pagingPage).get()
+
+    fun getHomeProducts(pagingPage: Long) =
+        productsCollection.limit(pagingPage).get()
+
+    fun getProductsByCategory(category: String,page:Long) =
+        productsCollection.whereEqualTo(CATEGORY,category).limit(page).get()
 }

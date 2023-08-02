@@ -17,9 +17,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProductDetailViewModel @Inject constructor(
-    private val firestore: FirebaseFirestore,
-    private val auth: FirebaseAuth,
-    private val firebaseCommon: FirebaseCommon,
     private val firebaseDatabase: FirebaseDb
 ) : ViewModel() {
 

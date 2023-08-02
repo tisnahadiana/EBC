@@ -53,14 +53,6 @@ class CartFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupCartRv()
-
-        cartAdapter.onProductClick = {
-            val b = Bundle().apply { putParcelable("product", it.product) }
-            findNavController().navigate(R.id.action_navigation_cart_to_productDetailFragment, b)
-        }
-
-
 
         binding.imageCloseCart.setOnClickListener {
             findNavController().navigateUp()
@@ -244,12 +236,13 @@ class CartFragment : Fragment() {
                             if (it.newPrice != null && it.newPrice.isNotEmpty() && it.newPrice != "0") {
                                 totalPrice += it.newPrice.toDouble() * it.quantity
                             } else
-                                totalPrice += it.product.price.toDouble() * it.quantity
+                                totalPrice += it.price.toDouble() * it.quantity
 
 
                         }
 
-                        binding.tvTotalPrice.text = "$ $totalPrice"
+                        val formattedPrice = "Rp. ${decimalFormat.format(totalPrice)}"
+                        binding.tvTotalPrice.text = formattedPrice
 
                     } else { // cart is empty
                         cartAdapter.differ.submitList(products)

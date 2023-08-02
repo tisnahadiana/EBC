@@ -8,28 +8,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import id.deeromptech.ebc.data.local.Product
 import id.deeromptech.ebc.databinding.SpecialRvItemBinding
+import id.deeromptech.ebc.util.Constants.IMAGES
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.util.*
 
 class SpecialProductsAdapter: RecyclerView.Adapter<SpecialProductsAdapter.SpecialProductsViewHolder>() {
 
-    inner class SpecialProductsViewHolder(private val binding: SpecialRvItemBinding):
-        RecyclerView.ViewHolder(binding.root) {
-
-        private val decimalFormat = DecimalFormat("#,###", DecimalFormatSymbols(Locale.getDefault()))
-
-        fun bind(product: Product){
-                binding.apply {
-                    Glide.with(itemView).load(product.images[0]).into(imgSpecialRv)
-                    tvSpecialName.text = product.name
-
-                    val formattedPrice = "Rp. ${decimalFormat.format(product.price)}"
-                    tvSpecialPrice.text = formattedPrice
-                }
-            }
-
-        }
+    inner class SpecialProductsViewHolder(val binding: SpecialRvItemBinding):
+        RecyclerView.ViewHolder(binding.root)
 
     private val diffCallback = object : DiffUtil.ItemCallback<Product>(){
         override fun areItemsTheSame(oldItem: Product, newItem: Product): Boolean {
@@ -57,12 +44,29 @@ class SpecialProductsAdapter: RecyclerView.Adapter<SpecialProductsAdapter.Specia
 
     override fun onBindViewHolder(holder: SpecialProductsViewHolder, position: Int) {
         val product = differ.currentList[position]
-        holder.bind(product)
+        val images = product.images
+        val image = (images!![IMAGES] as List<String>)[0]
+        val decimalFormat = DecimalFormat("#,###", DecimalFormatSymbols(Locale.getDefault()))
+
+        holder.binding.apply {
+            Glide.with(holder.itemView).load(image).into(imgSpecialRv)
+
+            val formattedPrice = "Rp. ${decimalFormat.format(product.price)}"
+            tvSpecialPrice.text = formattedPrice
+            tvSpecialName.text = product.title
+        }
 
         holder.itemView.setOnClickListener {
-            onClick?.invoke(product)
+            onItemClick?.invoke(product)
+        }
+
+
+        holder.binding.btnAddToCart.setOnClickListener {
+            onAddToCartClick?.invoke(product)
         }
     }
 
-    var onClick:((Product) -> Unit)? = null
+    var onItemClick: ((Product) -> Unit)? = null
+
+    var onAddToCartClick: ((Product) -> Unit)? = null
 }

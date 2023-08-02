@@ -61,8 +61,6 @@
             app:layout_constraintGuide_percent="0.96" />
 
 
-
-
         <LinearLayout
             android:id="@+id/linear_product_name"
             android:layout_width="0dp"
@@ -295,10 +293,6 @@
             android:textSize="20sp"
             android:textStyle="bold"
             android:visibility="gone"
-            app:indicatorGap="5dp"
-            app:indicatorItemCount="4"
-            app:indicatorRadius="5dp"
-            app:indicatorSelectedColor="@color/g_black"
             app:layout_constraintEnd_toEndOf="@+id/viewpager_card"
             app:layout_constraintStart_toStartOf="@id/viewpager_card"
             app:layout_constraintTop_toBottomOf="@id/viewpager_card" />
