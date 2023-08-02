@@ -11,4 +11,5 @@ object Constants {
     const val QUANTITY = "quantity"
     const val PRODUCTS_COLLECTION = "products"
     const val CART_FLAG = "from_cart_clicl"
+    const val IMAGES = "images"
 }

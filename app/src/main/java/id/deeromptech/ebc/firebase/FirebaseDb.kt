@@ -150,4 +150,6 @@ class FirebaseDb {
             }
 
         }
+
+    fun addProductToCart(product: Cart) = userCartCollection?.document()!!.set(product)
 }
