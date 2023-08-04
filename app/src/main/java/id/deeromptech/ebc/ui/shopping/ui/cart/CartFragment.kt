@@ -14,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import dagger.hilt.android.AndroidEntryPoint
 import id.deeromptech.ebc.R
 import id.deeromptech.ebc.adapter.CartProductAdapter
 import id.deeromptech.ebc.data.local.CartProductsList
@@ -27,6 +28,7 @@ import java.text.DecimalFormatSymbols
 import java.util.*
 
 private const val TAG = "CartFragment"
+@AndroidEntryPoint
 class CartFragment : Fragment() {
 
     private var _binding: FragmentCartBinding? = null

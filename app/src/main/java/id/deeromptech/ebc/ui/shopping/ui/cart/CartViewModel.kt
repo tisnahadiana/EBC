@@ -19,9 +19,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CartViewModel @Inject constructor(
-    private val firestore: FirebaseFirestore,
-    private val auth: FirebaseAuth,
-    private val firebaseCommon: FirebaseCommon
+    private val firebaseDb: FirebaseDb
 ) : ViewModel() {
 
     val cartProducts = MutableLiveData<Resource<List<Cart>>>()
@@ -30,7 +28,6 @@ class CartViewModel @Inject constructor(
     val minus = MutableLiveData<Resource<Int>>()
     val deleteProduct = MutableLiveData<Resource<Boolean>>()
     val product = MutableLiveData<Resource<Product>>()
-    var firebaseDb: FirebaseDb = FirebaseDb()
 
     init {
         getItemsInCart()

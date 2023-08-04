@@ -4,14 +4,17 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.firestore.FirebaseFirestore
+import dagger.hilt.android.lifecycle.HiltViewModel
 import id.deeromptech.ebc.data.local.Category
 import id.deeromptech.ebc.data.local.Product
 import id.deeromptech.ebc.firebase.FirebaseDb
 import id.deeromptech.ebc.util.Constants.BEAUTY_CATEGORY
 import id.deeromptech.ebc.util.Resource
+import javax.inject.Inject
 
 private const val TAG = "BeautyViewModel"
-class BeautyViewModel constructor(
+@HiltViewModel
+class BeautyViewModel @Inject constructor(
     private val firebaseDatabase: FirebaseDb
 ) : ViewModel(){
 
@@ -90,7 +93,7 @@ class BeautyViewModel constructor(
             .whereEqualTo("name", category).get().addOnSuccessListener {
                 val tempCategory = it.toObjects(Category::class.java)
                 val products = tempCategory[0].products
-                Log.d("test", " $category : prodcuts ${tempCategory[0].products}, size $listSize")
+                Log.d("test", " $category : products ${tempCategory[0].products}, size $listSize")
                 if (listSize == products)
                     onSuccess(false).also { Log.d(TAG, "$category Paging:false") }
                 else

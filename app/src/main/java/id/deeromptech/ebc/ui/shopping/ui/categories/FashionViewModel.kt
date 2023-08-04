@@ -4,14 +4,17 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.firestore.FirebaseFirestore
+import dagger.hilt.android.lifecycle.HiltViewModel
 import id.deeromptech.ebc.data.local.Category
 import id.deeromptech.ebc.data.local.Product
 import id.deeromptech.ebc.firebase.FirebaseDb
 import id.deeromptech.ebc.util.Constants
 import id.deeromptech.ebc.util.Resource
+import javax.inject.Inject
 
 private const val TAG = "FashionViewModel"
-class FashionViewModel constructor(
+@HiltViewModel
+class FashionViewModel @Inject constructor(
     private val firebaseDatabase: FirebaseDb
 ) : ViewModel() {
 

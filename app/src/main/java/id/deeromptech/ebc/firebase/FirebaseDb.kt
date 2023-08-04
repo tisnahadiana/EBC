@@ -18,6 +18,7 @@ import id.deeromptech.ebc.data.local.User
 import id.deeromptech.ebc.util.Constants.ADDRESS_COLLECTION
 import id.deeromptech.ebc.util.Constants.BEST_DEALS
 import id.deeromptech.ebc.util.Constants.CART_COLLECTION
+import id.deeromptech.ebc.util.Constants.CATEGORIES_COLLECTION
 import id.deeromptech.ebc.util.Constants.CATEGORY
 import id.deeromptech.ebc.util.Constants.FASHION
 import id.deeromptech.ebc.util.Constants.ID
@@ -35,6 +36,7 @@ class FirebaseDb {
     private val usersCollectionRef = Firebase.firestore.collection(USERS_COLLECTION)
     private val storesCollection = Firebase.firestore.collection(STORES_COLLECTION)
     private val productsCollection = Firebase.firestore.collection(PRODUCTS_COLLECTION)
+    private val categoriesCollection = Firebase.firestore.collection(CATEGORIES_COLLECTION)
 
     private val firebaseAuth = Firebase.auth
     private val firebaseStorage = Firebase.storage.reference
@@ -337,4 +339,13 @@ class FirebaseDb {
                 }
             }
     }
+
+    fun getCategories() = categoriesCollection.orderBy("rank").get()
+
+    fun searchProducts(searchQuery: String) = productsCollection
+        .orderBy("title")
+        .startAt(searchQuery)
+        .endAt("\u03A9+$searchQuery")
+        .limit(5)
+        .get()
 }
