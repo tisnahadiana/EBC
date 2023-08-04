@@ -126,6 +126,24 @@
     <string name="addresses">Addresses</string>
     <string name="place_order">Place Order</string>
     <string name="payment_explanation">EBC does not support virtual payments. You can pay when you receive your order.</string>
+    <string name="payment_methods">Payment methods</string>
+    <string name="shipping">Shipping</string>
+    <string name="total">Total:</string>
+    <string name="select_address_error">Select or add new address !</string>
+    <string name="payment_failed">Your Order is Failed !</string>
+    <string name="payment_success">Your Order is Completed</string>
+    <string name="order_error_message">Try again later, if this error keeps showing up please contact us .</string>
+    <string name="g_track_order">You can track your order by going to your profile and select all orders then select your recent order.</string>
+    <string name="order_details">Order Details</string>
+    <string name="order_success_message">We received your order and we will contact you through a phone call in the next 24H
+    \n your order number is #</string>
+    <string name="place_order_confirmation">Are you sure you want to place this order ?</string>
+    <string name="confirm">Confirm</string>
+    <string name="order">Order</string>
+
+    <string name="g_order_placed">Order Placed</string>
+    <string name="g_shipped">Shipped</string>
+    <string name="g_delivered">Delivered</string>
 
     <!-- Profile. -->
     <string name="settings">Settings</string>

@@ -97,24 +97,27 @@
         tools:layout="@layout/fragment_billing">
         <action
             android:id="@+id/action_billingFragment_to_addressFragment"
-            app:destination="@id/addressFragment" />
+            app:destination="@id/addressFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"/>
         <argument
             android:name="clickFlag"
             app:argType="string" />
         <argument
-            android:name="totalPrice"
-            app:argType="float" />
-        <argument
-            android:name="products"
-            app:argType="id.deeromptech.ebc.data.local.Cart[]" />
-        <argument
-            android:name="payment"
-            app:argType="boolean"/> 
-        <argument
             android:name="price"
             android:defaultValue="null"
             app:argType="string"
-            app:nullable="true" />
+            app:nullable="true"  />
+        <argument
+            android:name="products"
+            android:defaultValue="@null"
+            app:nullable="true"
+            app:argType="id.deeromptech.ebc.data.local.CartProductsList" />
+        <action
+            android:id="@+id/action_billingFragment_to_orderCompletionFragment"
+            app:destination="@id/orderCompletionFragment" />
 
     </fragment>
     <fragment
@@ -133,7 +136,11 @@
         tools:layout="@layout/fragment_orders">
         <action
             android:id="@+id/action_allOrdersFragment_to_orderDetailFragment"
-            app:destination="@id/orderDetailFragment" />
+            app:destination="@id/orderDetailFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"/>
     </fragment>
     <fragment
         android:id="@+id/orderDetailFragment"
@@ -154,4 +161,26 @@
         android:name="id.deeromptech.ebc.ui.shopping.ui.setting.HelpFragment"
         android:label="HelpFragment"
         tools:layout="@layout/fragment_help"/>
+    <fragment
+        android:id="@+id/orderCompletionFragment"
+        android:name="id.deeromptech.ebc.ui.shopping.ui.order.OrderCompletionFragment"
+        android:label="fragment_order_completion"
+        tools:layout="@layout/fragment_order_completion" >
+        <argument
+            android:name="order_completion_flag"
+            app:argType="string" />
+        <argument
+            android:name="orderNumber"
+            android:defaultValue="null"
+            app:argType="string"
+            app:nullable="true" />
+
+        <argument
+            android:name="order"
+            app:argType="id.deeromptech.ebc.data.local.Order"
+            app:nullable="true" />
+        <action
+            android:id="@+id/action_orderCompletionFragment_to_orderDetailFragment"
+            app:destination="@id/orderDetailFragment" />
+    </fragment>
 </navigation>

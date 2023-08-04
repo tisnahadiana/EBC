@@ -1,6 +1,5 @@
 package id.deeromptech.ebc.adapter
 
-import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
@@ -10,29 +9,19 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import id.deeromptech.ebc.R
 import id.deeromptech.ebc.data.local.Address
 import id.deeromptech.ebc.databinding.AddressRvItemBinding
+import id.deeromptech.ebc.util.Constants.SELECT_ADDRESS_FLAG
 
-class AddressAdapter : RecyclerView.Adapter<AddressAdapter.AddressViewHolder>() {
+class AddressAdapter(
+    val ADDRESS_CLICK_FLAG : String
+) :
+    RecyclerView.Adapter<AddressAdapter.AddressViewHolder>() {
 
     inner class AddressViewHolder (val binding: AddressRvItemBinding) :
-    ViewHolder(binding.root){
-        fun bind(address: Address, isSelected: Boolean){
-            binding.apply {
-                buttonAddress.text = address.addressTitle
-                if (isSelected){
-                    buttonAddress.background = ColorDrawable(itemView.context.resources.getColor(R.color.green))
-                    buttonAddress.setTextColor(itemView.context.resources.getColor(R.color.white))
-                } else {
-                    buttonAddress.background = ColorDrawable(itemView.context.resources.getColor(R.color.white))
-                    buttonAddress.setTextColor(itemView.context.resources.getColor(R.color.gray))
-                }
-            }
-        }
-
-    }
+    ViewHolder(binding.root)
 
     private val diffCallback = object : DiffUtil.ItemCallback<Address>(){
         override fun areItemsTheSame(oldItem: Address, newItem: Address): Boolean {
-            return oldItem.addressTitle == newItem.addressTitle && oldItem.kampung == newItem.kampung
+            return oldItem.addressTitle == newItem.addressTitle
         }
 
         override fun areContentsTheSame(oldItem: Address, newItem: Address): Boolean {
@@ -58,21 +47,44 @@ class AddressAdapter : RecyclerView.Adapter<AddressAdapter.AddressViewHolder>() 
 
     override fun onBindViewHolder(holder: AddressViewHolder, position: Int) {
         val address = differ.currentList[position]
-        holder.bind(address, selectedAddress == position)
-        holder.binding.buttonAddress.setOnClickListener {
-            if (selectedAddress >= 0)
+
+        if(ADDRESS_CLICK_FLAG == SELECT_ADDRESS_FLAG) {
+            if (selectedAddress == position) {
+                holder.binding.buttonAddress.apply {
+                    setBackgroundColor(resources.getColor(R.color.navi))
+                    text = address.addressTitle
+                    setTextColor(resources.getColor(R.color.white))
+                }
+            } else {
+                holder.binding.buttonAddress.apply {
+                    setBackgroundResource(R.drawable.unselected_button_background)
+                    text = address.addressTitle
+                    setTextColor(resources.getColor(R.color.black))
+                }
+            }
+
+            holder.binding.buttonAddress.setOnClickListener {
+
+                if (selectedAddress >= 0)
+                    notifyItemChanged(selectedAddress)
+                selectedAddress = holder.adapterPosition
                 notifyItemChanged(selectedAddress)
-            selectedAddress = holder.adapterPosition
-            notifyItemChanged(selectedAddress)
-            onClick?.invoke(address)
+                onBtnClick?.invoke(address)
+            }
+
+        }else {
+            holder.binding.buttonAddress.apply {
+                setBackgroundResource(R.drawable.unselected_button_background)
+                text = address.addressTitle
+                setTextColor(resources.getColor(R.color.black))
+            }
+
+            holder.binding.buttonAddress.setOnClickListener {
+                onBtnClick?.invoke(address)
+            }
         }
+
     }
 
-    init {
-        differ.addListListener { _, _ ->
-            notifyItemChanged(selectedAddress)
-        }
-    }
-
-    var onClick:((Address) -> Unit)? = null
+    var onBtnClick : ((Address)->Unit)?=null
 }

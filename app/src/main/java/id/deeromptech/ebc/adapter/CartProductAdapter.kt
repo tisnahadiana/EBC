@@ -1,6 +1,9 @@
 package id.deeromptech.ebc.adapter
 
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
@@ -18,30 +21,16 @@ class CartProductAdapter(
     private val itemFlag: String = CART_FLAG
 ): RecyclerView.Adapter<CartProductAdapter.CartProductsViewHolder>() {
 
+    var onPlusClick: ((Cart) -> Unit)? = null
+    var onMinusesClick: ((Cart) -> Unit)? = null
+    var onItemClick: ((Cart) -> Unit)? = null
+
     inner class CartProductsViewHolder( val binding: ItemCartProductBinding):
-        RecyclerView.ViewHolder(binding.root) {
-
-        private val decimalFormat = DecimalFormat("#,###", DecimalFormatSymbols(Locale.getDefault()))
-
-        fun bind(cart: Cart){
-            binding.apply {
-                Glide.with(itemView).load(cart.product.images[0]).into(imageCartProduct)
-                tvcartProductName.text = cart.product.name
-                tvQuantity.text = cart.quantity.toString()
-
-                val priceAfterPercentage = cart.product.offerPercentage.getProductPrice(cart.product.price)
-                tvcartProductPrice.text = "$ ${String.format("%.2f", priceAfterPercentage)}"
-
-                val formattedPrice = "Rp. ${decimalFormat.format(cart.product.price)}"
-                tvcartProductPrice.text = formattedPrice
-            }
-        }
-
-    }
+        RecyclerView.ViewHolder(binding.root)
 
     private val diffCallback = object : DiffUtil.ItemCallback<Cart>(){
         override fun areItemsTheSame(oldItem: Cart, newItem: Cart): Boolean {
-            return oldItem.product.id == newItem.product.id
+            return oldItem.id == newItem.id
         }
 
         override fun areContentsTheSame(oldItem: Cart, newItem: Cart): Boolean {
@@ -64,23 +53,46 @@ class CartProductAdapter(
     }
 
     override fun onBindViewHolder(holder: CartProductsViewHolder, position: Int) {
-        val cart = differ.currentList[position]
-        holder.bind(cart)
+        val decimalFormat = DecimalFormat("#,###", DecimalFormatSymbols(Locale.getDefault()))
+        val product = differ.currentList[position]
+        holder.binding.apply {
 
-        holder.itemView.setOnClickListener {
-            onProductClick?.invoke(cart)
-        }
 
-        holder.binding.btnPlus.setOnClickListener {
-            onPlusClick?.invoke(cart)
-        }
+            Glide.with(holder.itemView).load(product.image).into(imageCartProduct)
+            tvcartProductName.text = product.name
+            tvQuantity.text = product.quantity.toString()
 
-        holder.binding.btnMinus.setOnClickListener {
-            onMinusClick?.invoke(cart)
+
+            if (product.newPrice != null && product.newPrice.isNotEmpty() && product.newPrice != "0") {
+
+                val formattedNewPrice = "Rp. ${decimalFormat.format(product.newPrice)}"
+                tvcartProductPrice.text = formattedNewPrice
+            } else {
+                val formattedPrice = "Rp. ${decimalFormat.format(product.price)}"
+                tvcartProductPrice.text = formattedPrice
+            }
+
+            if (itemFlag != CART_FLAG)
+                holder.binding.apply {
+                    btnPlus.visibility = View.INVISIBLE
+                    btnMinus.visibility = View.INVISIBLE
+                    tvQuantity.text = product.quantity.toString()
+                }
+            else {
+
+                btnPlus.setOnClickListener {
+                    onPlusClick!!.invoke(product)
+                }
+
+                btnMinus.setOnClickListener {
+                    onMinusesClick!!.invoke(product)
+                }
+
+
+                holder.itemView.setOnClickListener {
+                    onItemClick!!.invoke(product)
+                }
+            }
         }
     }
-
-    var onProductClick:((Cart) -> Unit)? = null
-    var onPlusClick:((Cart) -> Unit)? = null
-    var onMinusClick:((Cart) -> Unit)? = null
 }

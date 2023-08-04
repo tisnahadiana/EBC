@@ -49,6 +49,16 @@
 
         </androidx.appcompat.widget.Toolbar>
 
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/progressbar_order"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/toolbarOrderDetails"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:indeterminate="true"
+            android:visibility="invisible"/>
+
 
         <LinearLayout
             android:id="@+id/linearStepView"
@@ -60,7 +70,7 @@
             app:layout_constraintTop_toBottomOf="@id/toolbarOrderDetails">
 
             <com.anton46.stepsview.StepsView
-                android:id="@+id/stepsView"
+                android:id="@+id/stepView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 />
@@ -129,11 +139,10 @@
                 android:textSize="13sp" />
 
             <TextView
-                android:id="@+id/tvPhoneNumber"
+                android:id="@+id/tvCity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Phone"
-                android:visibility="gone"
+                android:text="@string/city"
                 android:textSize="13sp" />
 
         </LinearLayout>
@@ -173,7 +182,7 @@
             app:layout_constraintEnd_toEndOf="@id/guideline2"
             app:layout_constraintTop_toBottomOf="@id/tvProducts"
             android:layout_marginTop="10dp"
-            tools:listitem="@layout/billing_products_rv_item"
+            tools:listitem="@layout/cart_item"
             />
 
         <androidx.constraintlayout.widget.ConstraintLayout

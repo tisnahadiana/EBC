@@ -6,26 +6,22 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.lifecycleScope
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import id.deeromptech.ebc.R
 import id.deeromptech.ebc.adapter.CartProductAdapter
-import id.deeromptech.ebc.data.local.Cart
 import id.deeromptech.ebc.data.local.CartProductsList
 import id.deeromptech.ebc.databinding.FragmentCartBinding
-import id.deeromptech.ebc.firebase.FirebaseCommon
+import id.deeromptech.ebc.ui.shopping.ui.categories.BeautyViewModel
 import id.deeromptech.ebc.util.Constants.SELECT_ADDRESS_FLAG
 import id.deeromptech.ebc.util.Resource
-import id.deeromptech.ebc.util.ToastUtils
 import id.deeromptech.ebc.util.VerticalItemDecoration
-import kotlinx.coroutines.flow.collectLatest
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.util.*
@@ -36,7 +32,7 @@ class CartFragment : Fragment() {
     private var _binding: FragmentCartBinding? = null
     private val binding get() = _binding!!
     private val cartAdapter by lazy { CartProductAdapter() }
-    private val viewModel by activityViewModels<CartViewModel>()
+    val viewModel by viewModels<CartViewModel> ()
     private val decimalFormat = DecimalFormat("#,###", DecimalFormatSymbols(Locale.getDefault()))
 
     override fun onCreateView(
@@ -168,13 +164,13 @@ class CartFragment : Fragment() {
         }
     }
     private fun onItemClick() {
-        cartAdapter.onProductClick = { cartProduct ->
+        cartAdapter.onItemClick = { cartProduct ->
             viewModel.getProductFromCartProduct(cartProduct)
         }
     }
 
     private fun onMinusClick() {
-        cartAdapter.onMinusClick = { cartProduct ->
+        cartAdapter.onMinusesClick = { cartProduct ->
             if (cartProduct.quantity > 1) {
                 viewModel.decreaseQuantity(cartProduct)
                 observeMinus()
