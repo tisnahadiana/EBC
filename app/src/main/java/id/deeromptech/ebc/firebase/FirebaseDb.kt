@@ -136,7 +136,7 @@ class FirebaseDb {
     }
 
     fun getImageUrl(
-        firstName: String,
+        name: String,
         email: String,
         phone: String,
         imageName: String,
@@ -148,13 +148,13 @@ class FirebaseDb {
                 .child(imageName).downloadUrl.addOnCompleteListener {
                     if (it.isSuccessful) {
                         val imageUrl = it.result.toString()
-                        val user = User(firstName, email, phone, imageUrl)
+                        val user = User(name, email, phone, imageUrl)
                         onResult(user, null)
                     } else
                         onResult(null, it.exception.toString())
 
                 } else {
-            val user = User(firstName, email, phone, "")
+            val user = User(name, email, phone, "")
             onResult(user, null)
         }
     }
@@ -171,6 +171,7 @@ class FirebaseDb {
             }
 
         }
+
 
     fun addProductToCart(product: Cart) = userCartCollection?.document()!!.set(product)
 
@@ -348,4 +349,5 @@ class FirebaseDb {
         .endAt("\u03A9+$searchQuery")
         .limit(5)
         .get()
+
 }

@@ -1,17 +1,16 @@
 package id.deeromptech.ebc.util
 
-import id.deeromptech.ebc.data.local.CategoryList
 
 object Constants {
-    const val USER_COLLECTION = "user"
     const val USERS_COLLECTION = "users"
     const val STORES_COLLECTION = "stores"
     const val CATEGORIES_COLLECTION = "categories"
     const val PRODUCTS_COLLECTION = "products"
+    const val CART_COLLECTION = "cart"
+    const val ADDRESS_COLLECTION = "addresses"
 
     const val UPDATE_ADDRESS_FLAG = "update"
     const val SELECT_ADDRESS_FLAG = "select"
-    const val CART_COLLECTION = "cart"
     const val ID = "id"
     const val QUANTITY = "quantity"
     const val CART_FLAG = "from_cart_click"
@@ -30,8 +29,6 @@ object Constants {
 
     const val ORDER_FAILED_FLAG = "order_failed"
     const val ORDER_SUCCESS_FLAG = "order_success"
-
-    const val ADDRESS_COLLECTION = "addresses"
 
     const val ORDER_PLACED_STATE = "Order Placed"
     const val ORDER_CONFIRM_STATE = "Confirm"

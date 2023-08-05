@@ -1,30 +1,19 @@
 package id.deeromptech.ebc.ui.shopping.ui.profile
 
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.CircleCrop
-import com.bumptech.glide.request.RequestOptions
-import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
 import id.deeromptech.ebc.BuildConfig
 import id.deeromptech.ebc.R
@@ -32,12 +21,14 @@ import id.deeromptech.ebc.data.local.User
 import id.deeromptech.ebc.databinding.FragmentProfileBinding
 import id.deeromptech.ebc.dialog.DialogResult
 import id.deeromptech.ebc.ui.auth.login.LoginActivity
-import id.deeromptech.ebc.ui.shopping.ui.profile.seller.SellerVerificationActivity
+import id.deeromptech.ebc.ui.shopping.ShoppingActivity
+import id.deeromptech.ebc.ui.shopping.ui.seller.SellerActivity
+import id.deeromptech.ebc.ui.shopping.ui.seller.SellerVerificationActivity
 import id.deeromptech.ebc.util.Constants.UPDATE_ADDRESS_FLAG
 import id.deeromptech.ebc.util.Resource
 import id.deeromptech.ebc.util.ToastUtils
 import id.deeromptech.ebc.util.showBottomNavigationView
-import kotlinx.coroutines.flow.collectLatest
+
 @AndroidEntryPoint
 class ProfileFragment : Fragment() {
 
@@ -86,6 +77,9 @@ class ProfileFragment : Fragment() {
         onHelpClick()
 
         observeProfile()
+
+        onTobeSellerClick()
+        onMyStoreClick()
     }
 
     override fun onResume() {
@@ -125,8 +119,20 @@ class ProfileFragment : Fragment() {
                 findNavController().navigate(R.id.action_navigation_profile_to_userAccountFragment,bundle)
             }
         }
+    }
 
+    private fun onTobeSellerClick(){
+        binding.linearTobeSeller.setOnClickListener {
+            val intent = Intent(requireContext(), SellerVerificationActivity::class.java)
+            startActivity(intent)
+        }
+    }
 
+    private fun onMyStoreClick(){
+        binding.linearMystore.setOnClickListener {
+            val intent = Intent(requireContext(), SellerActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     var user: User?=null
@@ -146,6 +152,13 @@ class ProfileFragment : Fragment() {
                         tvUserName.text = user?.name
                         Glide.with(requireView()).load(user?.imagePath)
                             .error(R.drawable.ic_profile_black).into(binding.imageUser)
+                        if (user?.role == "seller") {
+                            linearMystore.visibility = View.VISIBLE
+                            linearTobeSeller.visibility = View.GONE
+                        } else {
+                            linearMystore.visibility = View.GONE
+                            linearTobeSeller.visibility = View.VISIBLE
+                        }
                     }
                     return@observe
                 }

@@ -13,8 +13,6 @@ import javax.inject.Inject
 private const val TAG = "ShoppingViewModel"
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
-    private val firestore: FirebaseFirestore,
-    private val auth: FirebaseAuth,
     private val firebaseDatabase: FirebaseDb
 ) : ViewModel() {
 

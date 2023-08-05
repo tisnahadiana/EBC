@@ -164,7 +164,8 @@
 
 
     <!-- Address. -->
-    <string name="village">Village | determine the location</string>
+    <string name="determine_location">Determine the location</string>
+    <string name="village">Village</string>
     <string name="desa">Desa</string>
     <string name="subdistrict">Subdistrict</string>
     <string name="province">Province</string>
@@ -182,5 +183,8 @@
     <string name="Food">Food</string>
     <string name="Handycrafts">Handycrafts</string>
     <string name="Household">Household</string>
+    <string name="become_seller">Fill in the data below to become a seller</string>
+    <string name="hint_register_nameStore">Enter Store Name</string>
+    <string name="hint_register_rekening">Enter Rekening</string>
 
 </resources>

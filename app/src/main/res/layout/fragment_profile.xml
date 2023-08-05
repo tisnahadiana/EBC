@@ -8,8 +8,6 @@
     tools:context=".ui.shopping.ui.profile.ProfileFragment"
     android:background="#F4F4F4">
 
-
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -285,7 +283,7 @@
                     android:orientation="horizontal"
                     android:layout_margin="5dp"
                     android:layout_marginTop="10dp"
-                    android:visibility="visible">
+                    android:visibility="gone">
 
                     <ImageView
                         android:layout_width="30dp"

@@ -5,17 +5,14 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import id.deeromptech.ebc.R
 import id.deeromptech.ebc.adapter.BestDealsAdapter
@@ -27,8 +24,6 @@ import id.deeromptech.ebc.util.Constants.PRODUCT_FLAG
 import id.deeromptech.ebc.util.Resource
 import id.deeromptech.ebc.util.ToastUtils
 import id.deeromptech.ebc.util.showBottomNavigationView
-import kotlinx.coroutines.flow.collectLatest
-
 private val TAG = "MainCategory"
 @AndroidEntryPoint
 class MainCategoryFragment : Fragment(R.layout.fragment_main_category) {

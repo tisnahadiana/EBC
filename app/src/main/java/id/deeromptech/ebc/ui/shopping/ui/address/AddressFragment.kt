@@ -13,7 +13,6 @@ import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
 import id.deeromptech.ebc.data.local.Address
 import id.deeromptech.ebc.databinding.FragmentAddressBinding
-import id.deeromptech.ebc.databinding.FragmentProductDetailBinding
 import id.deeromptech.ebc.util.Resource
 import id.deeromptech.ebc.util.ToastUtils
 import kotlinx.coroutines.flow.collectLatest

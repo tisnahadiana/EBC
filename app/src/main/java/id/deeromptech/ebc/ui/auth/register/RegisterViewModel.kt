@@ -101,8 +101,9 @@ class RegisterViewModel @Inject constructor(
                 val userFirebase = FirebaseAuth.getInstance().currentUser
                 val fullNameArray = userFirebase!!.displayName?.split(" ")
                 val firstName = fullNameArray!![0]
+                val role = "user"
 
-                val user = User(firstName,  userFirebase.email.toString(), "","")
+                val user = User(firstName,  userFirebase.email.toString(), "","",role)
                 saveUserInformationGoogleSignIn(userFirebase.uid, user)
             } else
                 saveUserInformationGoogleSignIn.postValue(Resource.Error(task.exception.toString()))

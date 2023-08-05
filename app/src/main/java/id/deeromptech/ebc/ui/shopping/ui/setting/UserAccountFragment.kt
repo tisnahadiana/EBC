@@ -93,11 +93,11 @@ class UserAccountFragment : Fragment() {
             if (isPicked)
                 imageArray?.let { viewModel.uploadProfileImage(it) }
             else {
-                val firstName = binding.edNameUser.text.toString()
-                val lastName = binding.edPhone.text.toString()
+                val name = binding.edNameUser.text.toString()
                 val email = binding.edEmail.text.toString()
+                val phone = binding.edPhone.text.toString()
                 val image=""
-                viewModel.updateInformation(firstName,lastName,email,image)
+                viewModel.updateInformation(name,email,phone,image)
             }
         }
 
@@ -121,12 +121,7 @@ class UserAccountFragment : Fragment() {
     private fun compressImage(imageUri: Uri?): ByteArray {
         val imageInBitmap = MediaStore.Images.Media.getBitmap(activity?.contentResolver, imageUri)
         val imageByteArray = ByteArrayOutputStream()
-        imageInBitmap.compress(
-            Bitmap.CompressFormat.JPEG,
-            20,
-            imageByteArray
-        )
-
+        imageInBitmap.compress(Bitmap.CompressFormat.JPEG, 20, imageByteArray)
         return imageByteArray.toByteArray()
     }
 

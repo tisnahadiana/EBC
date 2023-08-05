@@ -33,8 +33,6 @@ class LoginActivity : AppCompatActivity() {
         ActivityLoginBinding.inflate(layoutInflater)
     }
     private val viewModelRegister by viewModels<RegisterViewModel>()
-    private lateinit var googleSignInClient: GoogleSignInClient
-    private lateinit var auth: FirebaseAuth
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)

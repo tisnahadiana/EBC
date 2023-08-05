@@ -137,9 +137,3 @@ class MainCategoryViewModel @Inject constructor(
         }
     }
 }
-
-internal data class PagingInfo(
-    var bestProductpage: Long = 1,
-    var oldBestProducts: List<Product> = emptyList(),
-    var isPagingEnd: Boolean = false
-)

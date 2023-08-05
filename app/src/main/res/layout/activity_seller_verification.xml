@@ -1,51 +1,189 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
-    tools:context=".ui.shopping.ui.profile.seller.SellerVerificationActivity">
+    android:fillViewport="true"
+    android:background="@color/transparent_gray"
+    tools:context=".ui.shopping.ui.seller.SellerVerificationActivity">
 
-    <EditText
-        android:id="@+id/ed_store_name"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="@string/store_name"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginBottom="16dp"/>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <EditText
-        android:id="@+id/ed_address_store"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="@string/address_store"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ed_store_name"
-        android:layout_marginBottom="16dp"/>
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="190dp"
+            android:layout_height="190dp"
+            android:contentDescription="@string/illustration_login"
+            android:src="@drawable/login_illust"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/ed_rekening_number"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:inputType="number"
-        android:hint="@string/rekening_number"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ed_address_store"
-        android:layout_marginBottom="16dp"/>
 
-    <Button
-        android:id="@+id/btn_save_seller_data"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/save_data"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ed_rekening_number"
-        android:layout_marginTop="16dp"/>
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_semibold"
+            android:text="@string/become_seller"
+            android:textSize="28sp"
+            android:gravity="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView3" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/tv_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/montserrat_semibold"
+            android:gravity="center"
+            android:text="@string/addresses"
+            android:textSize="28sp"
+            app:layout_constraintStart_toStartOf="@+id/edAddressTitle"
+            app:layout_constraintTop_toBottomOf="@+id/ed_register_rekening" />
+
+        <id.deeromptech.ebc.customview.CustomEditText
+            android:id="@+id/ed_register_nameStore"
+            style="@style/EditText"
+            android:layout_height="55dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="50dp"
+            android:gravity="center"
+            android:hint="@string/hint_register_nameStore"
+            android:inputType="text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.645"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_title" />
+
+        <id.deeromptech.ebc.customview.CustomEditText
+            android:id="@+id/ed_register_rekening"
+            style="@style/EditText"
+            android:layout_height="55dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="50dp"
+            android:gravity="center"
+            android:hint="@string/hint_register_rekening"
+            android:inputType="text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ed_register_nameStore" />
+
+
+        <id.deeromptech.ebc.customview.CustomEditText
+            android:id="@+id/edAddressTitle"
+            style="@style/EditText"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="50dp"
+            android:gravity="center"
+            android:hint="@string/address_location"
+            android:inputType="text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_address" />
+
+        <id.deeromptech.ebc.customview.CustomEditText
+            android:id="@+id/edKampung"
+            style="@style/EditText"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="50dp"
+            android:gravity="center"
+            android:hint="@string/determine_location"
+            android:inputType="text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edAddressTitle" />
+
+        <id.deeromptech.ebc.customview.CustomEditText
+            android:id="@+id/edDesa"
+            style="@style/EditText"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="50dp"
+            android:gravity="center"
+            android:hint="@string/village"
+            android:inputType="text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edKampung" />
+
+        <id.deeromptech.ebc.customview.CustomEditText
+            android:id="@+id/edSubdistrict"
+            style="@style/EditText"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="50dp"
+            android:gravity="center"
+            android:hint="@string/subdistrict"
+            android:inputType="text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edDesa" />
+
+        <id.deeromptech.ebc.customview.CustomEditText
+            android:id="@+id/edCity"
+            style="@style/EditText"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="50dp"
+            android:gravity="center"
+            android:hint="@string/city"
+            android:inputType="text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edSubdistrict" />
+
+        <id.deeromptech.ebc.customview.CustomEditText
+            android:id="@+id/edProvince"
+            style="@style/EditText"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="50dp"
+            android:gravity="center"
+            android:hint="@string/province"
+            android:inputType="text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edCity" />
+
+        <com.github.leandroborgesferreira.loadingbutton.customViews.CircularProgressButton
+            android:id="@+id/btn_save_seller_data"
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="50dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/bg_button"
+            android:fontFamily="@font/montserrat"
+            android:text="@string/save_data"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edProvince"
+            app:spinning_bar_color="@color/white" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.core.widget.NestedScrollView>

@@ -9,10 +9,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.core.widget.addTextChangedListener
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import dagger.hilt.android.AndroidEntryPoint
 import id.deeromptech.ebc.R
 import id.deeromptech.ebc.SpacingDecorator.VerticalSpacingItemDecorator
 import id.deeromptech.ebc.adapter.CategoriesRecyclerAdapter
@@ -22,14 +24,14 @@ import id.deeromptech.ebc.util.Resource
 import id.deeromptech.ebc.util.ToastUtils
 import kotlinx.coroutines.*
 
-
+@AndroidEntryPoint
 class SearchFragment : Fragment() {
     private val TAG = "SearchFragment"
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
 
     private lateinit var inputMethodManger: InputMethodManager
-    private lateinit var viewModel: SearchViewModel
+    val viewModel by viewModels<SearchViewModel> ()
     private lateinit var categoriesAdapter: CategoriesRecyclerAdapter
     private lateinit var searchAdapter: SearchRecyclerAdapter
 

@@ -13,7 +13,7 @@ data class User(
     val addressUser: Address? = null,
     val storeName: String? = null,
     val addressStore: String? = null,
-    val rekening: Int? = null
+    val rekening: String? = null
 ): Parcelable {
-    constructor(): this("","", "", "","", Address(), "","",0)
+    constructor(): this("","", "", "","", Address(), "","","")
 }
