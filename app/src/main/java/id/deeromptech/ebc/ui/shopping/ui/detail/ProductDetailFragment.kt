@@ -119,12 +119,6 @@ class ProductDetailFragment : Fragment() {
                     tvProductOfferPrice.visibility = View.VISIBLE
                 }
             }
-            product.sizeUnit?.let {
-                if (it.isNotEmpty()) {
-                    binding.tvSizeUnit.visibility = View.VISIBLE
-                    binding.tvSizeUnit.text = " ($it)"
-                }
-            }
         }
     }
 

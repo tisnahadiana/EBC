@@ -89,8 +89,8 @@ class BeautyViewModel @Inject constructor(
 
     private fun shouldPaging(category: String, listSize: Int, onSuccess: (Boolean) -> Unit) {
         FirebaseFirestore.getInstance()
-            .collection("categories")
-            .whereEqualTo("name", category).get().addOnSuccessListener {
+            .collection("Products")
+            .whereEqualTo("category", category).get().addOnSuccessListener {
                 val tempCategory = it.toObjects(Category::class.java)
                 val products = tempCategory[0].products
                 Log.d("test", " $category : products ${tempCategory[0].products}, size $listSize")

@@ -85,7 +85,7 @@ class MainCategoryViewModel @Inject constructor(
 
     private fun shouldPagingHome(listSize: Int, onSuccess: (Boolean) -> Unit) {
         FirebaseFirestore.getInstance()
-            .collection("categories").get().addOnSuccessListener {
+            .collection("products").get().addOnSuccessListener {
                 var productsCount = 0
                 it.toObjects(Category::class.java).forEach { category ->
                     productsCount += category.products!!.toInt()
