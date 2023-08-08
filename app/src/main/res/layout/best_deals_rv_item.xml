@@ -81,7 +81,7 @@
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/img_best_deal"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/tv_deal_product_name"
+            app:layout_constraintStart_toEndOf="@+id/tv_new_price"
             app:layout_constraintTop_toTopOf="@+id/img_best_deal" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

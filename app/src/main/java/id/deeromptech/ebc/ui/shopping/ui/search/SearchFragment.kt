@@ -19,6 +19,7 @@ import id.deeromptech.ebc.R
 import id.deeromptech.ebc.SpacingDecorator.VerticalSpacingItemDecorator
 import id.deeromptech.ebc.adapter.CategoriesRecyclerAdapter
 import id.deeromptech.ebc.adapter.SearchRecyclerAdapter
+import id.deeromptech.ebc.data.local.Category
 import id.deeromptech.ebc.databinding.FragmentSearchBinding
 import id.deeromptech.ebc.util.Resource
 import id.deeromptech.ebc.util.ToastUtils
@@ -66,7 +67,7 @@ class SearchFragment : Fragment() {
 
         onCancelTvClick()
 
-        onCategoryClick()
+//        onCategoryClick()
 
         binding.frameScan.setOnClickListener {
             ToastUtils.showMessage(requireContext(), getString(R.string.g_coming_soon))
@@ -226,23 +227,23 @@ class SearchFragment : Fragment() {
         }
     }
 
-    private fun onCategoryClick() {
-        categoriesAdapter.onItemClick = { category ->
-            var position = 0
-//            when (category.name) {
-//                resources.getString(R.string.Beauty) -> position = 1
-//                resources.getString(R.string.Electronics) -> position = 2
-//                resources.getString(R.string.Fashion) -> position = 3
-//                resources.getString(R.string.Food) -> position = 4
-//                resources.getString(R.string.Handycrafts) -> position = 5
-//                resources.getString(R.string.Household) -> position = 6
+//    private fun onCategoryClick() {
+//        categoriesAdapter.onItemClick = { category ->
+//            val position = when (category) {
+//                Category.Beauty -> 1
+//                Category.Electronics -> 2
+//                Category.Fashion -> 3
+//                Category.Food -> 4
+//                Category.Handycrafts -> 5
+//                Category.Household -> 6
 //            }
-
-            val bundle = Bundle()
-            bundle.putInt("position", position)
+//
+//            val bundle = Bundle().apply {
+//                putInt("position", position)
+//            }
 //            findNavController().navigate(R.id.action_searchFragment_to_homeFragment, bundle)
-        }
-    }
+//        }
+//    }
 
     override fun onDestroyView() {
         super.onDestroyView()

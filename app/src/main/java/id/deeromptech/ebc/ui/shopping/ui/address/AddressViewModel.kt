@@ -39,7 +39,7 @@ class AddressViewModel @Inject constructor(
         val index = deleteAddress.value.data?.indexOf(address)
         if (index != null && index != -1) {
             val documentId = addressDocuments[index].id
-            firestore.collection("user").document(auth.uid!!).collection("address")
+            firestore.collection("users").document(auth.uid!!).collection("address")
                 .document(documentId).delete()
         }
     }
@@ -48,7 +48,7 @@ class AddressViewModel @Inject constructor(
         val validateInputs = validateInputs(address)
         if (validateInputs){
             viewModelScope.launch { _addNewAddress.emit(Resource.Loading()) }
-            firestore.collection("user").document(auth.uid!!).collection("addressUser").document()
+            firestore.collection("users").document(auth.uid!!).collection("addressUser").document()
                 .set(address).addOnSuccessListener {
                     viewModelScope.launch { _addNewAddress.emit(Resource.Success(address)) }
                 }.addOnFailureListener {

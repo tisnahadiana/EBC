@@ -14,6 +14,7 @@ class SellerActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+        supportActionBar?.hide()
 
         binding.imageButton.setOnClickListener {
             val intent = Intent(this, InputProductActivity::class.java)

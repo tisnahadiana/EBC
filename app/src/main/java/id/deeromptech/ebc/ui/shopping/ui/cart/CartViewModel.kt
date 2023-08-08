@@ -44,7 +44,7 @@ class CartViewModel @Inject constructor(
         val index = cartProducts.value.data?.indexOf(cart)
         if (index != null && index != -1) {
             val documentId = cartProductDocuments[index].id
-            firestore.collection("user").document(auth.uid!!).collection("cart")
+            firestore.collection("users").document(auth.uid!!).collection("cart")
                 .document(documentId).delete()
         }
     }
@@ -62,7 +62,7 @@ class CartViewModel @Inject constructor(
 
     private fun getCartProducts() {
         viewModelScope.launch { _cartProducts.emit(Resource.Loading()) }
-        firestore.collection("user").document(auth.uid!!).collection("cart")
+        firestore.collection("users").document(auth.uid!!).collection("cart")
             .addSnapshotListener { value, error ->
                 if (error != null || value == null) {
                     viewModelScope.launch { _cartProducts.emit(Resource.Error(error?.message.toString())) }

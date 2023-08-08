@@ -344,7 +344,7 @@ class FirebaseDb {
     fun getCategories() = categoriesCollection.orderBy("rank").get()
 
     fun searchProducts(searchQuery: String) = productsCollection
-        .orderBy("title")
+        .orderBy("name")
         .startAt(searchQuery)
         .endAt("\u03A9+$searchQuery")
         .limit(5)

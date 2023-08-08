@@ -76,9 +76,29 @@ class CartFragment : Fragment() {
             viewModel.changeQuantity(it, FirebaseCommon.QuantityChanging.DECREASE)
         }
 
+        cartAdapter.onDeleteClick = {
+            lifecycleScope.launchWhenStarted {
+                viewModel.deleteDialog.collectLatest {
+                    val alertDialog = AlertDialog.Builder(requireContext()).apply {
+                        setTitle("Delete item from cart")
+                        setMessage("Do you want to delete this item from your cart?")
+                        setNegativeButton("Cancel") { dialog, _ ->
+                            dialog.dismiss()
+                        }
+                        setPositiveButton("Yes") { dialog, _ ->
+                            viewModel.deleteCartProduct(it)
+                            dialog.dismiss()
+                        }
+                    }
+                    alertDialog.create()
+                    alertDialog.show()
+                }
+            }
+        }
+
         binding.buttonCheckout.setOnClickListener {
             val action = CartFragmentDirections
-                .actionNavigationCartToBillingFragment(totalPrice, cartAdapter.differ.currentList.toTypedArray(), true)
+                .actionNavigationCartToBillingFragment(totalPrice, cartAdapter.differ.currentList.toTypedArray(),true)
             findNavController().navigate(action)
         }
 

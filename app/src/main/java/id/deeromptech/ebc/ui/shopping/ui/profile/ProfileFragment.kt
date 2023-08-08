@@ -21,7 +21,6 @@ import id.deeromptech.ebc.data.local.User
 import id.deeromptech.ebc.databinding.FragmentProfileBinding
 import id.deeromptech.ebc.dialog.DialogResult
 import id.deeromptech.ebc.ui.auth.login.LoginActivity
-import id.deeromptech.ebc.ui.shopping.ShoppingActivity
 import id.deeromptech.ebc.ui.shopping.ui.seller.SellerActivity
 import id.deeromptech.ebc.ui.shopping.ui.seller.SellerVerificationActivity
 import id.deeromptech.ebc.util.Constants.UPDATE_ADDRESS_FLAG
@@ -179,9 +178,8 @@ class ProfileFragment : Fragment() {
 
     private fun onBillingAndAddressesClick() {
         binding.linearBilling.setOnClickListener {
-            val bundle = Bundle()
-            bundle.putString("clickFlag", UPDATE_ADDRESS_FLAG)
-            findNavController().navigate(R.id.action_navigation_profile_to_billingFragment, bundle)
+            val action = ProfileFragmentDirections.actionNavigationProfileToBillingFragment(0f, emptyArray(), false)
+            findNavController().navigate(action)
         }
     }
 

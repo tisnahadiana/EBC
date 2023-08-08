@@ -41,20 +41,20 @@ class ShoppingActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
-//        lifecycleScope.launchWhenStarted {
-//            viewmodel.cartProducts.collectLatest {
-//                when(it) {
-//                    is Resource.Success -> {
-//                        val count = it.data?.size ?: 0
-//                        val bottomNavigation = findViewById<BottomNavigationView>(R.id.bottom_nav_view)
-//                        bottomNavigation.getOrCreateBadge(R.id.navigation_cart).apply {
-//                            number = count
-//                            backgroundColor = resources.getColor(R.color.blue)
-//                        }
-//                    }
-//                    else -> Unit
-//                }
-//            }
-//        }
+        lifecycleScope.launchWhenStarted {
+            viewmodel.cartProducts.collectLatest {
+                when(it) {
+                    is Resource.Success -> {
+                        val count = it.data?.size ?: 0
+                        val bottomNavigation = findViewById<BottomNavigationView>(R.id.bottom_nav_view)
+                        bottomNavigation.getOrCreateBadge(R.id.navigation_cart).apply {
+                            number = count
+                            backgroundColor = resources.getColor(R.color.blue)
+                        }
+                    }
+                    else -> Unit
+                }
+            }
+        }
     }
 }

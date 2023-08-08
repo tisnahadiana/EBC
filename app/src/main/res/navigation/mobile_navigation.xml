@@ -115,6 +115,11 @@
         <argument
             android:name="payment"
             app:argType="boolean" />
+        <action
+            android:id="@+id/action_billingFragment_to_orderCompletion"
+            app:destination="@id/orderCompletionFragment"
+            app:popUpTo="@id/billingFragment"
+            app:popUpToInclusive="true" />
 
     </fragment>
     <fragment
@@ -171,7 +176,6 @@
             android:defaultValue="null"
             app:argType="string"
             app:nullable="true" />
-
         <argument
             android:name="order"
             app:argType="id.deeromptech.ebc.data.local.Order"

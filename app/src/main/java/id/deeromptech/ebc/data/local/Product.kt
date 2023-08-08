@@ -2,9 +2,6 @@ package id.deeromptech.ebc.data.local
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
-import kotlinx.parcelize.RawValue
-import java.util.*
-import kotlin.collections.HashMap
 
 
 @Parcelize

@@ -30,10 +30,9 @@ class CartProductAdapter: RecyclerView.Adapter<CartProductAdapter.CartProductsVi
                 tvcartProductName.text = cart.product.name
                 tvQuantity.text = cart.quantity.toString()
 
-                val priceAfterPercentage = cart.product.offerPercentage.getProductPrice(cart.product.price)
-                tvcartProductPrice.text = "$ ${String.format("%.2f", priceAfterPercentage)}"
 
-                val formattedPrice = "Rp. ${decimalFormat.format(cart.product.price)}"
+                val discountedPrice = cart.product.price - (cart.product.price * (cart.product.offerPercentage!! / 100))
+                val formattedPrice = "Rp. ${decimalFormat.format(discountedPrice)}"
                 tvcartProductPrice.text = formattedPrice
             }
         }
@@ -79,9 +78,14 @@ class CartProductAdapter: RecyclerView.Adapter<CartProductAdapter.CartProductsVi
         holder.binding.btnMinus.setOnClickListener {
             onMinusClick?.invoke(cart)
         }
+
+        holder.binding.btnDeleteCart.setOnClickListener {
+            onDeleteClick?.invoke(cart)
+        }
     }
 
     var onProductClick:((Cart) -> Unit)? = null
     var onPlusClick:((Cart) -> Unit)? = null
     var onMinusClick:((Cart) -> Unit)? = null
+    var onDeleteClick:((Cart) -> Unit)? = null
 }
