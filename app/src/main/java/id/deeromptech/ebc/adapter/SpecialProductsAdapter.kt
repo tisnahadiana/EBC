@@ -15,8 +15,22 @@ import java.util.*
 
 class SpecialProductsAdapter: RecyclerView.Adapter<SpecialProductsAdapter.SpecialProductsViewHolder>() {
 
-    inner class SpecialProductsViewHolder(val binding: SpecialRvItemBinding):
-        RecyclerView.ViewHolder(binding.root)
+    inner class SpecialProductsViewHolder(private val binding: SpecialRvItemBinding):
+        RecyclerView.ViewHolder(binding.root) {
+
+        private val decimalFormat = DecimalFormat("#,###", DecimalFormatSymbols(Locale.getDefault()))
+
+        fun bind(product: Product){
+            binding.apply {
+                Glide.with(itemView).load(product.images[0]).into(imgSpecialRv)
+                tvSpecialName.text = product.name
+
+                val formattedPrice = "Rp. ${decimalFormat.format(product.price)}"
+                tvSpecialPrice.text = formattedPrice
+            }
+        }
+
+    }
 
     private val diffCallback = object : DiffUtil.ItemCallback<Product>(){
         override fun areItemsTheSame(oldItem: Product, newItem: Product): Boolean {
@@ -44,29 +58,12 @@ class SpecialProductsAdapter: RecyclerView.Adapter<SpecialProductsAdapter.Specia
 
     override fun onBindViewHolder(holder: SpecialProductsViewHolder, position: Int) {
         val product = differ.currentList[position]
-        val images = product.images
-        val image = (images!![IMAGES] as List<String>)[0]
-        val decimalFormat = DecimalFormat("#,###", DecimalFormatSymbols(Locale.getDefault()))
-
-        holder.binding.apply {
-            Glide.with(holder.itemView).load(image).into(imgSpecialRv)
-
-            val formattedPrice = "Rp. ${decimalFormat.format(product.price)}"
-            tvSpecialPrice.text = formattedPrice
-            tvSpecialName.text = product.title
-        }
+        holder.bind(product)
 
         holder.itemView.setOnClickListener {
-            onItemClick?.invoke(product)
-        }
-
-
-        holder.binding.btnAddToCart.setOnClickListener {
-            onAddToCartClick?.invoke(product)
+            onClick?.invoke(product)
         }
     }
 
-    var onItemClick: ((Product) -> Unit)? = null
-
-    var onAddToCartClick: ((Product) -> Unit)? = null
+    var onClick:((Product) -> Unit)? = null
 }

@@ -13,7 +13,7 @@ class CategoriesRecyclerAdapter : RecyclerView.Adapter<CategoriesRecyclerAdapter
     inner class CategoriesRecyclerAdapterViewHolder(val binding: RecyclerViewCategoryItemBinding) : RecyclerView.ViewHolder(binding.root)
     private val diffCallback = object : DiffUtil.ItemCallback<Category>(){
         override fun areItemsTheSame(oldItem: Category, newItem: Category): Boolean {
-            return oldItem.rank == newItem.rank
+            return oldItem.category == newItem.category
         }
 
         override fun areContentsTheSame(oldItem: Category, newItem: Category): Boolean {
@@ -40,14 +40,14 @@ class CategoriesRecyclerAdapter : RecyclerView.Adapter<CategoriesRecyclerAdapter
         holder: CategoriesRecyclerAdapter.CategoriesRecyclerAdapterViewHolder,
         position: Int
     ) {
-        val category = differ.currentList[position]
-        holder.binding.apply {
-            Glide.with(holder.itemView).load(category.image).into(imgCategory)
-            tvCategoryName.text = category.name
-        }
-        holder.itemView.setOnClickListener {
-            onItemClick?.invoke(category)
-        }
+//        val category = differ.currentList[position]
+//        holder.binding.apply {
+//            Glide.with(holder.itemView).load(category.image).into(imgCategory)
+//            tvCategoryName.text = category.name
+//        }
+//        holder.itemView.setOnClickListener {
+//            onItemClick?.invoke(category)
+//        }
     }
 
     override fun getItemCount(): Int {

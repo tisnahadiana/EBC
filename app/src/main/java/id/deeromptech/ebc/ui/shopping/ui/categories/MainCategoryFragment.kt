@@ -9,6 +9,7 @@ import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,6 +25,8 @@ import id.deeromptech.ebc.util.Constants.PRODUCT_FLAG
 import id.deeromptech.ebc.util.Resource
 import id.deeromptech.ebc.util.ToastUtils
 import id.deeromptech.ebc.util.showBottomNavigationView
+import kotlinx.coroutines.flow.collectLatest
+
 private val TAG = "MainCategory"
 @AndroidEntryPoint
 class MainCategoryFragment : Fragment(R.layout.fragment_main_category) {
@@ -34,14 +37,6 @@ class MainCategoryFragment : Fragment(R.layout.fragment_main_category) {
     private lateinit var bestDealsAdapter: BestDealsAdapter
     private lateinit var bestProductsAdapter: BestProductsAdapter
     private val viewModel by viewModels<MainCategoryViewModel>()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        specialProductsAdapter = SpecialProductsAdapter()
-        bestDealsAdapter = BestDealsAdapter()
-        bestProductsAdapter = BestProductsAdapter()
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -57,228 +52,97 @@ class MainCategoryFragment : Fragment(R.layout.fragment_main_category) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupHeaderRecyclerView()
-        observeHeaderProducts()
+        setupSpecialProductsRV()
+        setupBestDealsRV()
+        setupBestProductsRV()
 
-        setupBestDealsRecyclerView()
-        observeBestDeals()
-
-        setupAllProductsRecyclerView()
-        observeAllProducts()
-
-        headerPaging()
-        bestDealsPaging()
-        productsPaging()
-
-        observeEmptyHeader()
-        observeEmptyBestDeals()
-
-        onHeaderProductClick()
-        onBestDealsProductClick()
-
-        observeAddHeaderProductsToCart()
-
-
-        bestProductsAdapter.onItemClick = { product ->
-            val bundle = Bundle()
-            bundle.putParcelable("product", product)
-            bundle.putString("flag", PRODUCT_FLAG)
-            findNavController().navigate(
-                R.id.action_navigation_home_to_productDetailFragment,
-                bundle
-            )
+        specialProductsAdapter.onClick = {
+            val b = Bundle().apply { putParcelable("product",it) }
+            findNavController().navigate(R.id.action_navigation_home_to_productDetailFragment, b)
         }
 
-
-    }
-
-    private fun setupHeaderRecyclerView() {
-        binding.rvSpecialProducts.apply {
-            adapter = specialProductsAdapter
-            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        bestDealsAdapter.onClick = {
+            val b = Bundle().apply { putParcelable("product",it) }
+            findNavController().navigate(R.id.action_navigation_home_to_productDetailFragment, b)
         }
-    }
 
-    private fun observeHeaderProducts() {
-        viewModel.clothes.observe(viewLifecycleOwner) { clothesList ->
-            specialProductsAdapter.differ.submitList(clothesList.toList())
+        bestProductsAdapter.onClick = {
+            val b = Bundle().apply { putParcelable("product",it) }
+            findNavController().navigate(R.id.action_navigation_home_to_productDetailFragment, b)
         }
-    }
 
-    private fun setupBestDealsRecyclerView() {
-        binding.rvBestDealsProducts.apply {
-            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-            adapter = bestDealsAdapter
-        }
-    }
-
-    private fun observeBestDeals() {
-        viewModel.bestDeals.observe(viewLifecycleOwner) { bestDealsList ->
-            bestDealsAdapter.differ.submitList(bestDealsList.toList())
-            binding.tvBestDeals.visibility = View.VISIBLE
-        }
-    }
-
-    private fun setupAllProductsRecyclerView() {
-        binding.rvBestProducts.apply {
-            layoutManager = GridLayoutManager(context, 2, GridLayoutManager.VERTICAL, false)
-            adapter = bestProductsAdapter
-        }
-    }
-
-    private fun observeAllProducts() {
-        viewModel.home.observe(viewLifecycleOwner) { response ->
-
-            when (response) {
-                is Resource.Loading -> {
-                    showBottomLoading()
+        lifecycleScope.launchWhenStarted {
+            viewModel.specialProducts.collectLatest {
+                when (it) {
+                    is Resource.Loading -> {
+                        showLoading()
+                    }
+                    is Resource.Success -> {
+                        specialProductsAdapter.differ.submitList(it.data)
+                        hideLoading()
+//                        ToastUtils.showMessage(requireContext(), "Fetch Data Success")
+                    }
+                    is Resource.Error -> {
+                        hideLoading()
+                        Log.e(TAG, it.message.toString())
+                        ToastUtils.showMessage(requireContext(), "Fetch Data Failed : ${it.message}")
+                    }
+                    else -> Unit
                 }
 
-                is Resource.Success -> {
-                    hideBottomLoading()
-                    bestProductsAdapter.differ.submitList(response.data)
-                    Log.d("test", response.data?.size.toString())
-                }
-
-                is Resource.Error -> {
-                    hideBottomLoading()
-                    Log.e(TAG, response.message.toString())
-                } else -> Unit
             }
         }
-    }
 
-    private fun hideBottomLoading() {
-        binding.mainCategoryProgressBar.visibility = View.GONE
-        binding.bestProductProgressBar.visibility = View.GONE
-        binding.tvBestProduct.visibility = View.VISIBLE
-
-    }
-
-    private fun showBottomLoading() {
-        binding.mainCategoryProgressBar.visibility = View.VISIBLE
-        binding.bestProductProgressBar.visibility = View.GONE
-        binding.tvBestProduct.visibility = View.GONE
-    }
-
-    private fun headerPaging() {
-        binding.rvSpecialProducts.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-                if (!recyclerView.canScrollVertically(1) && dx != 0) {
-                    viewModel.getClothesProducts()
+        lifecycleScope.launchWhenStarted {
+            viewModel.bestDealsProducts.collectLatest {
+                when (it) {
+                    is Resource.Loading -> {
+                        showLoading()
+                    }
+                    is Resource.Success -> {
+                        bestDealsAdapter.differ.submitList(it.data)
+                        hideLoading()
+//                        ToastUtils.showMessage(requireContext(), "Fetch Data Success")
+                    }
+                    is Resource.Error -> {
+                        hideLoading()
+                        Log.e(TAG, it.message.toString())
+                        ToastUtils.showMessage(requireContext(), "Fetch Data Failed : ${it.message}")
+                    }
+                    else -> Unit
                 }
+
+            }
+        }
+
+        lifecycleScope.launchWhenStarted {
+            viewModel.bestProducts.collectLatest {
+                when (it) {
+                    is Resource.Loading -> {
+                        binding.bestProductProgressBar.visibility = View.VISIBLE
+                    }
+                    is Resource.Success -> {
+                        bestProductsAdapter.differ.submitList(it.data)
+                        binding.bestProductProgressBar.visibility = View.GONE
+//                        ToastUtils.showMessage(requireContext(), "Fetch Data Success")
+                    }
+                    is Resource.Error -> {
+                        hideLoading()
+                        Log.e(TAG, it.message.toString())
+                        ToastUtils.showMessage(requireContext(), "Fetch Data Failed : ${it.message}")
+                        binding.bestProductProgressBar.visibility = View.GONE
+                    }
+                    else -> Unit
+                }
+
+            }
+        }
+
+        binding.nsMainCategory.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener{ v, _,scrolly,_,_ ->
+            if (v.getChildAt(0).bottom <= v.height + scrolly){
+                viewModel.fetchBestProducts()
             }
         })
-    }
-
-    private fun bestDealsPaging() {
-        binding.rvBestDealsProducts.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-                if (!recyclerView.canScrollHorizontally(1) && dx != 0) {
-                    viewModel.getBestDealsProduct()
-                }
-            }
-        })
-    }
-
-    private fun productsPaging() {
-        binding.nsMainCategory.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
-
-            if (v!!.getChildAt(0).bottom <= (v.height + scrollY)) {
-                viewModel.getHomeProduct(bestProductsAdapter.differ.currentList.size)
-            }
-        })
-    }
-
-    private fun observeEmptyHeader() {
-        viewModel.emptyClothes.observe(viewLifecycleOwner) {
-            if (it == true) {
-                binding.apply {
-                    rvSpecialProducts.visibility = View.GONE
-                }
-            }
-        }
-    }
-
-    private fun observeEmptyBestDeals() {
-        viewModel.emptyBestDeals.observe(viewLifecycleOwner, Observer {
-            if (it == true) {
-                binding.apply {
-                    rvBestDealsProducts.visibility = View.GONE
-                    tvBestDeals.visibility = View.GONE
-                }
-            }
-        })
-    }
-
-    private fun onHeaderProductClick() {
-        specialProductsAdapter.onItemClick = { product ->
-            val bundle = Bundle()
-            bundle.putParcelable("product", product)
-            findNavController().navigate(
-                R.id.action_navigation_home_to_productDetailFragment,
-                bundle
-            )
-        }
-
-        specialProductsAdapter.onAddToCartClick = { product ->
-            val image = (product.images?.get("images") as List<String>)[0]
-            val cartProduct = Cart(
-                product.id,
-                product.title!!,
-                product.seller!!,
-                image,
-                product.price!!,
-                product.newPrice,
-                1
-            )
-            viewModel.addProductToCart(cartProduct)
-        }
-    }
-
-    private fun onBestDealsProductClick() {
-        bestDealsAdapter.onItemClick = { product ->
-            val bundle = Bundle()
-            bundle.putParcelable("product", product)
-            findNavController().navigate(
-                R.id.action_navigation_home_to_productDetailFragment,
-                bundle
-            )
-
-        }
-    }
-
-    private fun observeAddHeaderProductsToCart() {
-        viewModel.addToCart.observe(viewLifecycleOwner, Observer { response ->
-
-            when (response) {
-                is Resource.Loading -> {
-                    showTopScreenProgressbar()
-                    return@Observer
-                }
-
-                is Resource.Success -> {
-                    hideTopScreenProgressbar()
-                    ToastUtils.showMessage(requireActivity(), getString(R.string.product_added))
-                    return@Observer
-                }
-
-                is Resource.Error -> {
-                    hideTopScreenProgressbar()
-                    return@Observer
-                } else -> Unit
-            }
-        })
-    }
-
-    private fun hideTopScreenProgressbar() {
-
-    }
-
-    private fun showTopScreenProgressbar() {
-
     }
 
     private fun setupSpecialProductsRV() {

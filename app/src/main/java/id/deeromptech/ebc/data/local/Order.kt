@@ -8,10 +8,10 @@ import kotlin.random.Random.Default.nextLong
 
 @Parcelize
 data class Order(
-    val id: String,
-    val date:Date,
-    val totalPrice:String,
-    val state:String
-) :  Parcelable {
-    constructor():this("",Date(),"","")
-}
+    val orderStatus: String = "",
+    val totalPrice: Float = 0f,
+    val products: List<Cart> = emptyList(),
+    val address: Address = Address(),
+    val date: String = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).format(Date()),
+    val orderId: Long = nextLong(0,100_000_000_000) + totalPrice.toLong()
+) :  Parcelable

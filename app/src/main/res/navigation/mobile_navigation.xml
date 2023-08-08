@@ -107,21 +107,14 @@
             app:popEnterAnim="@anim/from_left"
             app:popExitAnim="@anim/to_right"/>
         <argument
-            android:name="clickFlag"
-            app:argType="string" />
-        <argument
-            android:name="price"
-            android:defaultValue="null"
-            app:argType="string"
-            app:nullable="true"  />
+            android:name="totalPrice"
+            app:argType="float" />
         <argument
             android:name="products"
-            android:defaultValue="@null"
-            app:nullable="true"
-            app:argType="id.deeromptech.ebc.data.local.CartProductsList" />
-        <action
-            android:id="@+id/action_billingFragment_to_orderCompletionFragment"
-            app:destination="@id/orderCompletionFragment" />
+            app:argType="id.deeromptech.ebc.data.local.Cart[]" />
+        <argument
+            android:name="payment"
+            app:argType="boolean" />
 
     </fragment>
     <fragment

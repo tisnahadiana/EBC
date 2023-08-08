@@ -17,9 +17,35 @@ import java.util.*
 
 class BestProductsAdapter: RecyclerView.Adapter<BestProductsAdapter.BestProductsViewHolder>() {
 
-    var onItemClick: ((Product) -> Unit)? = null
-    inner class BestProductsViewHolder(val binding: ProductRvItemBinding):
-        RecyclerView.ViewHolder(binding.root)
+    inner class BestProductsViewHolder(private val binding: ProductRvItemBinding):
+        RecyclerView.ViewHolder(binding.root) {
+
+        private val decimalFormat = DecimalFormat("#,###", DecimalFormatSymbols(Locale.getDefault()))
+
+        fun bind(product: Product){
+            binding.apply {
+                Glide.with(itemView).load(product.images[0]).into(imgProduct)
+                product.offerPercentage?.let {
+                    val remainingPrivePercentage = 1f - it
+                    val priceAfterOffer = remainingPrivePercentage * product.price
+                    val oldPrice = priceAfterOffer + 10000
+                    val formattedPriceAfterOffer = "$ ${decimalFormat.format(priceAfterOffer)}"
+                    val formattedOldPrice = "Rp. ${decimalFormat.format(oldPrice)}"
+                    tvNewPrice.text = formattedPriceAfterOffer
+                    tvPrice.text = formattedOldPrice
+                    tvPrice.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
+                }
+                if (product.offerPercentage == null)
+                    tvNewPrice.visibility = View.INVISIBLE
+                tvName.text = product.name
+
+                val formattedPrice = "Rp. ${decimalFormat.format(product.price)}"
+                tvNewPrice.text = formattedPrice
+
+            }
+        }
+
+    }
 
     private val diffCallback = object : DiffUtil.ItemCallback<Product>(){
         override fun areItemsTheSame(oldItem: Product, newItem: Product): Boolean {
@@ -47,32 +73,12 @@ class BestProductsAdapter: RecyclerView.Adapter<BestProductsAdapter.BestProducts
 
     override fun onBindViewHolder(holder: BestProductsViewHolder, position: Int) {
         val product = differ.currentList[position]
-        val image = (product.images?.get(IMAGES) as List<String>)[0]
-        val decimalFormat = DecimalFormat("#,###", DecimalFormatSymbols(Locale.getDefault()))
-        holder.binding.apply {
-            Glide.with(holder.itemView).load(image).into(imgProduct)
-            tvName.text = product.title
-
-            val formattedTvPrice = "Rp. ${decimalFormat.format(product.price)}"
-            tvPrice.text = formattedTvPrice
-
-            tvNewPrice.visibility = View.GONE
-        }
-
-        product.newPrice?.let {
-            if (product.newPrice.isNotEmpty() && product.newPrice != "0") {
-                holder.binding.apply {
-                    tvPrice.paintFlags = tvPrice.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-
-                    val formattedNewPrice = "Rp. ${decimalFormat.format(product.newPrice)}"
-                    tvNewPrice.text = formattedNewPrice
-                    tvNewPrice.visibility = View.VISIBLE
-                }
-            }
-        }
+        holder.bind(product)
 
         holder.itemView.setOnClickListener {
-            onItemClick?.invoke(differ.currentList[position])
+            onClick?.invoke(product)
         }
     }
+
+    var onClick:((Product) -> Unit)? = null
 }

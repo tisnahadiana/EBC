@@ -9,179 +9,82 @@ import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.AndroidEntryPoint
 import id.deeromptech.ebc.R
 import id.deeromptech.ebc.SpacingDecorator.HorizantalSpacingItemDecorator
 import id.deeromptech.ebc.adapter.BestProductsAdapter
+import id.deeromptech.ebc.data.local.Category
 import id.deeromptech.ebc.databinding.FragmentBeautyBinding
 import id.deeromptech.ebc.util.Constants
 import id.deeromptech.ebc.util.Resource
+import id.deeromptech.ebc.util.ToastUtils
+import kotlinx.coroutines.flow.collectLatest
+import javax.inject.Inject
 
 @AndroidEntryPoint
-class BeautyCategoryFragment : Fragment(R.layout.fragment_beauty) {
-    val TAG = "BeautyFragment"
-    private var _binding: FragmentBeautyBinding? = null
-    private val binding get() = _binding!!
-    private lateinit var headerAdapter: BestProductsAdapter
-    private lateinit var productsAdapter: BestProductsAdapter
+class BeautyCategoryFragment : BaseCategoryFragment() {
 
-    val viewModel by viewModels<BeautyViewModel> ()
+    @Inject
+    lateinit var firestore: FirebaseFirestore
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        headerAdapter = BestProductsAdapter()
-        productsAdapter = BestProductsAdapter()
-
-        viewModel.getAccessories()
-        viewModel.getMostRequestedAccessories()
-
-        Log.d("Test","accessory")
-    }
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentBeautyBinding.inflate(inflater, container, false)
-        val root: View = binding.root
-
-        return root
+    val viewModel by viewModels<CategoryViewModel> {
+        BaseCategoryFactory(firestore, Category.Beauty)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupHeaderRecyclerview()
-        observeHeader()
-
-        setupProductsRecyclerView()
-        observeProducts()
-
-        headerPaging()
-        productsPaging()
-
-        productsAdapter.onItemClick = { product ->
-            val bundle = Bundle()
-            bundle.putParcelable("product",product)
-            bundle.putString("flag", Constants.PRODUCT_FLAG)
-            Log.d("test",product.newPrice!!)
-
-            findNavController().navigate(R.id.action_navigation_home_to_productDetailFragment,bundle)
-        }
-
-        headerAdapter.onItemClick = { product ->
-            val bundle = Bundle()
-            bundle.putParcelable("product",product)
-            bundle.putString("flag", Constants.PRODUCT_FLAG)
-            findNavController().navigate(R.id.action_navigation_home_to_productDetailFragment,bundle)
-        }
-    }
-
-    private fun setupHeaderRecyclerview() {
-        binding.rvHeader.apply {
-            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-            adapter = headerAdapter
-            addItemDecoration(HorizantalSpacingItemDecorator(100))
-        }
-    }
-
-    private fun observeHeader() {
-        viewModel.mostBeautyAccessories.observe(viewLifecycleOwner, Observer { response ->
-
-            when (response) {
-                is Resource.Loading -> {
-                    showTopLoading()
-                    return@Observer
+        lifecycleScope.launchWhenStarted {
+            viewModel.offerProducts.collectLatest {
+                when (it) {
+                    is Resource.Loading -> {
+                        showOfferLoading()
+                    }
+                    is Resource.Success -> {
+                        offerAdapter.differ.submitList(it.data)
+                        hideOfferLoading()
+                    }
+                    is Resource.Error -> {
+                        ToastUtils.showMessage(requireContext(), "Fetch Data Failed : ${it.message}")
+                        hideOfferLoading()
+                    }
+                    else -> Unit
                 }
-
-                is Resource.Success -> {
-                    hideTopLoading()
-                    headerAdapter.differ.submitList(response.data)
-                    return@Observer
-                }
-
-                is Resource.Error -> {
-                    hideTopLoading()
-                    Log.e(TAG, response.message.toString())
-                    return@Observer
-                } else -> Unit
             }
-        })
-    }
+        }
 
-    private fun setupProductsRecyclerView() {
-        binding.rvProducts.apply {
-            adapter = productsAdapter
-            layoutManager = GridLayoutManager(context, 2, GridLayoutManager.VERTICAL, false)
+        lifecycleScope.launchWhenStarted {
+            viewModel.bestProducts.collectLatest {
+                when (it) {
+                    is Resource.Loading -> {
+                        showBestLoading()
+                    }
+                    is Resource.Success -> {
+                        bestProductsAdapter.differ.submitList(it.data)
+                        hideBestLoading()
+                    }
+                    is Resource.Error -> {
+                        ToastUtils.showMessage(requireContext(), "Fetch Data Failed : ${it.message}")
+                        hideBestLoading()
+                    }
+                    else -> Unit
+                }
+            }
         }
     }
 
-    private fun observeProducts() {
-        viewModel.beauty.observe(viewLifecycleOwner, Observer { response ->
+    override fun onBestProductsPagingRequest() {
 
-            when (response) {
-                is Resource.Loading -> {
-                    showBottomLoading()
-                    return@Observer
-                }
-
-                is Resource.Success -> {
-                    hideBottomLoading()
-                    productsAdapter.differ.submitList(response.data)
-                    return@Observer
-                }
-
-                is Resource.Error -> {
-                    hideBottomLoading()
-                    Log.e(TAG, response.message.toString())
-                    return@Observer
-                } else -> Unit
-            }
-        })
     }
 
-    private fun headerPaging() {
-        binding.rvHeader.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
+    override fun onOfferPagingRequest() {
 
-                if (!recyclerView.canScrollHorizontally(1) && dx != 0)
-                    viewModel.getMostRequestedAccessories(headerAdapter.differ.currentList.size)
-
-            }
-        })
-    }
-
-    private fun productsPaging() {
-        binding.scrollCupboard.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
-            if (v!!.getChildAt(0).bottom <= (v.height + scrollY)) {
-                viewModel.getAccessories(productsAdapter.differ.currentList.size)
-            }
-        })
-    }
-    private fun hideBottomLoading() {
-        binding.progressbar2.visibility = View.GONE
-    }
-
-    private fun showBottomLoading() {
-        binding.progressbar2.visibility = View.VISIBLE
-    }
-
-    private fun hideTopLoading() {
-        binding.progressbar1.visibility = View.GONE
-    }
-
-    private fun showTopLoading() {
-        binding.progressbar1.visibility = View.VISIBLE
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
 }

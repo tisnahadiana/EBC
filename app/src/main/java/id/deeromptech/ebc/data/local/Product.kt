@@ -9,30 +9,16 @@ import kotlin.collections.HashMap
 
 @Parcelize
 data class Product(
-    val id :String,
-    val title: String? = "",
-    val description: String? = "",
-    val category: String? = "",
-    val newPrice:String?="",
-    val price: String? = "",
-    val seller: String? = "",
-
-    val images:@RawValue HashMap<String, Any>?=null,
+    val id: String,
+    val name: String,
+    val category: String,
+    val price: Float,
+    val offerPercentage: Float? = null,
+    val description: String? = null,
     val stock: String,
-
-) : Parcelable
-{
-    constructor(
-        id: String? = "",
-        title: String? = "",
-        description: String? = "",
-        category: String? = "",
-        newPrice: String? = "",
-        price: String? = "",
-        seller: String? = "",
-        images: HashMap<String, Any>
-    ) : this("",title,description,category,newPrice,price,seller, images,"" )
-
-    constructor():this("","","","","",null,null,null, "")
+    val seller: String? = "",
+    val images: List<String>
+): Parcelable {
+    constructor(): this("0", "","",0f,0f,"", "","", images = emptyList())
 }
 

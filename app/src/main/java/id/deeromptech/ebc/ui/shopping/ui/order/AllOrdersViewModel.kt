@@ -16,18 +16,32 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AllOrdersViewModel @Inject constructor(
-    private val firebaseDatabase: FirebaseDb
+    private val firestore: FirebaseFirestore,
+    private val auth: FirebaseAuth
 ) : ViewModel() {
 
-    val userOrders = MutableLiveData<Resource<List<Order>>>()
+    private val _allOrders = MutableStateFlow<Resource<List<Order>>>(Resource.Unspecified())
+    val allOrders = _allOrders.asStateFlow()
 
-    fun getUserOrders() {
-        userOrders.postValue(Resource.Loading())
-        firebaseDatabase.getUserOrders().addOnCompleteListener {
-            if (it.isSuccessful)
-                userOrders.postValue(Resource.Success(it.result.toObjects(Order::class.java)))
-            else
-                userOrders.postValue(Resource.Error(it.exception.toString()))
+    init {
+        getAllOrders()
+    }
+
+    fun getAllOrders(){
+        viewModelScope.launch {
+            _allOrders.emit(Resource.Loading())
         }
+
+        firestore.collection("user").document(auth.uid!!).collection("orders").get()
+            .addOnSuccessListener {
+                val orders = it.toObjects(Order::class.java)
+                viewModelScope.launch {
+                    _allOrders.emit(Resource.Success(orders))
+                }
+            }.addOnFailureListener {
+                viewModelScope.launch {
+                    _allOrders.emit(Resource.Error(it.message.toString()))
+                }
+            }
     }
 }

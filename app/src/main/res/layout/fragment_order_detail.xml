@@ -49,16 +49,6 @@
 
         </androidx.appcompat.widget.Toolbar>
 
-        <com.google.android.material.progressindicator.LinearProgressIndicator
-            android:id="@+id/progressbar_order"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/toolbarOrderDetails"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:indeterminate="true"
-            android:visibility="invisible"/>
-
 
         <LinearLayout
             android:id="@+id/linearStepView"
@@ -70,32 +60,32 @@
             app:layout_constraintTop_toBottomOf="@id/toolbarOrderDetails">
 
             <com.anton46.stepsview.StepsView
-                android:id="@+id/stepView"
+                android:id="@+id/stepsView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 />
-<!--            <com.shuhart.stepview.StepView-->
-<!--                android:id="@+id/stepView"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:padding="16dp"-->
-<!--                app:sv_selectedCircleColor="@color/g_orange_yellow"-->
-<!--                app:sv_selectedTextColor="@color/g_gray700"-->
-<!--                app:sv_stepLineWidth="3dp"-->
-<!--                app:sv_stepPadding="4dp"-->
-<!--                app:sv_nextTextColor="@color/g_gray700"-->
-<!--                app:sv_nextStepLineColor="@color/g_gray700"-->
-<!--                app:sv_doneCircleColor="@color/g_orange_yellow"-->
-<!--                app:sv_doneStepLineColor="@color/g_orange_yellow"-->
-<!--                app:sv_doneCircleRadius="14dp"-->
-<!--                app:sv_selectedCircleRadius="14dp"-->
-<!--                app:sv_selectedStepNumberColor="@color/g_blue_gray200"-->
-<!--                app:sv_stepViewStyle="@style/StepView"-->
-<!--                app:sv_doneStepMarkColor="@color/g_blue_gray200"-->
-<!--                app:sv_stepNumberTextSize="12sp"-->
-<!--                app:sv_animationType="Line"-->
-<!--                app:sv_doneTextColor="@color/g_gray700"-->
-<!--                />-->
+            <!--            <com.shuhart.stepview.StepView-->
+            <!--                android:id="@+id/stepView"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:padding="16dp"-->
+            <!--                app:sv_selectedCircleColor="@color/g_orange_yellow"-->
+            <!--                app:sv_selectedTextColor="@color/g_gray700"-->
+            <!--                app:sv_stepLineWidth="3dp"-->
+            <!--                app:sv_stepPadding="4dp"-->
+            <!--                app:sv_nextTextColor="@color/g_gray700"-->
+            <!--                app:sv_nextStepLineColor="@color/g_gray700"-->
+            <!--                app:sv_doneCircleColor="@color/g_orange_yellow"-->
+            <!--                app:sv_doneStepLineColor="@color/g_orange_yellow"-->
+            <!--                app:sv_doneCircleRadius="14dp"-->
+            <!--                app:sv_selectedCircleRadius="14dp"-->
+            <!--                app:sv_selectedStepNumberColor="@color/g_blue_gray200"-->
+            <!--                app:sv_stepViewStyle="@style/StepView"-->
+            <!--                app:sv_doneStepMarkColor="@color/g_blue_gray200"-->
+            <!--                app:sv_stepNumberTextSize="12sp"-->
+            <!--                app:sv_animationType="Line"-->
+            <!--                app:sv_doneTextColor="@color/g_gray700"-->
+            <!--                />-->
         </LinearLayout>
 
 
@@ -139,10 +129,11 @@
                 android:textSize="13sp" />
 
             <TextView
-                android:id="@+id/tvCity"
+                android:id="@+id/tvPhoneNumber"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/city"
+                android:text="Phone"
+                android:visibility="gone"
                 android:textSize="13sp" />
 
         </LinearLayout>
@@ -182,7 +173,7 @@
             app:layout_constraintEnd_toEndOf="@id/guideline2"
             app:layout_constraintTop_toBottomOf="@id/tvProducts"
             android:layout_marginTop="10dp"
-            tools:listitem="@layout/cart_item"
+            tools:listitem="@layout/billing_products_rv_item"
             />
 
         <androidx.constraintlayout.widget.ConstraintLayout

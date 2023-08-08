@@ -2,6 +2,7 @@ package id.deeromptech.ebc.adapter
 
 import android.annotation.SuppressLint
 import android.content.res.ColorStateList
+import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -10,6 +11,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import id.deeromptech.ebc.R
 import id.deeromptech.ebc.data.local.Order
+import id.deeromptech.ebc.data.local.OrderStatus
+import id.deeromptech.ebc.data.local.getOrderStatus
 import id.deeromptech.ebc.databinding.OrderItemBinding
 import id.deeromptech.ebc.util.Constants.ORDER_CONFIRM_STATE
 import id.deeromptech.ebc.util.Constants.ORDER_Delivered_STATE
@@ -19,12 +22,45 @@ import java.text.SimpleDateFormat
 
 class AllOrdersAdapter : RecyclerView.Adapter<AllOrdersAdapter.OrdersViewHolder>() {
 
-    inner class OrdersViewHolder(val binding: OrderItemBinding):
-        RecyclerView.ViewHolder(binding.root)
+    inner class OrdersViewHolder(private val binding: OrderItemBinding):
+        RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(order: Order){
+            binding.apply {
+                tvOrderId.text = order.orderId.toString()
+                tvOrderDate.text = order.date
+                val resources = itemView.resources
+
+                val colorDrawable = when (getOrderStatus(order.orderStatus)) {
+                    is OrderStatus.Ordered -> {
+                        ColorDrawable(resources.getColor(R.color.orang_yellow))
+                    }
+                    is OrderStatus.Confirmed -> {
+                        ColorDrawable(resources.getColor(R.color.green))
+                    }
+                    is OrderStatus.Delivered -> {
+                        ColorDrawable(resources.getColor(R.color.green))
+                    }
+                    is OrderStatus.Shipped -> {
+                        ColorDrawable(resources.getColor(R.color.green))
+                    }
+                    is OrderStatus.Canceled -> {
+                        ColorDrawable(resources.getColor(R.color.red))
+                    }
+                    is OrderStatus.Returned -> {
+                        ColorDrawable(resources.getColor(R.color.red))
+                    }
+                }
+
+                imageOrderState.setImageDrawable(colorDrawable)
+            }
+        }
+
+    }
 
     private val diffCallback = object : DiffUtil.ItemCallback<Order>(){
         override fun areItemsTheSame(oldItem: Order, newItem: Order): Boolean {
-            return oldItem.id == newItem.id
+            return oldItem.products == newItem.products
         }
 
         override fun areContentsTheSame(oldItem: Order, newItem: Order): Boolean {
@@ -46,32 +82,14 @@ class AllOrdersAdapter : RecyclerView.Adapter<AllOrdersAdapter.OrdersViewHolder>
         return differ.currentList.size
     }
 
-    @SuppressLint("SimpleDateFormat")
     override fun onBindViewHolder(holder: OrdersViewHolder, position: Int) {
         val order = differ.currentList[position]
-        holder.binding.apply {
-            val date = SimpleDateFormat("yyyy-MM-dd").format(order.date)
-            tvOrderId.text = holder.itemView.context.resources.getText(R.string.order).toString()
-                .plus(" #${order.id}")
-            tvOrderDate.text = date
-
-            when(order.state){
-                ORDER_PLACED_STATE -> changeOrderStateColor(imageOrderState,imageOrderState.context.resources.getColor(R.color.orang_yellow))
-                ORDER_CONFIRM_STATE -> changeOrderStateColor(imageOrderState,imageOrderState.context.resources.getColor(R.color.green))
-                ORDER_SHIPPED_STATE -> changeOrderStateColor(imageOrderState,imageOrderState.context.resources.getColor(R.color.green))
-                ORDER_Delivered_STATE -> changeOrderStateColor(imageOrderState,imageOrderState.context.resources.getColor(R.color.blue))
-            }
-
-        }
+        holder.bind(order)
 
         holder.itemView.setOnClickListener {
-            onItemClick?.invoke(order)
+            onClick?.invoke(order)
         }
     }
 
-    private fun changeOrderStateColor(imageView: ImageView, color:Int){
-        imageView.imageTintList = ColorStateList.valueOf(color)
-    }
-
-    var onItemClick: ((Order) -> Unit)? = null
+    var onClick:((Order) -> Unit)? = null
 }

@@ -81,12 +81,21 @@
 
 
             <EditText
-                android:id="@+id/edNewPrice"
+                android:id="@+id/edPrice"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="New Price"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="5dp"
+                android:hint="@string/price"
+                android:inputType="number"/>
+
+            <EditText
+                android:id="@+id/offerPercentage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="5dp"
+                android:hint="Offer Percentage (Optional)"
                 android:inputType="number"/>
 
             <TextView
@@ -108,14 +117,6 @@
                 android:text="sellerName"
                 android:textColor="@color/black"/>
 
-            <EditText
-                android:id="@+id/edPrice"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="5dp"
-                android:hint="@string/price"
-                android:inputType="number"/>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

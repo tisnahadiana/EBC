@@ -229,14 +229,14 @@ class SearchFragment : Fragment() {
     private fun onCategoryClick() {
         categoriesAdapter.onItemClick = { category ->
             var position = 0
-            when (category.name) {
-                resources.getString(R.string.Beauty) -> position = 1
-                resources.getString(R.string.Electronics) -> position = 2
-                resources.getString(R.string.Fashion) -> position = 3
-                resources.getString(R.string.Food) -> position = 4
-                resources.getString(R.string.Handycrafts) -> position = 5
-                resources.getString(R.string.Household) -> position = 6
-            }
+//            when (category.name) {
+//                resources.getString(R.string.Beauty) -> position = 1
+//                resources.getString(R.string.Electronics) -> position = 2
+//                resources.getString(R.string.Fashion) -> position = 3
+//                resources.getString(R.string.Food) -> position = 4
+//                resources.getString(R.string.Handycrafts) -> position = 5
+//                resources.getString(R.string.Household) -> position = 6
+//            }
 
             val bundle = Bundle()
             bundle.putInt("position", position)

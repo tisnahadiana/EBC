@@ -17,50 +17,56 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProductDetailViewModel @Inject constructor(
-    private val firebaseDatabase: FirebaseDb
+    private val firestore: FirebaseFirestore,
+    private val auth: FirebaseAuth,
+    private val firebaseCommon: FirebaseCommon
 ) : ViewModel() {
 
-    val addToCart = MutableLiveData<Resource<Boolean>>()
+    private val _addToCart = MutableStateFlow<Resource<Cart>>(Resource.Unspecified())
+    val addToCart = _addToCart.asStateFlow()
 
-
-
-    fun addProductToCart(product: Cart) =
-        checkIfProductAlreadyAdded(product) { isAdded, id ->
-            if (isAdded) {
-                firebaseDatabase.increaseProductQuantity(id).addOnCompleteListener {
-                    if (it.isSuccessful)
-                        addToCart.postValue(Resource.Success(true))
-                    else
-                        addToCart.postValue(Resource.Error(it.exception!!.message!!))
-
+    fun addUpdateProductInCart(cartProduct: Cart) {
+        viewModelScope.launch { _addToCart.emit(Resource.Loading()) }
+        firestore.collection("user").document(auth.uid!!).collection("cart")
+            .whereEqualTo("product.id", cartProduct.product.id).get()
+            .addOnSuccessListener {
+                it.documents.let {
+                    if (it.isEmpty()){
+                        addNewProduct(cartProduct)
+                    }else {
+                        val product = it.first().toObject(Cart::class.java)
+                        if (product == cartProduct){
+                            val documentId = it.first().id
+                            increaseQuantity(documentId, cartProduct)
+                        } else {
+                            addNewProduct(cartProduct)
+                        }
+                    }
                 }
-            } else {
-                firebaseDatabase.addProductToCart(product).addOnCompleteListener {
-                    if (it.isSuccessful)
-                        addToCart.postValue(Resource.Success(true))
-                    else
-                        addToCart.postValue(Resource.Error(it.exception!!.message!!))
-                }
+            }.addOnFailureListener {
+                viewModelScope.launch { _addToCart.emit(Resource.Error(it.message.toString())) }
             }
-        }
+    }
 
-    private fun checkIfProductAlreadyAdded(
-        product: Cart,
-        onSuccess: (Boolean, String) -> Unit
-    ) {
-        addToCart.postValue(Resource.Loading())
-        firebaseDatabase.getProductInCart(product).addOnCompleteListener {
-            if (it.isSuccessful) {
-                val documents = it.result!!.documents
-                if (documents.isNotEmpty())
-                    onSuccess(true, documents[0].id) // true ---> product is already in cart
+    private fun addNewProduct(cartProduct: Cart) {
+        firebaseCommon.addProductToCart(cartProduct){ addedProduct, e ->
+            viewModelScope.launch {
+                if (e == null)
+                    _addToCart.emit(Resource.Success(addedProduct!!))
                 else
-                    onSuccess(false, "") // false ---> product is not in cart
-            } else
-                addToCart.postValue(Resource.Error(it.exception.toString()))
-
+                    _addToCart.emit(Resource.Error(e.message.toString()))
+            }
         }
     }
 
-
+    private fun increaseQuantity(documentId: String, cartProduct: Cart) {
+        firebaseCommon.increaseQuantity(documentId){ _, e ->
+            viewModelScope.launch {
+                if (e == null)
+                    _addToCart.emit(Resource.Success(cartProduct))
+                else
+                    _addToCart.emit(Resource.Error(e.message.toString()))
+            }
+        }
+    }
 }

@@ -145,12 +145,12 @@ class InputProductActivity : AppCompatActivity() {
     private fun saveProduct(state: (Boolean) -> Unit) {
         observeData()
         val imagesByteArrays = getImagesByteArrays()
-        val title = binding.edName.text.toString().trim()
+        val name = binding.edName.text.toString().trim()
         val images = mutableListOf<String>()
         val category = binding.spCategory.selectedItem.toString()
         val productDescription = binding.edDescription.text.toString().trim()
         val price = binding.edPrice.text.toString().trim()
-        val newPrice = binding.edNewPrice.text.toString().trim()
+        val offerPercentage = binding.offerPercentage.text.toString().trim()
         val seller = user?.storeName
 
         val radioGroup = binding.rgStockAvailability
@@ -179,14 +179,14 @@ class InputProductActivity : AppCompatActivity() {
 
                 val product = Product(
                     UUID.randomUUID().toString(),
-                    title = title,
-                    description = productDescription,
-                    category = category,
-                    newPrice = newPrice,
-                    price = price,
-                    images = images.toHashMap(),
-                    seller = seller,
-                    stock = stock
+                    name,
+                    category,
+                    price.toFloat(),
+                    if (offerPercentage.isEmpty()) null else offerPercentage.toFloat(),
+                    if (productDescription.isEmpty()) null else productDescription,
+                    stock,
+                    seller,
+                    images
                 )
 
                 firestore.collection("Products").add(product).addOnSuccessListener {

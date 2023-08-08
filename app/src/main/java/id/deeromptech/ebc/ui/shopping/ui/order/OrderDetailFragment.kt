@@ -32,23 +32,12 @@ import java.util.*
 
 class OrderDetailFragment : Fragment() {
 
-    val TAG = "OrderDetails"
-    val args by navArgs<OrderDetailFragmentArgs>()
     private var _binding: FragmentOrderDetailBinding? = null
     private val binding get() = _binding!!
-
     private val billingProductsAdapter by lazy { BillingProductsAdapter() }
-    private lateinit var productsAdapter: CartProductAdapter
-    val viewModel by viewModels<OrderDetailViewModel> ()
-
+    private val args by navArgs<OrderDetailFragmentArgs>()
     private val decimalFormat =
         DecimalFormat("#,###", DecimalFormatSymbols(Locale.getDefault()))
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        viewModel.getOrderAddressAndProducts(args.order)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -64,161 +53,56 @@ class OrderDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.tvOrderId.text = resources.getText(R.string.order)
-            .toString().plus("# ${args.order.id}")
-        setupRecyclerview()
-        observeOrderAddress()
+        val order = args.order
 
-        observeProducts()
-        onCloseImageClick()
-        setupStepView()
+        setupOrderRv()
 
+        binding.apply {
+
+            tvOrderId.text = "Order #${order.orderId}"
+
+            val stepLabels = listOf(
+                OrderStatus.Ordered.status,
+                OrderStatus.Confirmed.status,
+                OrderStatus.Shipped.status,
+                OrderStatus.Delivered.status
+            )
+
+            tvFullName.text = order.address.addressTitle
+            tvAddress.text =
+                "${order.address.kampung} ${order.address.desa} ${order.address.kecamatan} ${order.address.city} ${order.address.provinsi}"
+
+            val formattedPrice = "Rp. ${decimalFormat.format(order.totalPrice)}"
+            tvTotalPrice.text = formattedPrice
+
+            stepsView.setLabels(stepLabels.toTypedArray())
+                .setBarColorIndicator(getContext()?.getResources()!!.getColor(com.anton46.stepsview.R.color.yellow))
+                .setProgressColorIndicator(getContext()?.getResources()!!.getColor(R.color.green_variant))
+                .setLabelColorIndicator(getContext()?.getResources()!!.getColor(R.color.green))
+                .setCompletedPosition(getCurrentOrderState(order.orderStatus))
+                .drawView();
+        }
+
+        billingProductsAdapter.differ.submitList(order.products)
     }
 
-    private fun setupRecyclerview() {
-        productsAdapter = CartProductAdapter("From Order Detail")
+    private fun getCurrentOrderState(orderStatus: String): Int {
+        return when (getOrderStatus(orderStatus)) {
+            is OrderStatus.Ordered -> 0
+            is OrderStatus.Confirmed -> 1
+            is OrderStatus.Shipped -> 2
+            is OrderStatus.Delivered -> 3
+            else -> 0
+        }
+    }
+
+    private fun setupOrderRv() {
         binding.rvProducts.apply {
-            adapter = productsAdapter
-            layoutManager = LinearLayoutManager(context)
-            addItemDecoration(VerticalSpacingItemDecorator(23))
+            adapter = billingProductsAdapter
+            layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
+            addItemDecoration(VerticalItemDecoration())
         }
     }
-
-    private fun observeOrderAddress() {
-        viewModel.orderAddress.observe(viewLifecycleOwner) { response ->
-            when (response) {
-
-                is Resource.Loading -> {
-                    showAddressLoading()
-                }
-
-                is Resource.Success -> {
-                    hideAddressLoading()
-                    val address = response.data
-                    binding.apply {
-                        tvFullName.text = address?.addressTitle
-                        tvAddress.text = address?.kampung
-                            .plus(", ${address?.desa}")
-                            .plus(", ${address?.kecamatan}")
-                        tvCity.text = address?.city
-                    }
-                }
-
-                is Resource.Error -> {
-                    hideAddressLoading()
-                    Toast.makeText(
-                        activity,
-                        resources.getText(R.string.error_occurred),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    Log.e(TAG, response.message.toString())
-                } else -> Unit
-            }
-        }
-    }
-
-    private fun hideAddressLoading() {
-        binding.apply {
-            progressbarOrder.visibility = View.GONE
-            stepView.visibility = View.VISIBLE
-            tvShippingAddress.visibility = View.VISIBLE
-            linearAddress.visibility = View.VISIBLE
-        }
-    }
-
-    private fun showAddressLoading() {
-        binding.apply {
-            binding.apply {
-                progressbarOrder.visibility = View.VISIBLE
-                stepView.visibility = View.INVISIBLE
-                tvShippingAddress.visibility = View.INVISIBLE
-                linearAddress.visibility = View.INVISIBLE
-            }
-        }
-    }
-    private fun observeProducts() {
-        viewModel.orderProducts.observe(viewLifecycleOwner) { response ->
-            when (response) {
-
-                is Resource.Loading -> {
-                    showProductsLoading()
-                }
-
-                is Resource.Success -> {
-                    hideProductsLoading()
-                    productsAdapter.differ.submitList(response.data)
-                    binding.tvTotalPrice.text = args.order.totalPrice
-                }
-
-                is Resource.Error -> {
-                    hideAddressLoading()
-                    Toast.makeText(
-                        activity,
-                        resources.getText(R.string.error_occurred),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    Log.e(TAG, response.message.toString())
-                } else -> Unit
-            }
-        }
-    }
-
-    private fun hideProductsLoading() {
-        binding.apply {
-            progressbarOrder.visibility = View.GONE
-            rvProducts.visibility = View.VISIBLE
-            tvProducts.visibility = View.VISIBLE
-            linear.visibility = View.VISIBLE
-            line1.visibility = View.VISIBLE
-        }
-    }
-
-    private fun showProductsLoading() {
-        binding.apply {
-            progressbarOrder.visibility = View.VISIBLE
-            rvProducts.visibility = View.INVISIBLE
-            tvProducts.visibility = View.INVISIBLE
-            linear.visibility = View.INVISIBLE
-            line1.visibility = View.INVISIBLE
-        }
-    }
-
-    private fun onCloseImageClick() {
-        binding.imageCloseOrder.setOnClickListener {
-            findNavController().navigateUp()
-        }
-    }
-
-    private fun setupStepView() {
-        val state = when (args.order.state) {
-            ORDER_PLACED_STATE -> 1
-            ORDER_CONFIRM_STATE -> 2
-            ORDER_SHIPPED_STATE -> 3
-            ORDER_Delivered_STATE -> 4
-            else -> {
-                2
-            }
-        }
-
-        Log.d("test2", args.order.state)
-        Log.d("test2", state.toString())
-        val steps = arrayOf<String>(
-            resources.getText(R.string.g_order_placed).toString(),
-            resources.getText(R.string.confirm).toString(),
-            resources.getText(R.string.g_shipped).toString(),
-            resources.getText(R.string.g_delivered).toString()
-        )
-
-        binding.stepView.apply {
-            setLabels(steps)
-            setBarColorIndicator(getContext().getResources().getColor(R.color.blue))
-            setProgressColorIndicator(getContext().getResources().getColor(R.color.green))
-            setLabelColorIndicator(getContext().getResources().getColor(R.color.black))
-            setCompletedPosition(0)
-            drawView()
-        }
-    }
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
