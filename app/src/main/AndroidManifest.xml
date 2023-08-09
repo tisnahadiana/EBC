@@ -15,15 +15,6 @@
         android:theme="@style/Theme.EBC"
         tools:targetApi="31">
         <activity
-            android:name=".ui.shopping.ui.seller.InputProductActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.shopping.ui.seller.SellerActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.shopping.ui.seller.SellerVerificationActivity"
-            android:exported="false" />
-        <activity
             android:name=".ui.shopping.ShoppingActivity"
             android:exported="false"
             android:label="@string/title_activity_shopping" />

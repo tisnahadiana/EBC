@@ -1,4 +1,4 @@
-package id.deeromptech.ebc.ui.shopping.ui.seller
+package id.deeromptech.ebc.ui.shopping.ui.seller.input
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,7 +8,6 @@ import id.deeromptech.ebc.firebase.FirebaseDb
 import id.deeromptech.ebc.util.Resource
 import javax.inject.Inject
 
-private const val TAG = "InputProductViewModel"
 @HiltViewModel
 class InputProductViewModel @Inject constructor(
     private val firebaseDatabase: FirebaseDb

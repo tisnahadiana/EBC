@@ -21,9 +21,6 @@ import id.deeromptech.ebc.data.local.User
 import id.deeromptech.ebc.databinding.FragmentProfileBinding
 import id.deeromptech.ebc.dialog.DialogResult
 import id.deeromptech.ebc.ui.auth.login.LoginActivity
-import id.deeromptech.ebc.ui.shopping.ui.seller.SellerActivity
-import id.deeromptech.ebc.ui.shopping.ui.seller.SellerVerificationActivity
-import id.deeromptech.ebc.util.Constants.UPDATE_ADDRESS_FLAG
 import id.deeromptech.ebc.util.Resource
 import id.deeromptech.ebc.util.ToastUtils
 import id.deeromptech.ebc.util.showBottomNavigationView
@@ -122,15 +119,13 @@ class ProfileFragment : Fragment() {
 
     private fun onTobeSellerClick(){
         binding.linearTobeSeller.setOnClickListener {
-            val intent = Intent(requireContext(), SellerVerificationActivity::class.java)
-            startActivity(intent)
+            findNavController().navigate(R.id.action_navigation_profile_to_sellerVerificationFragment)
         }
     }
 
     private fun onMyStoreClick(){
         binding.linearMystore.setOnClickListener {
-            val intent = Intent(requireContext(), SellerActivity::class.java)
-            startActivity(intent)
+            findNavController().navigate(R.id.action_navigation_profile_to_sellerFragment)
         }
     }
 

@@ -53,10 +53,18 @@
         tools:layout="@layout/fragment_profile" >
         <action
             android:id="@+id/action_navigation_profile_to_addressFragment"
-            app:destination="@id/addressFragment" />
+            app:destination="@id/addressFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"/>
         <action
             android:id="@+id/action_navigation_profile_to_userAccountFragment"
-            app:destination="@id/userAccountFragment" />
+            app:destination="@id/userAccountFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"/>
         <action
             android:id="@+id/action_navigation_profile_to_billingFragment"
             app:destination="@id/billingFragment"
@@ -66,13 +74,39 @@
             app:popExitAnim="@anim/to_right"/>
         <action
             android:id="@+id/action_navigation_profile_to_allOrdersFragment"
-            app:destination="@id/allOrdersFragment" />
+            app:destination="@id/allOrdersFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"/>
         <action
             android:id="@+id/action_navigation_profile_to_languageFragment"
-            app:destination="@id/languageFragment" />
+            app:destination="@id/languageFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"/>
         <action
             android:id="@+id/action_navigation_profile_to_helpFragment"
-            app:destination="@id/helpFragment" />
+            app:destination="@id/helpFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"/>
+        <action
+            android:id="@+id/action_navigation_profile_to_sellerFragment"
+            app:destination="@id/sellerFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"/>
+        <action
+            android:id="@+id/action_navigation_profile_to_sellerVerificationFragment"
+            app:destination="@id/sellerVerificationFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"/>
     </fragment>
     <fragment
         android:id="@+id/productDetailFragment"
@@ -184,4 +218,23 @@
             android:id="@+id/action_orderCompletionFragment_to_orderDetailFragment"
             app:destination="@id/orderDetailFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/sellerFragment"
+        android:name="id.deeromptech.ebc.ui.shopping.ui.seller.SellerFragment"
+        android:label="fragment_seller"
+        tools:layout="@layout/fragment_seller" >
+        <action
+            android:id="@+id/action_sellerFragment_to_inputProductFragment"
+            app:destination="@id/inputProductFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/sellerVerificationFragment"
+        android:name="id.deeromptech.ebc.ui.shopping.ui.seller.verification.SellerVerificationFragment"
+        android:label="fragment_seller_verification"
+        tools:layout="@layout/fragment_seller_verification" />
+    <fragment
+        android:id="@+id/inputProductFragment"
+        android:name="id.deeromptech.ebc.ui.shopping.ui.seller.input.InputProductFragment"
+        android:label="fragment_input_product"
+        tools:layout="@layout/fragment_input_product" />
 </navigation>

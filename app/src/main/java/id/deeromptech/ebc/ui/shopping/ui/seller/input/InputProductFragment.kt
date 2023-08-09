@@ -1,19 +1,16 @@
-package id.deeromptech.ebc.ui.shopping.ui.seller
+package id.deeromptech.ebc.ui.shopping.ui.seller.input
 
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
-import android.widget.Toast
+import android.view.*
+import androidx.fragment.app.Fragment
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.activity.viewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -22,7 +19,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import id.deeromptech.ebc.R
 import id.deeromptech.ebc.data.local.Product
 import id.deeromptech.ebc.data.local.User
-import id.deeromptech.ebc.databinding.ActivityInputProductBinding
+import id.deeromptech.ebc.databinding.FragmentInputProductBinding
 import id.deeromptech.ebc.util.Resource
 import id.deeromptech.ebc.util.ToastUtils
 import kotlinx.coroutines.async
@@ -30,11 +27,13 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import java.io.ByteArrayOutputStream
 import java.util.*
+import kotlin.collections.HashMap
 
 @AndroidEntryPoint
-class InputProductActivity : AppCompatActivity() {
+class InputProductFragment : Fragment() {
 
-    private val binding by lazy { ActivityInputProductBinding.inflate(layoutInflater) }
+    private var _binding: FragmentInputProductBinding? = null
+    private val binding get() = _binding!!
     private val selectedImages = mutableListOf<Uri>()
     private val firestore = Firebase.firestore
     private val storage = Firebase.storage.reference
@@ -42,10 +41,17 @@ class InputProductActivity : AppCompatActivity() {
     private var selectedImagePosition = 0
     private lateinit var seller: String
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(binding.root)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        _binding = FragmentInputProductBinding.inflate(inflater, container, false)
+        val root: View = binding.root
+        return root
+    }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         viewModel.getUser()
         observeData()
 
@@ -106,23 +112,23 @@ class InputProductActivity : AppCompatActivity() {
 
                 is Resource.Error -> {
                     hideLoading()
-                    ToastUtils.showMessage(this@InputProductActivity,getString(R.string.error_occurred))
+                    ToastUtils.showMessage(requireContext(),getString(R.string.error_occurred))
                     return@observe
                 } else -> Unit
             }
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.toolbar_menu, menu)
-        return true
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.toolbar_menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.saveProduct) {
             val productValidation = validateInformation()
             if (!productValidation) {
-                Toast.makeText(this, "Check your inputs", Toast.LENGTH_SHORT).show()
+                ToastUtils.showMessage(requireContext(), "Check your inputs")
                 return false
             }
             saveProduct(){
@@ -192,19 +198,19 @@ class InputProductActivity : AppCompatActivity() {
                 firestore.collection("Products").add(product).addOnSuccessListener {
                     state(true)
                     hideLoading()
-                    ToastUtils.showMessage(this@InputProductActivity, "Adding Product Success")
+                    ToastUtils.showMessage(requireActivity(), "Adding Product Success")
                 }.addOnFailureListener {
                     Log.e("test2", it.message.toString())
                     state(false)
                     hideLoading()
-                    ToastUtils.showMessage(this@InputProductActivity, "Adding Product Failed : ${it.message}")
+                    ToastUtils.showMessage(requireActivity(), "Adding Product Failed : ${it.message}")
                 }
 
-                ToastUtils.showMessage(this@InputProductActivity, "Adding Product Success")
+                ToastUtils.showMessage(requireActivity(), "Adding Product Success")
 
             } catch (e: Exception) {
                 hideLoading()
-                ToastUtils.showMessage(this@InputProductActivity, "Adding Product Failed : ${e.message}")
+                ToastUtils.showMessage(requireActivity(), "Adding Product Failed : ${e.message}")
             }
         }
     }
@@ -219,12 +225,10 @@ class InputProductActivity : AppCompatActivity() {
 
     private fun getImagesByteArrays(): List<ByteArray> {
         val imagesByteArray = mutableListOf<ByteArray>()
-        selectedImages.forEach {
-            val stream = ByteArrayOutputStream()
-            val imageBmp = MediaStore.Images.Media.getBitmap(contentResolver, it)
-            if (imageBmp.compress(Bitmap.CompressFormat.JPEG, 85, stream)) {
-                val imageAsByteArray = stream.toByteArray()
-                imagesByteArray.add(imageAsByteArray)
+        selectedImages.forEach { imageUri ->
+            context?.contentResolver?.openInputStream(imageUri)?.use { inputStream ->
+                val byteArray = inputStream.readBytes()
+                imagesByteArray.add(byteArray)
             }
         }
         return imagesByteArray
@@ -265,4 +269,10 @@ class InputProductActivity : AppCompatActivity() {
         }
         return map
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
 }

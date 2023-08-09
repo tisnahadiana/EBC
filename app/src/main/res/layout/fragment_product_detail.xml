@@ -71,7 +71,7 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/tvProductDescription"
+            android:id="@+id/tvProductSeller"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/product_description"
@@ -100,14 +100,26 @@
             android:background="@color/gray"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvProductDescription"
+            app:layout_constraintTop_toBottomOf="@id/tvProductSeller"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
             android:layout_marginTop="10dp"/>
 
+        <View
+            android:id="@+id/line2"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:background="@color/gray"
+            app:layout_constraintBottom_toTopOf="@+id/btn_buynow"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvProductDescription" />
+
 
         <TextView
-            android:id="@+id/tvProductDetail"
+            android:id="@+id/tvProductDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
@@ -127,8 +139,8 @@
             android:layout_marginTop="44dp"
             android:background="@drawable/bg_button_detail"
             android:src="@drawable/ic_cart_green"
-            app:layout_constraintStart_toStartOf="@+id/tvProductDetail"
-            app:layout_constraintTop_toBottomOf="@+id/tvProductDetail"
+            app:layout_constraintStart_toStartOf="@+id/tvProductDescription"
+            app:layout_constraintTop_toBottomOf="@+id/tvProductDescription"
             android:contentDescription="@string/button_cart" />
 
         <com.github.leandroborgesferreira.loadingbutton.customViews.CircularProgressButton
@@ -146,7 +158,7 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/btnAddToCart"
-            app:layout_constraintTop_toBottomOf="@+id/tvProductDetail"
+            app:layout_constraintTop_toBottomOf="@+id/tvProductDescription"
             app:spinning_bar_color="@color/white" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

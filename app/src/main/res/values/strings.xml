@@ -191,6 +191,8 @@
     <string name="product_name">Product Name</string>
     <string name="product_general_information">Product general information:</string>
     <string name="select_product_images">Select Product Images</string>
+    <string name="input_product">Input Product</string>
+    <string name="see_product">See Product</string>
 
     <string-array name="product_categories">
         <item>Fashion</item>

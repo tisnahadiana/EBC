@@ -50,6 +50,7 @@ class ProductDetailFragment : Fragment() {
         return root
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -94,7 +95,8 @@ class ProductDetailFragment : Fragment() {
 
 //            tvProductPrice.text = "Rp. ${product.price}"
             tvProductDescription.text = product.description
-            tvProductStock.text = product.stock
+            tvProductSeller.text = "Store : ${product.seller}"
+            tvProductStock.text = "Stock : ${product.stock}"
         }
 
         viewPagerAdapter.differ.submitList(product.images)

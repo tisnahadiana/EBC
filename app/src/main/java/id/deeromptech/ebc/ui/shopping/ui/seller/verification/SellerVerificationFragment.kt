@@ -1,31 +1,40 @@
-package id.deeromptech.ebc.ui.shopping.ui.seller
+package id.deeromptech.ebc.ui.shopping.ui.seller.verification
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.activity.viewModels
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
 import id.deeromptech.ebc.data.local.Address
 import id.deeromptech.ebc.data.local.User
-import id.deeromptech.ebc.databinding.ActivitySellerVerificationBinding
-import id.deeromptech.ebc.firebase.FirebaseDb
+import id.deeromptech.ebc.databinding.FragmentSellerVerificationBinding
 import id.deeromptech.ebc.util.Resource
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import java.util.*
-@AndroidEntryPoint
-class SellerVerificationActivity : AppCompatActivity() {
 
-    private val binding: ActivitySellerVerificationBinding by lazy {
-        ActivitySellerVerificationBinding.inflate(layoutInflater)
+@AndroidEntryPoint
+class SellerVerificationFragment : Fragment() {
+
+    private var _binding: FragmentSellerVerificationBinding? = null
+    private val binding get() = _binding!!
+    val viewModel by viewModels<SellerVerificationViewModel>()
+
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        _binding = FragmentSellerVerificationBinding.inflate(inflater, container, false)
+        val root: View = binding.root
+        return root
     }
 
-    val viewModel by viewModels<SellerVerificationViewModel>()
-    val db = FirebaseDb()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(binding.root)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         viewModel.updateUserStoreDataResult
             .onEach { resource ->
@@ -52,7 +61,7 @@ class SellerVerificationActivity : AppCompatActivity() {
         val rekening = binding.edRegisterRekening.text.toString()
 
         val user = User(
-            "","","","","seller",Address(),
+            "","","","","seller", Address(),
             storeName = nameStore,
             rekening = rekening,
         )
@@ -83,6 +92,11 @@ class SellerVerificationActivity : AppCompatActivity() {
             viewModel.addNewAddress(newAddress)
         }
 
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
 }

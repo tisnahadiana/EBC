@@ -1,4 +1,4 @@
-package id.deeromptech.ebc.ui.shopping.ui.seller
+package id.deeromptech.ebc.ui.shopping.ui.seller.verification
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
