@@ -2,7 +2,9 @@ package id.deeromptech.ebc.adapter
 
 import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -12,6 +14,7 @@ import id.deeromptech.ebc.data.local.Address
 import id.deeromptech.ebc.data.local.Cart
 import id.deeromptech.ebc.databinding.AddressRvItemBinding
 import id.deeromptech.ebc.databinding.BillingProductsRvItemBinding
+import id.deeromptech.ebc.databinding.ItemCartProductBinding
 import id.deeromptech.ebc.helper.getProductPrice
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols

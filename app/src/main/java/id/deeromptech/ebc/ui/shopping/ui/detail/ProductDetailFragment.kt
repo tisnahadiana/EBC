@@ -1,18 +1,26 @@
 package id.deeromptech.ebc.ui.shopping.ui.detail
 
+import android.annotation.SuppressLint
+import android.graphics.Paint
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
+import id.deeromptech.ebc.R
 import id.deeromptech.ebc.adapter.ViewPager2Images
 import id.deeromptech.ebc.data.local.Cart
+import id.deeromptech.ebc.data.local.Product
 import id.deeromptech.ebc.databinding.FragmentProductDetailBinding
+import id.deeromptech.ebc.util.Constants.IMAGES
 import id.deeromptech.ebc.util.Resource
 import id.deeromptech.ebc.util.ToastUtils
 import id.deeromptech.ebc.util.hideBottomNavigationView
@@ -42,6 +50,7 @@ class ProductDetailFragment : Fragment() {
         return root
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -86,8 +95,8 @@ class ProductDetailFragment : Fragment() {
 
 //            tvProductPrice.text = "Rp. ${product.price}"
             tvProductDescription.text = product.description
-            tvProductDetail.text = product.detail
-            tvProductStock.text = product.stock
+            tvProductSeller.text = "Store : ${product.seller}"
+            tvProductStock.text = "Stock : ${product.stock}"
         }
 
         viewPagerAdapter.differ.submitList(product.images)

@@ -1,48 +1,33 @@
 package id.deeromptech.ebc.ui.shopping.ui.profile
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.lifecycle.HiltViewModel
 import id.deeromptech.ebc.data.local.User
+import id.deeromptech.ebc.firebase.FirebaseDb
 import id.deeromptech.ebc.util.Resource
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+private const val TAG = "ShoppingViewModel"
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
-    private val firestore: FirebaseFirestore,
-    private val auth: FirebaseAuth
+    private val firebaseDatabase: FirebaseDb
 ) : ViewModel() {
 
-    private val _user = MutableStateFlow<Resource<User>>(Resource.Unspecified())
-    val user = _user.asStateFlow()
-
-    init {
-        getUser()
-    }
+    val profile = MutableLiveData<Resource<User>>()
 
     fun getUser() {
-        viewModelScope.launch {
-            _user.emit(Resource.Loading())
-        }
-        firestore.collection("user").document(auth.uid!!)
-            .addSnapshotListener{ value, error ->
-                if (error != null) {
-                    viewModelScope.launch {
-                        _user.emit(Resource.Error(error.message.toString()))
-                    }
-                } else {
-                    val user = value?.toObject(User::class.java)
-                    user?.let {
-                        viewModelScope.launch {
-                            _user.emit(Resource.Success(user))
-                        }
-                    }
-                }
+        profile.postValue(Resource.Loading())
+        firebaseDatabase.getUser().addSnapshotListener { value, error ->
+            if (error != null) {
+                profile.postValue(Resource.Error(error.message ?: "Unknown error occurred"))
+            } else {
+                val user = value?.toObject(User::class.java) ?: User()
+                profile.postValue(Resource.Success(user))
             }
+        }
     }
+
 }

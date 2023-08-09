@@ -4,7 +4,9 @@ import android.app.Application
 import android.graphics.Bitmap
 import android.net.Uri
 import android.provider.MediaStore
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -12,6 +14,7 @@ import com.google.firebase.storage.StorageReference
 import dagger.hilt.android.lifecycle.HiltViewModel
 import id.deeromptech.ebc.EbcApplication
 import id.deeromptech.ebc.data.local.User
+import id.deeromptech.ebc.firebase.FirebaseDb
 import id.deeromptech.ebc.util.RegisterValidation
 import id.deeromptech.ebc.util.Resource
 import id.deeromptech.ebc.util.validateEmail
@@ -25,105 +28,57 @@ import javax.inject.Inject
 
 @HiltViewModel
 class UserAccountViewModel @Inject constructor(
-    private val firestore: FirebaseFirestore,
-    private val auth: FirebaseAuth,
-    private val storage: StorageReference,
+    private val firebaseDatabase: FirebaseDb,
     app: Application
 ) : AndroidViewModel(app) {
 
-    private val _user = MutableStateFlow<Resource<User>>(Resource.Unspecified())
-    val user = _user.asStateFlow()
+    val uploadProfileImage = MutableLiveData<Resource<String>>()
+    val updateUserInformation = MutableLiveData<Resource<User>>()
+    val passwordReset = MutableLiveData<Resource<String>>()
 
-    private val _updateInfo = MutableStateFlow<Resource<User>>(Resource.Unspecified())
-    val updateInfo = _updateInfo.asStateFlow()
-
-    init {
-        getUser()
+    fun uploadProfileImage(image: ByteArray) {
+        uploadProfileImage.postValue(Resource.Loading())
+        val name = UUID.nameUUIDFromBytes(image).toString()
+        firebaseDatabase.uploadUserProfileImage(image, name).addOnCompleteListener {
+            if (it.isSuccessful)
+                uploadProfileImage.postValue(Resource.Success(name))
+            else
+                uploadProfileImage.postValue(Resource.Error(it.exception.toString()))
+        }
     }
 
-    fun getUser() {
-        viewModelScope.launch {
-            _user.emit(Resource.Loading())
-        }
+    fun updateInformation(name: String, email: String, phone: String, imageName: String) {
+        updateUserInformation.postValue(Resource.Loading())
 
-        firestore.collection("user").document(auth.uid!!).get()
-            .addOnSuccessListener {
-                val user = it.toObject(User::class.java)
+        firebaseDatabase.getImageUrl(name, email, phone, imageName) { user, exception ->
+
+            if (exception != null)
+                updateUserInformation.postValue(Resource.Error(exception))
+                    .also { Log.d("test1", "up") }
+            else
                 user?.let {
-                    viewModelScope.launch {
-                        _user.emit(Resource.Success(it))
-                    }
+                    onUpdateInformation(user).also { Log.d("test1", "down") }
                 }
-            }.addOnFailureListener {
-                viewModelScope.launch {
-                    _user.emit(Resource.Error(it.message.toString()))
-                }
-            }
-    }
-
-    fun updateUser(user: User, imageUri: Uri?) {
-        val areInputValid = user.email.trim().isNotEmpty()  && user.name.trim().isNotEmpty()
-
-        if (!areInputValid) {
-            viewModelScope.launch {
-                _user.emit(Resource.Error("Check your inputs"))
-            }
-            return
-        }
-
-        viewModelScope.launch {
-            _updateInfo.emit(Resource.Loading())
-        }
-
-        if (imageUri == null) {
-            saveUserInformation(user, true)
-        } else {
-            saveUserInformationWithNewImage(user, imageUri)
-        }
-
-    }
-
-    private fun saveUserInformationWithNewImage(user: User, imageUri: Uri) {
-        viewModelScope.launch {
-            try {
-                val imageBitmap = MediaStore.Images.Media.getBitmap(
-                    getApplication<EbcApplication>().contentResolver,
-                    imageUri
-                )
-                val byteArrayOutputStream = ByteArrayOutputStream()
-                imageBitmap.compress(Bitmap.CompressFormat.JPEG, 96, byteArrayOutputStream)
-                val imageByteArray = byteArrayOutputStream.toByteArray()
-                val imageDirectory =
-                    storage.child("profileImages/${auth.uid}/${UUID.randomUUID()}")
-                val result = imageDirectory.putBytes(imageByteArray).await()
-                val imageUrl = result.storage.downloadUrl.await().toString()
-                saveUserInformation(user.copy(imagePath = imageUrl), false)
-            } catch (e: Exception) {
-                viewModelScope.launch {
-                    _user.emit(Resource.Error(e.message.toString()))
-                }
-            }
         }
     }
 
-    private fun saveUserInformation(user: User, shouldRetrievedOldImage: Boolean) {
-        firestore.runTransaction { transaction ->
-            val documentRef = firestore.collection("user").document(auth.uid!!)
-            if (shouldRetrievedOldImage) {
-                val currentUser = transaction.get(documentRef).toObject(User::class.java)
-                val newUser = user.copy(imagePath = currentUser?.imagePath ?: "")
-                transaction.set(documentRef, newUser)
-            } else {
-                transaction.set(documentRef, user)
-            }
-        }.addOnSuccessListener {
-            viewModelScope.launch {
-                _updateInfo.emit(Resource.Success(user))
-            }
-        }.addOnFailureListener {
-            viewModelScope.launch {
-                _updateInfo.emit(Resource.Error(it.message.toString()))
-            }
+    private fun onUpdateInformation(user: User) {
+        firebaseDatabase.updateUserInformation(user).addOnCompleteListener {
+            if (it.isSuccessful)
+                updateUserInformation.postValue(Resource.Success(user))
+            else
+                updateUserInformation.postValue(Resource.Error(it.exception.toString()))
+
+        }
+    }
+
+    fun resetPassword(email: String) {
+        passwordReset.postValue(Resource.Loading())
+        firebaseDatabase.resetPassword(email).addOnCompleteListener {
+            if (it.isSuccessful)
+                passwordReset.postValue(Resource.Success(email))
+            else
+                passwordReset.postValue(Resource.Error(it.exception.toString()))
         }
     }
 

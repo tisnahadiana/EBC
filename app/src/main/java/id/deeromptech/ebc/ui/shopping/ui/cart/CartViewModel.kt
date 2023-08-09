@@ -1,5 +1,6 @@
 package id.deeromptech.ebc.ui.shopping.ui.cart
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
@@ -7,7 +8,9 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.lifecycle.HiltViewModel
 import id.deeromptech.ebc.data.local.Cart
+import id.deeromptech.ebc.data.local.Product
 import id.deeromptech.ebc.firebase.FirebaseCommon
+import id.deeromptech.ebc.firebase.FirebaseDb
 import id.deeromptech.ebc.helper.getProductPrice
 import id.deeromptech.ebc.util.Resource
 import kotlinx.coroutines.flow.*
@@ -41,7 +44,7 @@ class CartViewModel @Inject constructor(
         val index = cartProducts.value.data?.indexOf(cart)
         if (index != null && index != -1) {
             val documentId = cartProductDocuments[index].id
-            firestore.collection("user").document(auth.uid!!).collection("cart")
+            firestore.collection("users").document(auth.uid!!).collection("cart")
                 .document(documentId).delete()
         }
     }
@@ -59,7 +62,7 @@ class CartViewModel @Inject constructor(
 
     private fun getCartProducts() {
         viewModelScope.launch { _cartProducts.emit(Resource.Loading()) }
-        firestore.collection("user").document(auth.uid!!).collection("cart")
+        firestore.collection("users").document(auth.uid!!).collection("cart")
             .addSnapshotListener { value, error ->
                 if (error != null || value == null) {
                     viewModelScope.launch { _cartProducts.emit(Resource.Error(error?.message.toString())) }

@@ -1,8 +1,11 @@
 package id.deeromptech.ebc.adapter
 
+import android.annotation.SuppressLint
+import android.content.res.ColorStateList
 import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -11,6 +14,11 @@ import id.deeromptech.ebc.data.local.Order
 import id.deeromptech.ebc.data.local.OrderStatus
 import id.deeromptech.ebc.data.local.getOrderStatus
 import id.deeromptech.ebc.databinding.OrderItemBinding
+import id.deeromptech.ebc.util.Constants.ORDER_CONFIRM_STATE
+import id.deeromptech.ebc.util.Constants.ORDER_Delivered_STATE
+import id.deeromptech.ebc.util.Constants.ORDER_PLACED_STATE
+import id.deeromptech.ebc.util.Constants.ORDER_SHIPPED_STATE
+import java.text.SimpleDateFormat
 
 class AllOrdersAdapter : RecyclerView.Adapter<AllOrdersAdapter.OrdersViewHolder>() {
 

@@ -10,6 +10,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import id.deeromptech.ebc.firebase.FirebaseCommon
+import id.deeromptech.ebc.firebase.FirebaseDb
 import javax.inject.Singleton
 
 @Module
@@ -34,4 +35,8 @@ object AppModule {
     @Provides
     @Singleton
     fun provideStorage() = FirebaseStorage.getInstance().reference
+
+    @Provides
+    @Singleton
+    fun provideFirebaseDb() = FirebaseDb()
 }

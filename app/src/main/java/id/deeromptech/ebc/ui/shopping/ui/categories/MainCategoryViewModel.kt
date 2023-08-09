@@ -1,16 +1,23 @@
 package id.deeromptech.ebc.ui.shopping.ui.categories
 
+import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.lifecycle.HiltViewModel
+import id.deeromptech.ebc.data.local.Cart
+import id.deeromptech.ebc.data.local.Category
 import id.deeromptech.ebc.data.local.Product
+import id.deeromptech.ebc.firebase.FirebaseDb
+import id.deeromptech.ebc.util.Constants.FASHION_CATEGORY
 import id.deeromptech.ebc.util.Resource
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+private const val TAG = "ShoppingViewModel"
 @HiltViewModel
 class MainCategoryViewModel @Inject constructor(
     private val firestore: FirebaseFirestore
@@ -37,7 +44,7 @@ class MainCategoryViewModel @Inject constructor(
             _specialProducts.emit(Resource.Loading())
         }
         firestore.collection("Products")
-            .whereEqualTo("category", "Household").get().addOnSuccessListener { result ->
+            .whereEqualTo("category", FASHION_CATEGORY).get().addOnSuccessListener { result ->
                 val specialProductsList = result.toObjects(Product::class.java)
                 viewModelScope.launch {
                     _specialProducts.emit(Resource.Success(specialProductsList))
@@ -54,7 +61,7 @@ class MainCategoryViewModel @Inject constructor(
             _bestDealsProducts.emit(Resource.Loading())
         }
         firestore.collection("Products")
-            .whereEqualTo("category", "Household").get().addOnSuccessListener { result ->
+            .whereEqualTo("category", FASHION_CATEGORY).get().addOnSuccessListener { result ->
                 val bestDealsProducts = result.toObjects(Product::class.java)
                 viewModelScope.launch {
                     _bestDealsProducts.emit(Resource.Success(bestDealsProducts))
@@ -72,7 +79,7 @@ class MainCategoryViewModel @Inject constructor(
                 _bestProducts.emit(Resource.Loading())
             }
             firestore.collection("Products")
-                .whereEqualTo("category", "Household").limit(pagingInfo.bestProductpage * 10).get().addOnSuccessListener { result ->
+                .whereEqualTo("category", FASHION_CATEGORY).limit(pagingInfo.bestProductpage * 10).get().addOnSuccessListener { result ->
                     val bestProducts = result.toObjects(Product::class.java)
                     pagingInfo.isPagingEnd = bestProducts == pagingInfo.oldBestProducts
                     pagingInfo.oldBestProducts = bestProducts

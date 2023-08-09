@@ -9,3 +9,4 @@ sealed class Category(val  category: String){
     object Handycrafts: Category("Handycrafts")
     object Household: Category("Household")
 }
+

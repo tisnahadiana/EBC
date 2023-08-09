@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import id.deeromptech.ebc.data.local.Product
 import id.deeromptech.ebc.databinding.ProductRvItemBinding
+import id.deeromptech.ebc.util.Constants.IMAGES
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.util.*
@@ -24,21 +25,17 @@ class BestProductsAdapter: RecyclerView.Adapter<BestProductsAdapter.BestProducts
         fun bind(product: Product){
             binding.apply {
                 Glide.with(itemView).load(product.images[0]).into(imgProduct)
-                product.offerPercentage?.let {
-                    val remainingPrivePercentage = 1f - it
-                    val priceAfterOffer = remainingPrivePercentage * product.price
-                    val oldPrice = priceAfterOffer + 10000
-                    val formattedPriceAfterOffer = "$ ${decimalFormat.format(priceAfterOffer)}"
-                    val formattedOldPrice = "Rp. ${decimalFormat.format(oldPrice)}"
-                    tvNewPrice.text = formattedPriceAfterOffer
-                    tvPrice.text = formattedOldPrice
-                    tvPrice.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
-                }
+
+                tvPrice.paintFlags= Paint.STRIKE_THRU_TEXT_FLAG
                 if (product.offerPercentage == null)
                     tvNewPrice.visibility = View.INVISIBLE
                 tvName.text = product.name
 
-                val formattedPrice = "Rp. ${decimalFormat.format(product.price)}"
+                val formattedOldPrice = "Rp. ${decimalFormat.format(product.price)}"
+                tvPrice.text = formattedOldPrice
+
+                val discountedPrice = product.price - (product.price * (product.offerPercentage!! / 100))
+                val formattedPrice = "Rp. ${decimalFormat.format(discountedPrice)}"
                 tvNewPrice.text = formattedPrice
 
             }

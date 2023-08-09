@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.firestore.FirebaseFirestore
 import id.deeromptech.ebc.data.local.Category
 
-class BaseCategoryFactory(
+class BaseCategoryFactory (
     private val firestore: FirebaseFirestore,
     private val category: Category
 ) : ViewModelProvider.Factory {

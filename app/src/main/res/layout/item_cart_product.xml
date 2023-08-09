@@ -25,8 +25,8 @@
 
         <ImageView
             android:id="@+id/imageCartProduct"
-            android:layout_width="80dp"
-            android:layout_height="75dp"
+            android:layout_width="100dp"
+            android:layout_height="95dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"

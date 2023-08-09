@@ -1,15 +1,11 @@
 package id.deeromptech.ebc.ui.shopping.ui.categories
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.AndroidEntryPoint
-import id.deeromptech.ebc.R
 import id.deeromptech.ebc.data.local.Category
 import id.deeromptech.ebc.util.Resource
 import id.deeromptech.ebc.util.ToastUtils

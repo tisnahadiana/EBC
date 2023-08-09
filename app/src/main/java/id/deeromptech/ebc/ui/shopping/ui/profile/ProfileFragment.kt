@@ -1,37 +1,30 @@
 package id.deeromptech.ebc.ui.shopping.ui.profile
 
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.CircleCrop
-import com.bumptech.glide.request.RequestOptions
-import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
 import id.deeromptech.ebc.BuildConfig
 import id.deeromptech.ebc.R
+import id.deeromptech.ebc.data.local.User
 import id.deeromptech.ebc.databinding.FragmentProfileBinding
 import id.deeromptech.ebc.dialog.DialogResult
 import id.deeromptech.ebc.ui.auth.login.LoginActivity
-import id.deeromptech.ebc.ui.shopping.ui.profile.seller.SellerVerificationActivity
 import id.deeromptech.ebc.util.Resource
 import id.deeromptech.ebc.util.ToastUtils
 import id.deeromptech.ebc.util.showBottomNavigationView
-import kotlinx.coroutines.flow.collectLatest
+
 @AndroidEntryPoint
 class ProfileFragment : Fragment() {
 
@@ -41,6 +34,13 @@ class ProfileFragment : Fragment() {
     val viewModel by viewModels<ProfileViewModel> ()
 
     private val binding get() = _binding!!
+    val TAG = "ProfileFragment"
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        viewModel.getUser()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -58,26 +58,6 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        auth = Firebase.auth
-        val gso = GoogleSignInOptions
-            .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(getString(R.string.default_web_client_id))
-            .requestEmail()
-            .build()
-        googleSignInClient = GoogleSignIn.getClient(requireContext(), gso)
-
-        binding.constraintProfile.setOnClickListener {
-            findNavController().navigate(R.id.action_navigation_profile_to_userAccountFragment)
-        }
-
-        binding.linearAllOrders.setOnClickListener {
-            findNavController().navigate(R.id.action_navigation_profile_to_allOrdersFragment)
-        }
-
-        binding.linearBilling.setOnClickListener {
-            val action = ProfileFragmentDirections.actionNavigationProfileToBillingFragment(0f, emptyArray(), false)
-            findNavController().navigate(action)
-        }
 
         binding.linearLogOut.setOnClickListener {
             signOut()
@@ -85,55 +65,129 @@ class ProfileFragment : Fragment() {
 
         binding.tvVersion.text = "Version ${BuildConfig.VERSION_CODE}"
 
-        lifecycleScope.launchWhenStarted {
-            viewModel.user.collectLatest {
-                when (it) {
-                    is Resource.Loading -> {
-                        binding.progressbarSettings.visibility = View.VISIBLE
-                    }
+        onBillingAndAddressesClick()
+        onProfileClick()
+        onAllOrderClick()
+        onTrackOrderClick()
+        onLanguageClick()
+        onHelpClick()
 
-                    is Resource.Success -> {
-                        binding.progressbarSettings.visibility = View.GONE
-                        Glide.with(requireView()).load(it.data!!.imagePath).placeholder(R.drawable.ic_profile_black).into(binding.imageUser)
-                        binding.tvUserName.text = "${it.data.name}"
-                    }
+        observeProfile()
 
-                    is Resource.Error -> {
-                        ToastUtils.showMessage(requireContext(), it.message.toString())
-                        binding.progressbarSettings.visibility = View.GONE
-                    }
-                    else -> Unit
-                }
-            }
-        }
-//        binding.btnTobeSeller.setOnClickListener {
-//            startActivity(Intent(requireContext(), SellerVerificationActivity::class.java))
-//        }
-//        val currentUser = auth.currentUser
-//        if (currentUser != null) {
-//            // User is logged in, set the profile image and name
-//            binding.txtNameUser.text = currentUser.displayName
-//
-//            // Check if the user has a profile photo URL
-//            val photoUrl = currentUser.photoUrl
-//            if (photoUrl != null) {
-//                // Load and display the profile image using Glide
-//                Glide.with(this)
-//                    .load(photoUrl)
-//                    .apply(RequestOptions.bitmapTransform(CircleCrop()))
-//                    .into(binding.imgProfile)
-//            } else {
-//                // If there is no profile photo URL, you can set a default image
-//                // binding.imgProfile.setImageResource(R.drawable.default_profile_image)
-//                // Or hide the image view if you prefer
-//                // binding.imgProfile.visibility = View.GONE
-//            }
-//        }
+        onTobeSellerClick()
+        onMyStoreClick()
     }
 
     override fun onResume() {
         super.onResume()
         showBottomNavigationView()
+    }
+
+    private fun onHelpClick() {
+        binding.linearHelp.setOnClickListener {
+            findNavController().navigate(R.id.action_navigation_profile_to_helpFragment)
+        }
+    }
+
+    private fun onLanguageClick() {
+        binding.linearLanguage.setOnClickListener {
+            findNavController().navigate(R.id.action_navigation_profile_to_languageFragment)
+        }
+    }
+
+    private fun onTrackOrderClick() {
+        binding.linearTrackOrder.setOnClickListener {
+            ToastUtils.showMessage(requireActivity(), getString(R.string.g_coming_soon))
+        }
+    }
+
+    private fun onAllOrderClick() {
+        binding.linearAllOrders.setOnClickListener {
+            findNavController().navigate(R.id.action_navigation_profile_to_allOrdersFragment)
+        }
+    }
+
+    private fun onProfileClick() {
+        binding.constraintProfile.setOnClickListener {
+            user?.let {
+                val bundle = Bundle()
+                bundle.putParcelable("user",user)
+                findNavController().navigate(R.id.action_navigation_profile_to_userAccountFragment,bundle)
+            }
+        }
+    }
+
+    private fun onTobeSellerClick(){
+        binding.linearTobeSeller.setOnClickListener {
+            findNavController().navigate(R.id.action_navigation_profile_to_sellerVerificationFragment)
+        }
+    }
+
+    private fun onMyStoreClick(){
+        binding.linearMystore.setOnClickListener {
+            findNavController().navigate(R.id.action_navigation_profile_to_sellerFragment)
+        }
+    }
+
+    var user: User?=null
+    private fun observeProfile() {
+        viewModel.profile.observe(viewLifecycleOwner) { response ->
+            when (response) {
+                is Resource.Loading -> {
+                    showLoading()
+                    return@observe
+                }
+
+                is Resource.Success -> {
+                    hideLoading()
+                    val user = response.data
+                    this.user = user
+                    binding.apply {
+                        tvUserName.text = user?.name
+                        Glide.with(requireView()).load(user?.imagePath)
+                            .error(R.drawable.ic_profile_black).into(binding.imageUser)
+                        if (user?.role == "seller") {
+                            linearMystore.visibility = View.VISIBLE
+                            linearTobeSeller.visibility = View.GONE
+                        } else {
+                            linearMystore.visibility = View.GONE
+                            linearTobeSeller.visibility = View.VISIBLE
+                        }
+                    }
+                    return@observe
+                }
+
+                is Resource.Error -> {
+                    hideLoading()
+                    Toast.makeText(
+                        activity,
+                        resources.getText(R.string.error_occurred),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    Log.e(TAG, response.message.toString())
+                    return@observe
+                } else -> Unit
+            }
+        }
+    }
+
+    private fun onBillingAndAddressesClick() {
+        binding.linearBilling.setOnClickListener {
+            val action = ProfileFragmentDirections.actionNavigationProfileToBillingFragment(0f, emptyArray(), false)
+            findNavController().navigate(action)
+        }
+    }
+
+    private fun hideLoading() {
+        binding.apply {
+            binding.progressbarSettings.visibility = View.GONE
+        }
+    }
+
+    private fun showLoading() {
+        binding.apply {
+            binding.progressbarSettings.visibility = View.VISIBLE
+        }
     }
 
     private fun signOut() {

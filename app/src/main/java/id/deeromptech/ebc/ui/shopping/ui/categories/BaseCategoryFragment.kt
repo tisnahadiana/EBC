@@ -13,10 +13,9 @@ import androidx.recyclerview.widget.RecyclerView
 import id.deeromptech.ebc.R
 import id.deeromptech.ebc.adapter.BestProductsAdapter
 import id.deeromptech.ebc.databinding.FragmentBaseCategoryBinding
-import id.deeromptech.ebc.databinding.FragmentBillingBinding
 import id.deeromptech.ebc.util.showBottomNavigationView
 
-open class BaseCategoryFragment: Fragment(R.layout.fragment_base_category) {
+open class BaseCategoryFragment : Fragment(R.layout.fragment_base_category) {
 
     private var _binding: FragmentBaseCategoryBinding? = null
     private val binding get() = _binding!!

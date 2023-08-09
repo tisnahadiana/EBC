@@ -1,170 +1,267 @@
 package id.deeromptech.ebc.ui.auth.login
 
-import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
+import android.widget.Button
+import android.widget.EditText
 import androidx.activity.viewModels
-import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.Observer
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.auth.GoogleAuthProvider
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
 import id.deeromptech.ebc.R
 import id.deeromptech.ebc.databinding.ActivityLoginBinding
 import id.deeromptech.ebc.ui.auth.register.RegisterActivity
 import id.deeromptech.ebc.util.Resource
 import id.deeromptech.ebc.util.ToastUtils
-import id.deeromptech.ebc.dialog.setupBottomSheetDialog
 import id.deeromptech.ebc.ui.auth.register.RegisterViewModel
 import id.deeromptech.ebc.ui.shopping.ShoppingActivity
 
 @AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
+    val TAG: String = "LoginFragment"
+    val GOOGLE_REQ_CODE = 13
 
     private val binding: ActivityLoginBinding by lazy {
         ActivityLoginBinding.inflate(layoutInflater)
     }
-    private val viewModel by viewModels<LoginViewModel>()
     private val viewModelRegister by viewModels<RegisterViewModel>()
-    private lateinit var googleSignInClient: GoogleSignInClient
-    private lateinit var auth: FirebaseAuth
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         supportActionBar?.hide()
+
+        onLoginClick()
+        observerLogin()
+        observerLoginError()
+        onDontHaveAccountClick()
+        onForgotPasswordClick()
+        observeResetPassword()
+        observeSaveUserInformation()
 
         binding.btnToRegister.setOnClickListener {
             startActivity(Intent(this, RegisterActivity::class.java))
             finish()
         }
 
-        val gso = GoogleSignInOptions
-            .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+        onFacebookSignIn()
+        observeSaveUserInformation()
+
+    }
+
+    private fun onFacebookSignIn() {
+
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail()
             .build()
-        googleSignInClient = GoogleSignIn.getClient(this, gso)
 
-        auth = Firebase.auth
-
-        binding.apply {
-            btnLoginActivity.setOnClickListener {
-                val email = edLoginEmail.text.toString().trim()
-                val password = edLoginPassword.text.toString()
-                viewModel.login(email, password)
-            }
-        }
-
-        lifecycleScope.launchWhenStarted {
-            viewModel.login.collect{
-                when(it){
-                    is Resource.Loading -> {
-                        binding.btnLoginActivity.startAnimation()
-                     }
-                    is Resource.Success -> {
-                        binding.btnLoginActivity.revertAnimation()
-                        ToastUtils.showMessage(this@LoginActivity, getString(R.string.success_message_login))
-                        Intent(this@LoginActivity, ShoppingActivity::class.java).also { intent ->
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
-                            startActivity(intent)
-                        }
-                    }
-                    is Resource.Error -> {
-                        Toast.makeText(this@LoginActivity, it.message, Toast.LENGTH_LONG).show()
-                        binding.btnLoginActivity.revertAnimation()
-                    }
-                    else -> Unit
-                }
-            }
-        }
+        val googleSignInClient = GoogleSignIn.getClient(this, gso)
 
         binding.btnLoginGoogle.setOnClickListener {
-            signIn()
+            val signInIntent = googleSignInClient.signInIntent
+            startActivityForResult(signInIntent, GOOGLE_REQ_CODE)
         }
+    }
 
+    private fun observeResetPassword() {
+        viewModelRegister.resetPassword.observe(this, Observer { response ->
+            when (response) {
+                is Resource.Loading -> {
+
+                    return@Observer
+                }
+
+                is Resource.Success -> {
+                    ToastUtils.showMessage(this@LoginActivity, getString(R.string.success_message_login))
+                    viewModelRegister.resetPassword.postValue(null)
+                    return@Observer
+                }
+
+                is Resource.Error -> {
+                    ToastUtils.showMessage(this, "Reset Password Failed : ${response.message}")
+                    Log.e(TAG, response.message.toString())
+
+                    return@Observer
+                } else -> Unit
+            }
+        })
+    }
+    private fun onForgotPasswordClick() {
         binding.tvForgotPassword.setOnClickListener {
-            setupBottomSheetDialog { email ->
-                viewModel.resetPassword(email)
-            }
-        }
-
-        lifecycleScope.launchWhenStarted {
-            viewModel.resetPassword.collect{
-                when(it){
-                    is Resource.Loading ->      {
-
-                    }
-                    is Resource.Success -> {
-                        ToastUtils.showMessage(this@LoginActivity, getString(R.string.message_reset))
-                    }
-                    is Resource.Error -> {
-                        ToastUtils.showMessage(this@LoginActivity, "Error: ${it.message}")
-                    }
-                    else -> Unit
-                }
-            }
+            setupBottomSheetDialogLogin()
         }
     }
 
-    private fun signIn() {
-        val signInIntent = googleSignInClient.signInIntent
-        resultLauncher.launch(signInIntent)
-    }
+    private fun setupBottomSheetDialogLogin() {
+        val dialog = BottomSheetDialog(this, R.style.DialogStyle)
+        val view = layoutInflater.inflate(R.layout.reset_password_dialog, null)
+        dialog.setContentView(view)
+        dialog.behavior.state = BottomSheetBehavior.STATE_EXPANDED
+        dialog.show()
 
-    private var resultLauncher = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
-            try {
-                val account = task.getResult(ApiException::class.java)!!
-                Log.d(TAG, "firebaseAuthWithGoogle:" + account.id)
-                firebaseAuthWithGoogle(account.idToken!!)
-            } catch (e: ApiException) {
-                Log.w(TAG, "Google sign in failed", e)
+        val edEmail = view.findViewById<EditText>(R.id.edEmail)
+        val btnSend = view.findViewById<Button>(R.id.btn_send)
+        val btnCancel = view.findViewById<Button>(R.id.btn_cancel)
+
+        btnSend.setOnClickListener {
+            val email = edEmail.text.toString().trim()
+            if (email.isNotEmpty() && android.util.Patterns.EMAIL_ADDRESS.matcher(email)
+                    .matches()
+            ) {
+                viewModelRegister.resetPassword(email)
+                dialog.dismiss()
+            } else {
+                edEmail.requestFocus()
+                edEmail.error = resources.getText(R.string.g_check_your_email)
             }
+        }
+
+        btnCancel.setOnClickListener {
+            dialog.dismiss()
         }
     }
 
-    private fun firebaseAuthWithGoogle(idToken: String) {
-        val credential = GoogleAuthProvider.getCredential(idToken, null)
-        auth.signInWithCredential(credential)
-            .addOnCompleteListener(this) { task ->
-                if (task.isSuccessful) {
-                    Log.d(TAG, "signInWithCredential:success")
-                    val user = auth.currentUser
-                    updateUI(user)
-                } else {
-                    Log.w(TAG, "signInWithCredential:failure", task.exception)
-                    updateUI(null)
-                }
-            }
-    }
-
-    private fun updateUI(currentUser: FirebaseUser?) {
-        if (currentUser != null) {
-            startActivity(Intent(this@LoginActivity, ShoppingActivity::class.java))
+    private fun onDontHaveAccountClick() {
+        binding.btnToRegister.setOnClickListener {
+            startActivity(Intent(this, RegisterActivity::class.java))
             finish()
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-        val currentUser = auth.currentUser
-        updateUI(currentUser)
+    private fun observerLoginError() {
+        viewModelRegister.loginError.observe(this, Observer { error ->
+            Log.e(TAG, error)
+            ToastUtils.showMessage(this,"Please check your information")
+            binding.btnLoginActivity.revertAnimation()
+
+        })
     }
 
-    companion object {
-        private const val TAG = "LoginActivity"
+    private fun observerLogin() {
+        viewModelRegister.login.observe(this, Observer {
+            if (it == true) {
+                binding.btnLoginActivity.revertAnimation()
+                startActivity(Intent(this, ShoppingActivity::class.java))
+                finish()
+            }
+        })
     }
+
+    private fun onLoginClick() {
+        binding.btnLoginActivity.setOnClickListener {
+            binding.btnLoginActivity.spinningBarColor = resources.getColor(R.color.white)
+            binding.btnLoginActivity.spinningBarWidth = resources.getDimension(com.intuit.sdp.R.dimen._3sdp)
+
+            val email = getEmail()?.trim()
+            val password = getPassword()
+            email?.let {
+                password?.let {
+                    binding.btnLoginActivity.startAnimation()
+                    viewModelRegister.loginUser(email, password)
+                }
+            }
+        }
+    }
+
+    private fun getPassword(): String? {
+        val password = binding.edLoginPassword.text.toString()
+
+        if (password.isEmpty()) {
+            binding.edLoginPassword.apply {
+                error = resources.getString(R.string.password_cannot_empty)
+                requestFocus()
+            }
+            return null
+        }
+
+        if (password.length < 8) {
+            binding.edLoginPassword.apply {
+                error = resources.getString(R.string.password_minimum)
+                requestFocus()
+            }
+            return null
+        }
+        return password
+    }
+
+    private fun getEmail(): String? {
+        val email = binding.edLoginEmail.text.toString().trim()
+
+        if (email.isEmpty()) {
+            binding.edLoginEmail.apply {
+                error = resources.getString(R.string.email_cannot_empty)
+                requestFocus()
+            }
+            return null
+        }
+
+
+        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            binding.edLoginEmail.apply {
+                error = resources.getString(R.string.valid_email)
+                requestFocus()
+            }
+            return null
+        }
+
+
+        return email
+
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
+        if (requestCode == GOOGLE_REQ_CODE) {
+            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+            try {
+                // Google Sign In was successful, authenticate with Firebase
+                val account = task.getResult(ApiException::class.java)!!
+                Log.d("test,",account.email.toString())
+                Log.d(TAG, "firebaseAuthWithGoogle:" + account.id)
+                viewModelRegister.signInWithGoogle(account.idToken!!)
+            } catch (e: ApiException) {
+                // Google Sign In failed, update UI appropriately
+                Log.e(TAG, "Google sign in failed", e)
+            }
+        }
+    }
+
+    private fun observeSaveUserInformation(){
+        viewModelRegister.saveUserInformationGoogleSignIn.observe(this, Observer { response->
+            when(response){
+                is Resource.Loading -> {
+                    Log.d(TAG,"GoogleSignIn:Loading")
+                    binding.btnLoginActivity.startAnimation()
+                    return@Observer
+                }
+
+                is Resource.Success -> {
+                    Log.d(TAG,"GoogleSignIn:Successful")
+                    binding.btnLoginActivity.stopAnimation()
+                    startActivity(Intent(this, ShoppingActivity::class.java))
+                    finish()
+                    return@Observer
+                }
+
+                is Resource.Error ->{
+                    Log.e(TAG,"GoogleSignIn:Error ${response.message.toString()}")
+                    ToastUtils.showMessage(this@LoginActivity,getString(R.string.error_occurred))
+                    return@Observer
+                }
+                else -> Unit
+            }
+
+        })
+    }
+
 }

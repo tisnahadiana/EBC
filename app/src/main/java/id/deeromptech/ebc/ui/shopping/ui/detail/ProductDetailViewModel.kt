@@ -1,5 +1,6 @@
 package id.deeromptech.ebc.ui.shopping.ui.detail
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
@@ -7,6 +8,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.lifecycle.HiltViewModel
 import id.deeromptech.ebc.data.local.Cart
 import id.deeromptech.ebc.firebase.FirebaseCommon
+import id.deeromptech.ebc.firebase.FirebaseDb
 import id.deeromptech.ebc.util.Resource
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -25,7 +27,7 @@ class ProductDetailViewModel @Inject constructor(
 
     fun addUpdateProductInCart(cartProduct: Cart) {
         viewModelScope.launch { _addToCart.emit(Resource.Loading()) }
-        firestore.collection("user").document(auth.uid!!).collection("cart")
+        firestore.collection("users").document(auth.uid!!).collection("cart")
             .whereEqualTo("product.id", cartProduct.product.id).get()
             .addOnSuccessListener {
                 it.documents.let {

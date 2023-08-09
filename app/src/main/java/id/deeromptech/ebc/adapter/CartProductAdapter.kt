@@ -1,6 +1,9 @@
 package id.deeromptech.ebc.adapter
 
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
@@ -9,6 +12,7 @@ import com.bumptech.glide.Glide
 import id.deeromptech.ebc.data.local.Cart
 import id.deeromptech.ebc.databinding.ItemCartProductBinding
 import id.deeromptech.ebc.helper.getProductPrice
+import id.deeromptech.ebc.util.Constants.CART_FLAG
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.util.*
@@ -26,10 +30,9 @@ class CartProductAdapter: RecyclerView.Adapter<CartProductAdapter.CartProductsVi
                 tvcartProductName.text = cart.product.name
                 tvQuantity.text = cart.quantity.toString()
 
-                val priceAfterPercentage = cart.product.offerPercentage.getProductPrice(cart.product.price)
-                tvcartProductPrice.text = "$ ${String.format("%.2f", priceAfterPercentage)}"
 
-                val formattedPrice = "Rp. ${decimalFormat.format(cart.product.price)}"
+                val discountedPrice = cart.product.price - (cart.product.price * (cart.product.offerPercentage!! / 100))
+                val formattedPrice = "Rp. ${decimalFormat.format(discountedPrice)}"
                 tvcartProductPrice.text = formattedPrice
             }
         }
@@ -75,9 +78,14 @@ class CartProductAdapter: RecyclerView.Adapter<CartProductAdapter.CartProductsVi
         holder.binding.btnMinus.setOnClickListener {
             onMinusClick?.invoke(cart)
         }
+
+        holder.binding.btnDeleteCart.setOnClickListener {
+            onDeleteClick?.invoke(cart)
+        }
     }
 
     var onProductClick:((Cart) -> Unit)? = null
     var onPlusClick:((Cart) -> Unit)? = null
     var onMinusClick:((Cart) -> Unit)? = null
+    var onDeleteClick:((Cart) -> Unit)? = null
 }
