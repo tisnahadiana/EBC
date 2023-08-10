@@ -2,16 +2,17 @@ package id.deeromptech.ebc.ui.shopping.ui.seller.input
 
 import android.app.Activity
 import android.content.Intent
-import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
 import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.navArgs
+import com.bumptech.glide.Glide
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
@@ -20,12 +21,12 @@ import id.deeromptech.ebc.R
 import id.deeromptech.ebc.data.local.Product
 import id.deeromptech.ebc.data.local.User
 import id.deeromptech.ebc.databinding.FragmentInputProductBinding
+import id.deeromptech.ebc.ui.shopping.ui.setting.UserAccountFragmentArgs
 import id.deeromptech.ebc.util.Resource
 import id.deeromptech.ebc.util.ToastUtils
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
-import java.io.ByteArrayOutputStream
 import java.util.*
 import kotlin.collections.HashMap
 
@@ -40,6 +41,7 @@ class InputProductFragment : Fragment() {
     val viewModel by viewModels<InputProductViewModel> ()
     private var selectedImagePosition = 0
     private lateinit var seller: String
+    private val args by navArgs<InputProductFragmentArgs>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -88,6 +90,28 @@ class InputProductFragment : Fragment() {
             intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
             intent.type = "image/*"
             selectImagesActivityResult.launch(intent)
+        }
+
+        if (args.edit){
+            binding.apply {
+                setUserInformation(args.product)
+            }
+        }
+
+    }
+
+    private fun setUserInformation(product: Product) {
+
+        binding.apply {
+            if (product.images.isNotEmpty()) {
+                Glide.with(requireView()).load(product.images[0])
+                    .error(R.drawable.ic_profile_black).into(ivImagePreview1)
+            }
+
+            edName.setText(product.name)
+            edDescription.setText(product.description)
+            edPrice.setText(product.price.toString())
+            offerPercentage.setText(product.offerPercentage.toString())
         }
     }
 

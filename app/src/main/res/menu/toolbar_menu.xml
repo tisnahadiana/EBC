@@ -8,4 +8,10 @@
     android:title="Add product"
         android:iconTint="@color/white"/>
 
+    <item android:id="@+id/editProduct"
+        android:icon="@drawable/ic_update"
+        app:showAsAction="ifRoom"
+        android:title="Add product"
+        android:iconTint="@color/white"/>
+
 </menu>

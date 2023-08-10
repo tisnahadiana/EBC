@@ -116,6 +116,9 @@
         <argument
             android:name="product"
             app:argType="id.deeromptech.ebc.data.local.Product" />
+        <argument
+            android:name="seller"
+            app:argType="boolean"/>
     </fragment>
     <fragment
         android:id="@+id/addressFragment"
@@ -226,15 +229,55 @@
         <action
             android:id="@+id/action_sellerFragment_to_inputProductFragment"
             app:destination="@id/inputProductFragment" />
+        <action
+            android:id="@+id/action_sellerFragment_to_sellerProductFragment"
+            app:destination="@id/sellerProductFragment" />
+        <action
+            android:id="@+id/action_sellerFragment_to_sellerOrderFragment"
+            app:destination="@id/sellerOrderFragment" />
+        <action
+            android:id="@+id/action_sellerFragment_to_sellerVerificationFragment"
+            app:destination="@id/sellerVerificationFragment" />
     </fragment>
     <fragment
         android:id="@+id/sellerVerificationFragment"
         android:name="id.deeromptech.ebc.ui.shopping.ui.seller.verification.SellerVerificationFragment"
         android:label="fragment_seller_verification"
-        tools:layout="@layout/fragment_seller_verification" />
+        tools:layout="@layout/fragment_seller_verification" >
+        <argument
+            android:name="user"
+            app:argType="id.deeromptech.ebc.data.local.User" />
+        <argument
+            android:name="edit"
+            app:argType="boolean" />
+    </fragment>
     <fragment
         android:id="@+id/inputProductFragment"
         android:name="id.deeromptech.ebc.ui.shopping.ui.seller.input.InputProductFragment"
         android:label="fragment_input_product"
-        tools:layout="@layout/fragment_input_product" />
+        tools:layout="@layout/fragment_input_product" >
+        <argument
+            android:name="product"
+            app:argType="id.deeromptech.ebc.data.local.Product" />
+        <argument
+            android:name="edit"
+            app:argType="boolean" />
+    </fragment>
+    <fragment
+        android:id="@+id/sellerProductFragment"
+        android:name="id.deeromptech.ebc.ui.shopping.ui.seller.product.SellerProductFragment"
+        android:label="fragment_seller_product"
+        tools:layout="@layout/fragment_seller_product" >
+        <action
+            android:id="@+id/action_sellerProductFragment_to_productDetailFragment"
+            app:destination="@id/productDetailFragment" />
+        <action
+            android:id="@+id/action_sellerProductFragment_to_inputProductFragment"
+            app:destination="@id/inputProductFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/sellerOrderFragment"
+        android:name="id.deeromptech.ebc.ui.shopping.ui.seller.order.SellerOrderFragment"
+        android:label="fragment_seller_order"
+        tools:layout="@layout/fragment_seller_order" />
 </navigation>

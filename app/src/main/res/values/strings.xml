@@ -184,6 +184,7 @@
     <string name="Handycrafts">Handycrafts</string>
     <string name="Household">Household</string>
     <string name="become_seller">Fill in the data below to become a seller</string>
+    <string name="edit_seller_data">Edit Data Seller</string>
     <string name="hint_register_nameStore">Enter Store Name</string>
     <string name="hint_register_rekening">Enter Rekening</string>
 
@@ -193,6 +194,8 @@
     <string name="select_product_images">Select Product Images</string>
     <string name="input_product">Input Product</string>
     <string name="see_product">See Product</string>
+    <string name="edit_store_details">Edit Store Info</string>
+    <string name="edit_data">Edit Data</string>
 
     <string-array name="product_categories">
         <item>Fashion</item>

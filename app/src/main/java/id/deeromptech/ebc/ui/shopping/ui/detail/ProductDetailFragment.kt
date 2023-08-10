@@ -1,26 +1,19 @@
 package id.deeromptech.ebc.ui.shopping.ui.detail
 
 import android.annotation.SuppressLint
-import android.graphics.Paint
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
-import id.deeromptech.ebc.R
 import id.deeromptech.ebc.adapter.ViewPager2Images
 import id.deeromptech.ebc.data.local.Cart
-import id.deeromptech.ebc.data.local.Product
 import id.deeromptech.ebc.databinding.FragmentProductDetailBinding
-import id.deeromptech.ebc.util.Constants.IMAGES
 import id.deeromptech.ebc.util.Resource
 import id.deeromptech.ebc.util.ToastUtils
 import id.deeromptech.ebc.util.hideBottomNavigationView
@@ -55,6 +48,13 @@ class ProductDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val product = args.product
+
+        if (args.seller){
+            binding.apply {
+                btnAddToCart.visibility  = View.GONE
+                btnBuynow.visibility = View.GONE
+            }
+        }
 
         setupViewpager()
 
