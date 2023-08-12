@@ -74,12 +74,12 @@
             android:id="@+id/tvProductSeller"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/product_description"
-            android:textSize="16sp"
-            android:textColor="@color/black"
             android:fontFamily="@font/montserrat_medium"
-            app:layout_constraintTop_toBottomOf="@id/linearTitlePrice"
-            app:layout_constraintStart_toStartOf="@id/linearTitlePrice"/>
+            android:text="@string/store_name"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@id/linearTitlePrice"
+            app:layout_constraintTop_toBottomOf="@id/linearTitlePrice" />
 
         <TextView
             android:id="@+id/tvProductStock"
@@ -97,13 +97,13 @@
             android:id="@+id/line"
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:background="@color/gray"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvProductSeller"
             android:layout_marginStart="10dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="10dp"
-            android:layout_marginTop="10dp"/>
+            android:background="@color/gray"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvStoreAddress" />
 
         <View
             android:id="@+id/line2"
@@ -161,6 +161,18 @@
             app:layout_constraintStart_toEndOf="@+id/btnAddToCart"
             app:layout_constraintTop_toBottomOf="@+id/tvProductDescription"
             app:spinning_bar_color="@color/white" />
+
+        <TextView
+            android:id="@+id/tvStoreAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/montserrat_medium"
+            android:text="@string/store_address"
+            android:textColor="@color/font_colour"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="@+id/tvProductSeller"
+            app:layout_constraintTop_toBottomOf="@+id/tvProductSeller" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

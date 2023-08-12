@@ -1,13 +1,10 @@
 package id.deeromptech.ebc.ui.shopping.ui.billing
 
-import android.app.AlertDialog
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -16,22 +13,14 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import id.deeromptech.ebc.R
-import id.deeromptech.ebc.SpacingDecorator.HorizantalSpacingItemDecorator
 import id.deeromptech.ebc.adapter.AddressAdapter
 import id.deeromptech.ebc.adapter.BillingProductsAdapter
-import id.deeromptech.ebc.data.local.Address
-import id.deeromptech.ebc.data.local.Cart
-import id.deeromptech.ebc.data.local.Order
-import id.deeromptech.ebc.data.local.OrderStatus
+import id.deeromptech.ebc.data.local.*
 import id.deeromptech.ebc.databinding.FragmentBillingBinding
 import id.deeromptech.ebc.dialog.DialogResult
 import id.deeromptech.ebc.ui.shopping.ui.order.OrderViewModel
-import id.deeromptech.ebc.util.Constants.ORDER_FAILED_FLAG
-import id.deeromptech.ebc.util.Constants.ORDER_SUCCESS_FLAG
-import id.deeromptech.ebc.util.Constants.UPDATE_ADDRESS_FLAG
 import id.deeromptech.ebc.util.HorizontalItemDecoration
 import id.deeromptech.ebc.util.Resource
 import id.deeromptech.ebc.util.ToastUtils
@@ -55,9 +44,14 @@ class BillingFragment : Fragment() {
 
     private var selectedAddress: Address? = null
     private val orderViewModel by viewModels<OrderViewModel> ()
+    var user: User?=null
+
+    val TAG = "BillingFragment"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        billingViewModel.getUser()
 
         products = args.products.toList()
         totalPrice = args.totalPrice
@@ -78,7 +72,8 @@ class BillingFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupBillingProductsRv()
-        setupAddressRv()
+        observeAddress()
+//        setupAddressRv()
 
         if (!args.payment){
             binding.apply {
@@ -90,29 +85,34 @@ class BillingFragment : Fragment() {
         }
 
         binding.imageAddAddress.setOnClickListener {
-            findNavController().navigate(R.id.action_billingFragment_to_addressFragment)
-        }
-
-        lifecycleScope.launchWhenStarted {
-            billingViewModel.address.collectLatest {
-                when (it) {
-                    is Resource.Loading -> {
-                        binding.progressbarAddress.visibility = View.VISIBLE
-                    }
-
-                    is Resource.Success -> {
-                        addressAdapter.differ.submitList(it.data)
-                        binding.progressbarAddress.visibility = View.GONE
-                    }
-
-                    is Resource.Error -> {
-                        binding.progressbarAddress.visibility = View.GONE
-                        ToastUtils.showMessage(requireContext(), it.message.toString())
-                    }
-                    else -> Unit
-                }
+            val bundle = Bundle().apply {
+                putParcelable("user", user)
             }
+            findNavController().navigate(R.id.action_billingFragment_to_addressFragment, bundle)
         }
+
+
+
+//        lifecycleScope.launchWhenStarted {
+//            billingViewModel.address.collectLatest {
+//                when (it) {
+//                    is Resource.Loading -> {
+//                        binding.progressbarAddress.visibility = View.VISIBLE
+//                    }
+//
+//                    is Resource.Success -> {
+//                        addressAdapter.differ.submitList(it.data)
+//                        binding.progressbarAddress.visibility = View.GONE
+//                    }
+//
+//                    is Resource.Error -> {
+//                        binding.progressbarAddress.visibility = View.GONE
+//                        ToastUtils.showMessage(requireContext(), it.message.toString())
+//                    }
+//                    else -> Unit
+//                }
+//            }
+//        }
 
         lifecycleScope.launchWhenStarted {
             orderViewModel.order.collectLatest {
@@ -157,6 +157,45 @@ class BillingFragment : Fragment() {
             showOrderConfirmationDialog()
         }
     }
+    private fun observeAddress() {
+        billingViewModel.profile.observe(viewLifecycleOwner) { response ->
+            when (response) {
+                is Resource.Loading -> {
+                    showLoading()
+                    return@observe
+                }
+
+                is Resource.Success -> {
+                    hideLoading()
+                    val user = response.data
+                    this.user = user
+                    binding.apply {
+                        textShippingAddress.text = user?.addressUser
+                    }
+                    return@observe
+                }
+
+                is Resource.Error -> {
+                    hideLoading()
+                    Toast.makeText(
+                        activity,
+                        resources.getText(R.string.error_occurred),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    Log.e(TAG, response.message.toString())
+                    return@observe
+                } else -> Unit
+            }
+        }
+    }
+
+    fun showLoading() {
+        binding.progressbarAddress.visibility = View.VISIBLE
+    }
+
+    fun hideLoading() {
+        binding.progressbarAddress.visibility = View.GONE
+    }
 
     private fun showOrderConfirmationDialog() {
         val dialogResult = DialogResult(requireContext())
@@ -179,13 +218,13 @@ class BillingFragment : Fragment() {
         dialogResult.show()
     }
 
-    private fun setupAddressRv() {
-        binding.rvAddress.apply {
-            layoutManager = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
-            adapter = addressAdapter
-            addItemDecoration(HorizontalItemDecoration())
-        }
-    }
+//    private fun setupAddressRv() {
+//        binding.rvAddress.apply {
+//            layoutManager = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
+//            adapter = addressAdapter
+//            addItemDecoration(HorizontalItemDecoration())
+//        }
+//    }
 
     private fun setupBillingProductsRv() {
         binding.rvProducts.apply {

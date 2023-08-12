@@ -14,8 +14,9 @@ data class Product(
     val description: String? = null,
     val stock: String,
     val seller: String? = "",
-    val images: List<String>
+    val images: List<String>,
+    val addressStore: String? = ""
 ): Parcelable {
-    constructor(): this("0", "","",0f,0f,"", "","", images = emptyList())
+    constructor(): this("0", "","",0f,0f,"", "","", images = emptyList(), "")
 }
 

@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.lifecycle.HiltViewModel
+import id.deeromptech.ebc.data.local.AddressStore
 import id.deeromptech.ebc.data.local.Cart
 import id.deeromptech.ebc.data.local.Product
 import id.deeromptech.ebc.data.local.User
@@ -21,6 +22,8 @@ class SellerProductViewModel @Inject constructor(
 ) : ViewModel() {
 
     val profile = MutableLiveData<Resource<User>>()
+
+    val addressStore = MutableLiveData<Resource<AddressStore>>()
 
     private val _sellerProducts = MutableStateFlow<Resource<List<Product>>>(Resource.Unspecified())
     val sellerProducts: StateFlow<Resource<List<Product>>> = _sellerProducts
@@ -39,6 +42,19 @@ class SellerProductViewModel @Inject constructor(
             } else {
                 val user = value?.toObject(User::class.java) ?: User()
                 profile.postValue(Resource.Success(user))
+            }
+        }
+    }
+
+    fun getUserStoreAddress() {
+        addressStore.postValue(Resource.Loading())
+        firebaseDatabase.getUserAddressStore().addSnapshotListener { value, error ->
+            if (error != null) {
+                addressStore.postValue(Resource.Error(error.message ?: "Unknown error occurred"))
+            } else {
+                val addressList = value?.toObjects(AddressStore::class.java)
+                val address = addressList?.firstOrNull() ?: AddressStore()
+                addressStore.postValue(Resource.Success(address))
             }
         }
     }

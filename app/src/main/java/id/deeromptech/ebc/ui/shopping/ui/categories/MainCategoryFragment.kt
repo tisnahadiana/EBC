@@ -57,17 +57,26 @@ class MainCategoryFragment : Fragment(R.layout.fragment_main_category) {
         setupBestProductsRV()
 
         specialProductsAdapter.onClick = {
-            val b = Bundle().apply { putParcelable("product",it) }
+            val b = Bundle().apply {
+                putParcelable("product", it)
+                putBoolean("seller", false)
+            }
             findNavController().navigate(R.id.action_navigation_home_to_productDetailFragment, b)
         }
 
         bestDealsAdapter.onClick = {
-            val b = Bundle().apply { putParcelable("product",it) }
+            val b = Bundle().apply {
+                putParcelable("product", it)
+                putBoolean("seller", false)
+            }
             findNavController().navigate(R.id.action_navigation_home_to_productDetailFragment, b)
         }
 
         bestProductsAdapter.onClick = {
-            val b = Bundle().apply { putParcelable("product",it) }
+            val b = Bundle().apply {
+                putParcelable("product", it)
+                putBoolean("seller", false)
+            }
             findNavController().navigate(R.id.action_navigation_home_to_productDetailFragment, b)
         }
 

@@ -196,6 +196,10 @@
     <string name="see_product">See Product</string>
     <string name="edit_store_details">Edit Store Info</string>
     <string name="edit_data">Edit Data</string>
+    <string name="enter_full_address_store">Enter Full Address</string>
+    <string name="save_product">Save Product</string>
+    <string name="edit_product">Edit Product</string>
+    <string name="store_address">Store Address</string>
 
     <string-array name="product_categories">
         <item>Fashion</item>

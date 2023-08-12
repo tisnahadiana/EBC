@@ -125,19 +125,19 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/productsInfo"
-            app:layout_constraintStart_toStartOf="@id/productsInfo"
-            app:layout_constraintEnd_toEndOf="@id/productsInfo"
             android:layout_marginTop="20dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="@id/productsInfo"
+            app:layout_constraintStart_toStartOf="@id/productsInfo"
+            app:layout_constraintTop_toBottomOf="@id/productsInfo">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Stok Ready :"
+                android:textColor="@color/black"
                 android:textSize="18sp"
-                android:textStyle="bold"
-                android:textColor="@color/black" />
+                android:textStyle="bold" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -156,8 +156,8 @@
                         android:id="@+id/rbStockReady"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Ready"
-                        android:checked="true" />
+                        android:checked="true"
+                        android:text="Ready" />
 
                     <RadioButton
                         android:id="@+id/rbStockNotReady"
@@ -191,9 +191,9 @@
                     android:id="@+id/tvSelectedImages"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:textSize="14sp"
+                    android:layout_marginStart="20dp"
                     android:gravity="center"
-                    android:layout_marginStart="20dp"/>
+                    android:textSize="14sp" />
             </LinearLayout>
 
             <ImageView
@@ -203,10 +203,10 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
                 android:scaleType="fitXY"
-                app:layout_constraintTop_toBottomOf="@id/buttonImagesPicker"
-                app:layout_constraintStart_toStartOf="parent"
+                android:src="@drawable/default_image"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:src="@drawable/default_image"/>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/buttonImagesPicker" />
 
             <ImageView
                 android:id="@+id/ivImagePreview2"
@@ -215,11 +215,11 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
                 android:scaleType="fitXY"
+                android:src="@drawable/default_image"
                 android:visibility="gone"
-                app:layout_constraintTop_toBottomOf="@id/buttonImagesPicker"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:src="@drawable/default_image"/>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/buttonImagesPicker" />
 
             <ImageView
                 android:id="@+id/ivImagePreview3"
@@ -228,11 +228,45 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
                 android:scaleType="fitXY"
+                android:src="@drawable/default_image"
                 android:visibility="gone"
-                app:layout_constraintTop_toBottomOf="@id/buttonImagesPicker"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:src="@drawable/default_image"/>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/buttonImagesPicker" />
+
+            <com.github.leandroborgesferreira.loadingbutton.customViews.CircularProgressButton
+                android:id="@+id/btnSaveProduct"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/bg_button"
+                android:fontFamily="@font/montserrat"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:padding="6dp"
+                android:text="@string/save_product"
+                android:textColor="@color/white"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                app:spinning_bar_color="@color/white" />
+
+            <com.github.leandroborgesferreira.loadingbutton.customViews.CircularProgressButton
+                android:id="@+id/btnEditProduct"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/bg_button"
+                android:fontFamily="@font/montserrat"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:padding="6dp"
+                android:visibility="gone"
+                android:text="@string/edit_product"
+                android:textColor="@color/white"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                app:spinning_bar_color="@color/white" />
+
         </LinearLayout>
 
 

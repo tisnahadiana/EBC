@@ -90,6 +90,8 @@ class FirebaseDb {
 
     fun getUser() = usersCollectionRef
         .document(FirebaseAuth.getInstance().currentUser!!.uid)
+    fun getUserAddressStore() = usersCollectionRef
+        .document(FirebaseAuth.getInstance().currentUser!!.uid).collection("addressStore")
 
     fun getItemsInCart() = userCartCollection!!
 

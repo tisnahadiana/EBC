@@ -40,12 +40,18 @@ open class BaseCategoryFragment : Fragment(R.layout.fragment_base_category) {
         setupBestRv()
 
         bestProductsAdapter.onClick = {
-            val b = Bundle().apply { putParcelable("product",it) }
+            val b = Bundle().apply {
+                putParcelable("product",it)
+                putBoolean("seller", false)
+            }
             findNavController().navigate(R.id.action_navigation_home_to_productDetailFragment, b)
         }
 
         offerAdapter.onClick = {
-            val b = Bundle().apply { putParcelable("product",it) }
+            val b = Bundle().apply {
+                putParcelable("product",it)
+                putBoolean("seller", false)
+            }
             findNavController().navigate(R.id.action_navigation_home_to_productDetailFragment, b)
         }
 

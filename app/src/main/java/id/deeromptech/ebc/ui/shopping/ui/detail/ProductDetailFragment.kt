@@ -97,6 +97,7 @@ class ProductDetailFragment : Fragment() {
             tvProductDescription.text = product.description
             tvProductSeller.text = "Store : ${product.seller}"
             tvProductStock.text = "Stock : ${product.stock}"
+            tvStoreAddress.text = "Address : ${product.addressStore}"
         }
 
         viewPagerAdapter.differ.submitList(product.images)

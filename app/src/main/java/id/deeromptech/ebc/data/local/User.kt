@@ -10,10 +10,10 @@ data class User(
     val phone: String,
     var imagePath: String = "",
     val role: String? = null,
-    val addressUser: Address? = null,
+    val addressUser: String? = null,
     val storeName: String? = null,
     val addressStore: String? = null,
     val rekening: String? = null
 ): Parcelable {
-    constructor(): this("","", "", "","", Address(), "","","")
+    constructor(): this("","", "", "","", "", "","","")
 }

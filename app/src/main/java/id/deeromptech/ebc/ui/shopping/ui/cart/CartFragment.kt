@@ -64,7 +64,10 @@ class CartFragment : Fragment() {
         }
 
         cartAdapter.onProductClick = {
-            val b = Bundle().apply { putParcelable("product", it.product) }
+            val b = Bundle().apply {
+                putParcelable("product", it.product)
+                putBoolean("seller", false)
+            }
             findNavController().navigate(R.id.action_navigation_cart_to_productDetailFragment, b)
         }
 

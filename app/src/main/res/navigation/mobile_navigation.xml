@@ -126,10 +126,8 @@
         android:label="AddressFragment"
         tools:layout="@layout/fragment_address">
         <argument
-            android:name="address"
-            app:argType="id.deeromptech.ebc.data.local.Address"
-            app:nullable="true"
-            android:defaultValue="@null" />
+            android:name="user"
+            app:argType="id.deeromptech.ebc.data.local.User"/>
     </fragment>
     <fragment
         android:id="@+id/billingFragment"

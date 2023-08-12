@@ -202,6 +202,7 @@ class SearchFragment : Fragment() {
         searchAdapter.onItemClick = { product ->
             val bundle = Bundle()
             bundle.putParcelable("product", product)
+            bundle.putBoolean("seller", false)
 
             /**
              * Hide the keyboard

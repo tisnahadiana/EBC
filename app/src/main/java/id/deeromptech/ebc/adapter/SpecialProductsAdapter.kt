@@ -25,7 +25,8 @@ class SpecialProductsAdapter: RecyclerView.Adapter<SpecialProductsAdapter.Specia
                 Glide.with(itemView).load(product.images[0]).into(imgSpecialRv)
                 tvSpecialName.text = product.name
 
-                val formattedPrice = "Rp. ${decimalFormat.format(product.price)}"
+                val discountedPrice = product.price - (product.price * (product.offerPercentage!! / 100))
+                val formattedPrice = "Rp. ${decimalFormat.format(discountedPrice)}"
                 tvSpecialPrice.text = formattedPrice
             }
         }

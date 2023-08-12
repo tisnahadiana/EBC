@@ -95,7 +95,19 @@ class InputProductFragment : Fragment() {
         if (args.edit){
             binding.apply {
                 setUserInformation(args.product)
+                btnSaveProduct.visibility = View.GONE
+                btnEditProduct.visibility = View.VISIBLE
             }
+        }
+
+        binding.btnSaveProduct.setOnClickListener {
+                val productValidation = validateInformation()
+                if (!productValidation) {
+                    ToastUtils.showMessage(requireContext(), "Check your inputs")
+                }
+                saveProduct(){
+                    Log.d("test", it.toString())
+                }
         }
 
     }
@@ -143,24 +155,24 @@ class InputProductFragment : Fragment() {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.toolbar_menu, menu)
-        super.onCreateOptionsMenu(menu, inflater)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.saveProduct) {
-            val productValidation = validateInformation()
-            if (!productValidation) {
-                ToastUtils.showMessage(requireContext(), "Check your inputs")
-                return false
-            }
-            saveProduct(){
-                Log.d("test", it.toString())
-            }
-        }
-        return super.onOptionsItemSelected(item)
-    }
+//    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+//        inflater.inflate(R.menu.toolbar_menu, menu)
+//        super.onCreateOptionsMenu(menu, inflater)
+//    }
+//
+//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+//        if (item.itemId == R.id.saveProduct) {
+//            val productValidation = validateInformation()
+//            if (!productValidation) {
+//                ToastUtils.showMessage(requireContext(), "Check your inputs")
+//                return false
+//            }
+//            saveProduct(){
+//                Log.d("test", it.toString())
+//            }
+//        }
+//        return super.onOptionsItemSelected(item)
+//    }
 
     private fun validateInformation(): Boolean {
         if (selectedImages.isEmpty())
@@ -182,6 +194,7 @@ class InputProductFragment : Fragment() {
         val price = binding.edPrice.text.toString().trim()
         val offerPercentage = binding.offerPercentage.text.toString().trim()
         val seller = user?.storeName
+        val addressStore = user?.addressStore
 
         val radioGroup = binding.rgStockAvailability
         val selectedRadioButtonId = radioGroup.checkedRadioButtonId
@@ -216,7 +229,8 @@ class InputProductFragment : Fragment() {
                     if (productDescription.isEmpty()) null else productDescription,
                     stock,
                     seller,
-                    images
+                    images,
+                    addressStore
                 )
 
                 firestore.collection("Products").add(product).addOnSuccessListener {

@@ -119,7 +119,11 @@ class ProfileFragment : Fragment() {
 
     private fun onTobeSellerClick(){
         binding.linearTobeSeller.setOnClickListener {
-            findNavController().navigate(R.id.action_navigation_profile_to_sellerVerificationFragment)
+            val bundle = Bundle().apply {
+                putParcelable("user", user)
+                putBoolean("edit", false)
+            }
+            findNavController().navigate(R.id.action_navigation_profile_to_sellerVerificationFragment, bundle)
         }
     }
 
