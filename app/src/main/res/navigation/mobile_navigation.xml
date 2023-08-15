@@ -187,6 +187,9 @@
         <argument
             android:name="order"
             app:argType="id.deeromptech.ebc.data.local.Order" />
+        <action
+            android:id="@+id/action_orderDetailFragment_to_productDetailFragment"
+            app:destination="@id/productDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/languageFragment"
@@ -277,5 +280,21 @@
         android:id="@+id/sellerOrderFragment"
         android:name="id.deeromptech.ebc.ui.shopping.ui.seller.order.SellerOrderFragment"
         android:label="fragment_seller_order"
-        tools:layout="@layout/fragment_seller_order" />
+        tools:layout="@layout/fragment_seller_order" >
+        <action
+            android:id="@+id/action_sellerOrderFragment_to_sellerOrderDetailFragment"
+            app:destination="@id/sellerOrderDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/sellerOrderDetailFragment"
+        android:name="id.deeromptech.ebc.ui.shopping.ui.seller.order.sellerOrderDetailFragment"
+        android:label="fragment_seller_order_detail"
+        tools:layout="@layout/fragment_seller_order_detail" >
+        <argument
+            android:name="order"
+            app:argType="id.deeromptech.ebc.data.local.Order" />
+        <action
+            android:id="@+id/action_sellerOrderDetailFragment_to_productDetailFragment"
+            app:destination="@id/productDetailFragment" />
+    </fragment>
 </navigation>

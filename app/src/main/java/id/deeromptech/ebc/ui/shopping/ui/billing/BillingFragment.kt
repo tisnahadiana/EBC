@@ -208,7 +208,10 @@ class BillingFragment : Fragment() {
                 OrderStatus.Ordered.status,
                 totalPrice,
                 products,
-                address
+                address,
+                user!!.name,
+                user!!.phone,
+                user!!.email
             )
             orderViewModel.placeOrder(order)
             dialogResult.dismiss()

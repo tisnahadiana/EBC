@@ -12,7 +12,7 @@ import id.deeromptech.ebc.data.local.OrderStatus
 import id.deeromptech.ebc.data.local.getOrderStatus
 import id.deeromptech.ebc.databinding.OrderItemBinding
 
-class AllOrdersAdapter : RecyclerView.Adapter<AllOrdersAdapter.OrdersViewHolder>() {
+class SellerOrderAdapter : RecyclerView.Adapter<SellerOrderAdapter.OrdersViewHolder>() {
 
     inner class OrdersViewHolder(private val binding: OrderItemBinding):
         RecyclerView.ViewHolder(binding.root) {

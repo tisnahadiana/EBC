@@ -1,5 +1,6 @@
 package id.deeromptech.ebc.adapter
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
@@ -8,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import id.deeromptech.ebc.data.local.Address
 import id.deeromptech.ebc.data.local.Cart
+import id.deeromptech.ebc.data.local.Product
 import id.deeromptech.ebc.databinding.BillingProductsRvItemBinding
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
@@ -20,6 +22,7 @@ class BillingProductsAdapter : RecyclerView.Adapter<BillingProductsAdapter.Billi
 
         private val decimalFormat = DecimalFormat("#,###", DecimalFormatSymbols(Locale.getDefault()))
 
+        @SuppressLint("SetTextI18n")
         fun bind(billingProduct: Cart){
             binding.apply {
                 Glide.with(itemView).load(billingProduct.product.images[0]).into(imageCartProduct)
@@ -36,6 +39,7 @@ class BillingProductsAdapter : RecyclerView.Adapter<BillingProductsAdapter.Billi
                 tvProductCartPrice.text = formattedPrice
 
                 tvProductCartName.text = billingProduct.product.name
+                tvSellerBilling.text = "Store : ${billingProduct.product.seller}"
             }
         }
 
@@ -68,7 +72,15 @@ class BillingProductsAdapter : RecyclerView.Adapter<BillingProductsAdapter.Billi
     override fun onBindViewHolder(holder: BillingProductViewHolder, position: Int) {
         val billingProduct = differ.currentList[position]
         holder.bind(billingProduct)
+
+        val product = differ.currentList[position]
+        holder.bind(product)
+
+        holder.itemView.setOnClickListener {
+            onClickProduct?.invoke(billingProduct.product)
+        }
     }
 
     var onClick:((Address) -> Unit)? = null
+    var onClickProduct: ((Product) -> Unit)? = null
 }
