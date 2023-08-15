@@ -30,7 +30,7 @@ class OrderViewModel @Inject constructor(
             //TODO: Add the order into orders collection
             //TODO: Delete the products from user-cart collection
 
-            firestore.collection("user")
+            firestore.collection("users")
                 .document(auth.uid!!)
                 .collection("orders")
                 .document()
@@ -38,7 +38,7 @@ class OrderViewModel @Inject constructor(
 
             firestore.collection("orders").document().set(order)
 
-            firestore.collection("user").document(auth.uid!!).collection("cart").get()
+            firestore.collection("users").document(auth.uid!!).collection("cart").get()
                 .addOnSuccessListener {
                     it.documents.forEach {
                         it.reference.delete()

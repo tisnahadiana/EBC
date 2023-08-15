@@ -90,7 +90,8 @@ class ProductDetailFragment : Fragment() {
         binding.apply {
             tvProductName.text = product.name
 
-            val formattedPrice = "Rp. ${decimalFormat.format(product.price)}"
+            val discountedPrice = product.price - (product.price * (product.offerPercentage!! / 100))
+            val formattedPrice = "Rp. ${decimalFormat.format(discountedPrice)}"
             tvProductPrice.text = formattedPrice
 
 //            tvProductPrice.text = "Rp. ${product.price}"

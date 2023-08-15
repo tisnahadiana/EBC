@@ -150,7 +150,7 @@ class BillingFragment : Fragment() {
         }
 
         binding.buttonPlaceOrder.setOnClickListener {
-            if (selectedAddress == null) {
+            if (user?.addressUser == null) {
                 ToastUtils.showMessage(requireContext(), "Please Select address")
                 return@setOnClickListener
             }
@@ -198,6 +198,7 @@ class BillingFragment : Fragment() {
     }
 
     private fun showOrderConfirmationDialog() {
+        val address = binding.textShippingAddress.text.toString().trim()
         val dialogResult = DialogResult(requireContext())
         dialogResult.setTitle("Order Items")
         dialogResult.setImage(R.drawable.ic_order)
@@ -207,7 +208,7 @@ class BillingFragment : Fragment() {
                 OrderStatus.Ordered.status,
                 totalPrice,
                 products,
-                selectedAddress!!
+                address
             )
             orderViewModel.placeOrder(order)
             dialogResult.dismiss()

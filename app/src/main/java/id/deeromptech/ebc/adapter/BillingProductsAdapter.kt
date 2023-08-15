@@ -1,21 +1,14 @@
 package id.deeromptech.ebc.adapter
 
-import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import id.deeromptech.ebc.R
 import id.deeromptech.ebc.data.local.Address
 import id.deeromptech.ebc.data.local.Cart
-import id.deeromptech.ebc.databinding.AddressRvItemBinding
 import id.deeromptech.ebc.databinding.BillingProductsRvItemBinding
-import id.deeromptech.ebc.databinding.ItemCartProductBinding
-import id.deeromptech.ebc.helper.getProductPrice
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.util.*
@@ -32,11 +25,16 @@ class BillingProductsAdapter : RecyclerView.Adapter<BillingProductsAdapter.Billi
                 Glide.with(itemView).load(billingProduct.product.images[0]).into(imageCartProduct)
                 tvBillingProductQuantity.text = billingProduct.quantity.toString()
 
-                val priceAfterPercentage = billingProduct.product.offerPercentage.getProductPrice(billingProduct.product.price)
-                tvProductCartPrice.text = "$ ${String.format("%.2f", priceAfterPercentage)}"
+//                val priceAfterPercentage = billingProduct.product.offerPercentage.getProductPrice(billingProduct.product.price)
+//                tvProductCartPrice.text = "$ ${String.format("%.2f", priceAfterPercentage)}"
+//
+//                val formattedPrice = "Rp. ${decimalFormat.format(billingProduct.product.price)}"
+//                tvProductCartPrice.text = formattedPrice
 
-                val formattedPrice = "Rp. ${decimalFormat.format(billingProduct.product.price)}"
+                val discountedPrice = billingProduct.product.price - (billingProduct.product.price * (billingProduct.product.offerPercentage!! / 100))
+                val formattedPrice = "Rp. ${decimalFormat.format(discountedPrice)}"
                 tvProductCartPrice.text = formattedPrice
+
                 tvProductCartName.text = billingProduct.product.name
             }
         }

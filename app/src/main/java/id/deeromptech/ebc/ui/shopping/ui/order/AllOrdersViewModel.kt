@@ -32,7 +32,7 @@ class AllOrdersViewModel @Inject constructor(
             _allOrders.emit(Resource.Loading())
         }
 
-        firestore.collection("user").document(auth.uid!!).collection("orders").get()
+        firestore.collection("users").document(auth.uid!!).collection("orders").get()
             .addOnSuccessListener {
                 val orders = it.toObjects(Order::class.java)
                 viewModelScope.launch {
