@@ -200,6 +200,11 @@
     <string name="save_product">Save Product</string>
     <string name="edit_product">Edit Product</string>
     <string name="store_address">Store Address</string>
+    <string name="confirmed">Confirmed</string>
+    <string name="cancel">Cancel</string>
+    <string name="shipped">Shipped</string>
+    <string name="delivered">Delivered</string>
+    <string name="buyer">Buyer</string>
 
     <string-array name="product_categories">
         <item>Fashion</item>

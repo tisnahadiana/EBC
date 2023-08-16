@@ -123,14 +123,28 @@
                 android:fontFamily="@font/montserrat_medium"
                 android:textColor="@color/navi"
                 android:text="Address"
-                android:textSize="14sp" />
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/tvUserName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Buyer Name"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/montserrat_medium"
+                android:textColor="@color/navi"
+                android:visibility="visible"
+                android:textSize="13sp" />
 
             <TextView
                 android:id="@+id/tvPhoneNumber"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Phone"
-                android:visibility="gone"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/montserrat_medium"
+                android:textColor="@color/navi"
+                android:visibility="visible"
                 android:textSize="13sp" />
 
         </LinearLayout>
@@ -169,53 +183,105 @@
             app:layout_constraintStart_toStartOf="@id/line1"
             app:layout_constraintEnd_toEndOf="@id/guideline2"
             app:layout_constraintTop_toBottomOf="@id/tvProducts"
-            android:layout_marginTop="10dp"
-            tools:listitem="@layout/billing_products_rv_item"
-            />
+            android:layout_marginTop="10dp" />
+
+
+        <Button
+            android:id="@+id/btn_confirmed_order"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="60dp"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/btn_background"
+            android:fontFamily="@font/montserrat_medium"
+            android:text="@string/confirmed"
+            android:visibility="visible"
+            app:layout_constraintStart_toStartOf="@+id/guideline1"
+            app:layout_constraintTop_toBottomOf="@+id/rvProducts" />
+
+        <Button
+            android:id="@+id/btn_cancel_order"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:backgroundTint="@color/red"
+            android:padding="13dp"
+            android:fontFamily="@font/montserrat_medium"
+            android:text="@string/cancel"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@+id/btn_confirmed_order"
+            app:layout_constraintStart_toEndOf="@+id/btn_confirmed_order"
+            app:layout_constraintTop_toTopOf="@+id/btn_confirmed_order" />
+
+        <Button
+            android:id="@+id/btn_shipped_order"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/btn_background"
+            android:fontFamily="@font/montserrat_medium"
+            android:text="@string/shipped"
+            android:visibility="gone"
+            app:layout_constraintEnd_toStartOf="@+id/guideline2"
+            app:layout_constraintStart_toStartOf="@+id/guideline1"
+            app:layout_constraintTop_toBottomOf="@+id/rvProducts" />
+
+        <Button
+            android:id="@+id/btn_delivered_order"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/btn_background"
+            android:fontFamily="@font/montserrat_medium"
+            android:text="@string/delivered"
+            android:visibility="gone"
+            app:layout_constraintEnd_toStartOf="@+id/guideline2"
+            app:layout_constraintStart_toStartOf="@+id/guideline1"
+            app:layout_constraintTop_toBottomOf="@+id/rvProducts" />
+
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/linear"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="@id/guideline1"
-            app:layout_constraintEnd_toEndOf="@id/guideline2"
-            app:layout_constraintTop_toBottomOf="@id/rvProducts"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="8dp"
             android:layout_marginBottom="20dp"
-            android:background="@drawable/bg_total_billing">
+            android:background="@drawable/bg_total_billing"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/guideline2"
+            app:layout_constraintStart_toStartOf="@id/guideline1"
+            app:layout_constraintTop_toBottomOf="@+id/btn_confirmed_order">
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Total"
-                android:textSize="16sp"
-                android:textColor="@color/black"
-                android:fontFamily="@font/montserrat_medium"
+                android:layout_gravity="start|center_vertical"
                 android:layout_marginStart="10dp"
-                android:layout_weight="1"
                 android:layout_marginTop="15sp"
                 android:layout_marginBottom="15sp"
-                android:layout_gravity="start|center_vertical"
+                android:layout_weight="1"
+                android:fontFamily="@font/montserrat_medium"
+                android:text="Total"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/tvTotalPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
-                android:textSize="16sp"
-                android:textColor="@color/black"
-                android:fontFamily="@font/montserrat_medium"
-                android:layout_marginTop="16sp"
-                android:layout_marginBottom="16sp"
                 android:layout_gravity="end|center_vertical"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="16sp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="16sp"
+                android:fontFamily="@font/montserrat_medium"
+                android:textColor="@color/black"
+                android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -283,18 +283,22 @@
         tools:layout="@layout/fragment_seller_order" >
         <action
             android:id="@+id/action_sellerOrderFragment_to_sellerOrderDetailFragment"
-            app:destination="@id/sellerOrderDetailFragment" />
+            app:destination="@id/sellerOrderDetailFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"/>
     </fragment>
     <fragment
         android:id="@+id/sellerOrderDetailFragment"
         android:name="id.deeromptech.ebc.ui.shopping.ui.seller.order.sellerOrderDetailFragment"
         android:label="fragment_seller_order_detail"
         tools:layout="@layout/fragment_seller_order_detail" >
-        <argument
-            android:name="order"
-            app:argType="id.deeromptech.ebc.data.local.Order" />
         <action
             android:id="@+id/action_sellerOrderDetailFragment_to_productDetailFragment"
             app:destination="@id/productDetailFragment" />
+        <argument
+            android:name="order"
+            app:argType="id.deeromptech.ebc.data.local.Order" />
     </fragment>
 </navigation>
