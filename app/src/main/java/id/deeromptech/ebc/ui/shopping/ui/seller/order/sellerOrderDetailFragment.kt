@@ -6,16 +6,16 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import dagger.hilt.android.AndroidEntryPoint
 import id.deeromptech.ebc.R
-import id.deeromptech.ebc.adapter.BillingProductsAdapter
 import id.deeromptech.ebc.adapter.BillingProductsSellerAdapter
 import id.deeromptech.ebc.data.local.Order
 import id.deeromptech.ebc.data.local.OrderStatus
-import id.deeromptech.ebc.data.local.getOrderStatus
 import id.deeromptech.ebc.databinding.FragmentSellerOrderDetailBinding
 import id.deeromptech.ebc.dialog.DialogResult
 import id.deeromptech.ebc.util.ToastUtils
@@ -24,6 +24,7 @@ import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.util.*
 
+@AndroidEntryPoint
 class sellerOrderDetailFragment : Fragment() {
 
     private var _binding: FragmentSellerOrderDetailBinding? = null
@@ -32,6 +33,8 @@ class sellerOrderDetailFragment : Fragment() {
     private val billingProductsSellerAdapter by lazy { BillingProductsSellerAdapter() }
     private val decimalFormat =
         DecimalFormat("#,###", DecimalFormatSymbols(Locale.getDefault()))
+    private val sellerOrderDetailViewModel by viewModels<SellerOrderDetailViewModel> ()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,6 +49,15 @@ class sellerOrderDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val order = args.order
+
+        var totalPrice = order.totalPrice
+        var products = order.products
+        var address = order.address
+        var userName = order.userName
+        var userPhone = order.userPhone
+        var email = order.email
+        var date = order.date
+        var orderId = order.orderId
 
         ToastUtils.showMessage(requireContext(), "${order.orderStatus}")
         setupOrderRv()
@@ -119,7 +131,7 @@ class sellerOrderDetailFragment : Fragment() {
                 putBoolean("seller", false)
             }
             findNavController().navigate(
-                R.id.action_orderDetailFragment_to_productDetailFragment,
+                R.id.action_sellerOrderDetailFragment_to_productDetailFragment,
                 b
             )
         }
@@ -130,6 +142,19 @@ class sellerOrderDetailFragment : Fragment() {
             dialogResult.setImage(R.drawable.ic_verified)
             dialogResult.setMessage("Do you want to confirm this order?")
             dialogResult.setPositiveButton("Yes", onClickListener = {
+                val orderData = Order(
+                    OrderStatus.Confirmed.status,
+                    totalPrice,
+                    products,
+                    address,
+                    userName,
+                    userPhone,
+                    email,
+                    date,
+                    orderId
+                )
+
+                sellerOrderDetailViewModel.placeOrder(orderData)
                 dialogResult.dismiss()
             })
             dialogResult.setNegativeButton("No", onClickListener = {
@@ -144,6 +169,18 @@ class sellerOrderDetailFragment : Fragment() {
             dialogResult.setImage(R.drawable.ic_cancel)
             dialogResult.setMessage("Do you want to cancel this order?")
             dialogResult.setPositiveButton("Yes", onClickListener = {
+                val orderData = Order(
+                    OrderStatus.Canceled.status,
+                    totalPrice,
+                    products,
+                    address,
+                    userName,
+                    userPhone,
+                    email,
+                    date,
+                    orderId
+                )
+                sellerOrderDetailViewModel.placeOrder(orderData)
                 dialogResult.dismiss()
             })
             dialogResult.setNegativeButton("No", onClickListener = {
@@ -158,6 +195,18 @@ class sellerOrderDetailFragment : Fragment() {
             dialogResult.setImage(R.drawable.ic_shipped)
             dialogResult.setMessage("Do you want to update this status order to shipped?")
             dialogResult.setPositiveButton("Yes", onClickListener = {
+                val orderData = Order(
+                    OrderStatus.Shipped.status,
+                    totalPrice,
+                    products,
+                    address,
+                    userName,
+                    userPhone,
+                    email,
+                    date,
+                    orderId
+                )
+                sellerOrderDetailViewModel.placeOrder(orderData)
                 dialogResult.dismiss()
             })
             dialogResult.setNegativeButton("No", onClickListener = {
@@ -172,6 +221,18 @@ class sellerOrderDetailFragment : Fragment() {
             dialogResult.setImage(R.drawable.ic_delivered)
             dialogResult.setMessage("Do you want to update this status order to shipped?")
             dialogResult.setPositiveButton("Yes", onClickListener = {
+                val orderData = Order(
+                    OrderStatus.Delivered.status,
+                    totalPrice,
+                    products,
+                    address,
+                    userName,
+                    userPhone,
+                    email,
+                    date,
+                    orderId
+                )
+                sellerOrderDetailViewModel.placeOrder(orderData)
                 dialogResult.dismiss()
             })
             dialogResult.setNegativeButton("No", onClickListener = {

@@ -19,7 +19,6 @@ import id.deeromptech.ebc.R
 import id.deeromptech.ebc.SpacingDecorator.VerticalSpacingItemDecorator
 import id.deeromptech.ebc.adapter.CategoriesRecyclerAdapter
 import id.deeromptech.ebc.adapter.SearchRecyclerAdapter
-import id.deeromptech.ebc.data.local.Category
 import id.deeromptech.ebc.databinding.FragmentSearchBinding
 import id.deeromptech.ebc.util.Resource
 import id.deeromptech.ebc.util.ToastUtils

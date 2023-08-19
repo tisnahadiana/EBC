@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import id.deeromptech.ebc.R
 import id.deeromptech.ebc.data.local.Address
 import id.deeromptech.ebc.databinding.AddressRvItemBinding
-import id.deeromptech.ebc.util.Constants.SELECT_ADDRESS_FLAG
 
 class AddressAdapter: RecyclerView.Adapter<AddressAdapter.AddressViewHolder>() {
 

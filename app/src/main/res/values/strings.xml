@@ -10,10 +10,10 @@
     <string name="greeting_title3">Work Done</string>
     <string name="greeting3">See interesting products from UMKM in Bojong Picung! </string>
     <string name="greeting_picture">Greeting picture</string>
-    <string name="learn_now">Belajar Sekarang</string>
+    <string name="learn_now">Learn Now!</string>
     <string name="get_started">Get Started</string>
     <string name="sign_out">Sign Out</string>
-    <string name="tombol_logout">tombol_logout</string>
+    <string name="tombol_logout">button logout</string>
     <string name="let_s_register">Let\'s Register</string>
     <string name="do_you_have_an_account_log_in">Do you have an account? log in</string>
     <string name="first_name">First Name</string>
@@ -31,7 +31,7 @@
     <string name="email_cannot_empty">Email cannot be empty</string>
     <string name="phone_cannot_empty">phone cannot be empty</string>
     <string name="password_minimum">Password must consist of minimum 8 characters</string>
-    <string name="password_cannot_empty">Password must consist of minimum 8 characters</string>
+    <string name="password_cannot_empty">Password cannot be empty</string>
     <string name="g_check_your_email">Check your Email</string>
 
     <!-- Login. -->
@@ -89,17 +89,17 @@
     <string name="language">Language</string>
     <string name="personal_info">Personal Info</string>
     <string name="store_name">Store Name</string>
-    <string name="address_store">Alamat Toko</string>
-    <string name="rekening_number">Rekening Number</string>
+    <string name="address_store">Store Address</string>
+    <string name="rekening_number">Bank Number</string>
     <string name="save_data">Save Data</string>
 
     <!-- Product Detail. -->
     <string name="cart">Cart</string>
     <string name="productname">ProductName</string>
-    <string name="price">price</string>
+    <string name="price">Price</string>
     <string name="product_detail">Product detail</string>
     <string name="product_description">Product Description</string>
-    <string name="product_stok">Product Stok</string>
+    <string name="product_stok">Product Stock</string>
     <string name="g_please_select_color">Please select color</string>
     <string name="g_color">Color</string>
     <string name="g_size">Size</string>
@@ -111,7 +111,7 @@
     <string name="buy_now">Buy Now</string>
     <string name="_1">1</string>
     <string name="my_cart">My Cart</string>
-    <string name="checkout">checkout</string>
+    <string name="checkout">Checkout</string>
     <string name="address_location_ex_home">Address location Ex: Home</string>
 
     <!-- Order. -->
@@ -161,6 +161,7 @@
     <string name="g_no">No</string>
     <string name="g_yes">Yes</string>
     <string name="password_reset">We sent reset password link to your email</string>
+    <string name="calculate_shipping_costs">Calculate shipping costs</string>
 
 
     <!-- Address. -->
@@ -205,6 +206,27 @@
     <string name="shipped">Shipped</string>
     <string name="delivered">Delivered</string>
     <string name="buyer">Buyer</string>
+
+    <!-- Shipping Cost. -->
+    <string name="choose_province">Choose Province</string>
+    <string name="str_choose_province">- Choose Province -</string>
+    <string name="choose_city">- Choose City -</string>
+    <string name="postage_fee">Postage Fee :</string>
+    <string name="rp0">Rp0</string>
+    <string name="destination_city">Destination City</string>
+    <string name="origin_city">Origin City</string>
+    <string name="weight_gram">Weight (gram)</string>
+    <string name="check_postage_fee">Check Postage Fee</string>
+    <string name="courier">Courier</string>
+    <string name="form_empty">Some Form is Empty!</string>
+    <string name="message_error">SOMETHING ERROR : %1$s</string>
+    <string name="courier_not_available">Courier %1$s is not available on this origin/destination city</string>
+
+    <string-array name="list_courier">
+        <item>POS</item>
+        <item>TIKI</item>
+        <item>JNE</item>
+    </string-array>
 
     <string-array name="product_categories">
         <item>Fashion</item>

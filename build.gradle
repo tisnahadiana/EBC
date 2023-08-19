@@ -21,3 +21,8 @@ plugins {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+ext {
+    retrofit_version = '2.9.0'
+    okHttp3_version = '4.9.0'
+}

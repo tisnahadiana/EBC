@@ -1,9 +1,6 @@
 package id.deeromptech.ebc.adapter
 
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
@@ -11,8 +8,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import id.deeromptech.ebc.data.local.Cart
 import id.deeromptech.ebc.databinding.ItemCartProductBinding
-import id.deeromptech.ebc.helper.getProductPrice
-import id.deeromptech.ebc.util.Constants.CART_FLAG
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.util.*

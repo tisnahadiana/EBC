@@ -168,12 +168,12 @@
                     android:orientation="horizontal"
                     android:layout_marginTop="10dp"
                     android:layout_margin="5dp"
-                    android:id="@+id/linearTrackOrder">
+                    android:id="@+id/linearShippingCosts">
 
                     <ImageView
                         android:layout_width="30dp"
                         android:layout_height="30dp"
-                        android:src="@drawable/ic_search"
+                        android:src="@drawable/ic_kurir"
                         android:layout_gravity="center_vertical"
                         android:background="@drawable/settings_items_background"
                         android:backgroundTint="@color/gray"
@@ -187,7 +187,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="@string/track_orders"
+                        android:text="@string/calculate_shipping_costs"
                         android:textStyle="bold"
                         android:layout_marginStart="15dp"
                         android:layout_gravity="center_vertical"/>

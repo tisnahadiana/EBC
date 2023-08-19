@@ -30,11 +30,11 @@ class OrderViewModel @Inject constructor(
             //TODO: Add the order into orders collection
             //TODO: Delete the products from user-cart collection
 
-            firestore.collection("users")
-                .document(auth.uid!!)
-                .collection("orders")
-                .document()
-                .set(order)
+//            firestore.collection("users")
+//                .document(auth.uid!!)
+//                .collection("orders")
+//                .document()
+//                .set(order)
 
             firestore.collection("orders").document().set(order)
 

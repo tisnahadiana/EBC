@@ -6,7 +6,6 @@ import androidx.lifecycle.viewModelScope
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.lifecycle.HiltViewModel
 import id.deeromptech.ebc.data.local.AddressStore
-import id.deeromptech.ebc.data.local.Cart
 import id.deeromptech.ebc.data.local.Product
 import id.deeromptech.ebc.data.local.User
 import id.deeromptech.ebc.firebase.FirebaseDb

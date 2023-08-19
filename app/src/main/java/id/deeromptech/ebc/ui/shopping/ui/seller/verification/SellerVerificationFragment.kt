@@ -17,7 +17,6 @@ import id.deeromptech.ebc.util.Resource
 import id.deeromptech.ebc.util.ToastUtils
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import java.util.*
 
 @AndroidEntryPoint
 class SellerVerificationFragment : Fragment() {

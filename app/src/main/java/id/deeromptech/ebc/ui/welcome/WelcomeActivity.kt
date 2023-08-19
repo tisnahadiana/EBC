@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
 import dagger.hilt.android.AndroidEntryPoint
-import id.deeromptech.ebc.R
 import id.deeromptech.ebc.databinding.ActivityWelcomeBinding
 import id.deeromptech.ebc.ui.auth.login.LoginActivity
 

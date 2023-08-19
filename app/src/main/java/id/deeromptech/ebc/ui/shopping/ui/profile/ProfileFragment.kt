@@ -2,6 +2,7 @@ package id.deeromptech.ebc.ui.shopping.ui.profile
 
 import android.content.Intent
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -21,6 +22,7 @@ import id.deeromptech.ebc.data.local.User
 import id.deeromptech.ebc.databinding.FragmentProfileBinding
 import id.deeromptech.ebc.dialog.DialogResult
 import id.deeromptech.ebc.ui.auth.login.LoginActivity
+import id.deeromptech.ebc.ui.shopping.ui.shippingcost.ShippingCostActivity
 import id.deeromptech.ebc.util.Resource
 import id.deeromptech.ebc.util.ToastUtils
 import id.deeromptech.ebc.util.showBottomNavigationView
@@ -68,7 +70,7 @@ class ProfileFragment : Fragment() {
         onBillingAndAddressesClick()
         onProfileClick()
         onAllOrderClick()
-        onTrackOrderClick()
+        onShippingCost()
         onLanguageClick()
         onHelpClick()
 
@@ -91,13 +93,16 @@ class ProfileFragment : Fragment() {
 
     private fun onLanguageClick() {
         binding.linearLanguage.setOnClickListener {
-            findNavController().navigate(R.id.action_navigation_profile_to_languageFragment)
+//            findNavController().navigate(R.id.action_navigation_profile_to_languageFragment)
+            val intent = Intent(Settings.ACTION_LOCALE_SETTINGS)
+            startActivity(intent)
         }
     }
 
-    private fun onTrackOrderClick() {
-        binding.linearTrackOrder.setOnClickListener {
-            ToastUtils.showMessage(requireActivity(), getString(R.string.g_coming_soon))
+    private fun onShippingCost() {
+        binding.linearShippingCosts.setOnClickListener {
+            val intent = Intent(requireContext(), ShippingCostActivity::class.java)
+            startActivity(intent)
         }
     }
 

@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import id.deeromptech.ebc.data.local.Product
 import id.deeromptech.ebc.databinding.BestDealsRvItemBinding
-import id.deeromptech.ebc.databinding.RecyclerviewSearchItemBinding
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.util.*

@@ -2,8 +2,6 @@ package id.deeromptech.ebc.ui.shopping.ui.profile
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.lifecycle.HiltViewModel
 import id.deeromptech.ebc.data.local.User
 import id.deeromptech.ebc.firebase.FirebaseDb

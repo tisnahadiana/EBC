@@ -12,7 +12,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
@@ -21,7 +20,6 @@ import id.deeromptech.ebc.R
 import id.deeromptech.ebc.data.local.Product
 import id.deeromptech.ebc.data.local.User
 import id.deeromptech.ebc.databinding.FragmentInputProductBinding
-import id.deeromptech.ebc.ui.shopping.ui.setting.UserAccountFragmentArgs
 import id.deeromptech.ebc.util.Resource
 import id.deeromptech.ebc.util.ToastUtils
 import kotlinx.coroutines.async

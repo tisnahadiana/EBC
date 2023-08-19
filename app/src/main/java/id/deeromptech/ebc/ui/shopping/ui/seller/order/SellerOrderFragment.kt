@@ -12,14 +12,12 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 import id.deeromptech.ebc.R
 import id.deeromptech.ebc.adapter.SellerOrderAdapter
 import id.deeromptech.ebc.data.local.Order
 import id.deeromptech.ebc.data.local.User
 import id.deeromptech.ebc.databinding.FragmentSellerOrderBinding
-import id.deeromptech.ebc.ui.shopping.ui.order.AllOrdersFragmentDirections
 import id.deeromptech.ebc.util.Resource
 import id.deeromptech.ebc.util.ToastUtils
 import kotlinx.coroutines.flow.collectLatest
@@ -54,7 +52,6 @@ class SellerOrderFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupOrdersRv()
-//        showOrderSeller()
         observeOrderSeller()
 
         lifecycleScope.launchWhenStarted {

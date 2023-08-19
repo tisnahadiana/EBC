@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView
 import id.deeromptech.ebc.R
 import id.deeromptech.ebc.adapter.BillingProductsAdapter
 import id.deeromptech.ebc.data.local.OrderStatus
-import id.deeromptech.ebc.data.local.getOrderStatus
 import id.deeromptech.ebc.databinding.FragmentOrderDetailBinding
 import id.deeromptech.ebc.util.VerticalItemDecoration
 import java.text.DecimalFormat
@@ -82,11 +81,11 @@ class OrderDetailFragment : Fragment() {
     }
 
     private fun getCurrentOrderState(orderStatus: String): Int {
-        return when (getOrderStatus(orderStatus)) {
-            is OrderStatus.Ordered -> 0
-            is OrderStatus.Confirmed -> 1
-            is OrderStatus.Shipped -> 2
-            is OrderStatus.Delivered -> 3
+        return when (orderStatus) {
+            "Ordered" -> 0
+            "Confirmed" -> 1
+            "Shipped" -> 2
+            "Delivered" -> 3
             else -> 0
         }
     }

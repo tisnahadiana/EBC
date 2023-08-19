@@ -5,23 +5,20 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
-import id.deeromptech.ebc.R
 import id.deeromptech.ebc.adapter.AllOrdersAdapter
-import id.deeromptech.ebc.databinding.FragmentMainCategoryBinding
 import id.deeromptech.ebc.databinding.FragmentOrdersBinding
 import id.deeromptech.ebc.util.Resource
 import id.deeromptech.ebc.util.ToastUtils
 import kotlinx.coroutines.flow.collectLatest
 
+private val TAG = "AllOrdersFragment"
 @AndroidEntryPoint
 class AllOrdersFragment: Fragment() {
 
@@ -44,7 +41,28 @@ class AllOrdersFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel.getUser()
+
         setupOrdersRv()
+
+        lifecycleScope.launchWhenStarted {
+            viewModel.profile.observe(viewLifecycleOwner) { resource ->
+                when (resource) {
+                    is Resource.Success -> {
+                        val user = resource.data
+                        user?.let {
+                            viewModel.getAllOrders(it) // Pass the user object
+                        }
+                    }
+                    is Resource.Error -> {
+                        // Handle error state
+                        Log.e(TAG, resource.message ?: "Unknown error occurred")
+                    }
+                    // Handle loading state if needed
+                    else -> Unit
+                }
+            }
+        }
 
         lifecycleScope.launchWhenStarted {
             viewModel.allOrders.collectLatest {

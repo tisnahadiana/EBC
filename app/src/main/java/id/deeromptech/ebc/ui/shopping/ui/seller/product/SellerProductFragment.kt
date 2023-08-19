@@ -15,8 +15,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import id.deeromptech.ebc.R
 import id.deeromptech.ebc.SpacingDecorator.VerticalSpacingItemDecorator
 import id.deeromptech.ebc.adapter.SellerProductAdapter
-import id.deeromptech.ebc.data.local.Product
-import id.deeromptech.ebc.data.local.User
 import id.deeromptech.ebc.databinding.FragmentSellerProductBinding
 import id.deeromptech.ebc.util.Resource
 import id.deeromptech.ebc.util.ToastUtils

@@ -4,27 +4,15 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
 import id.deeromptech.ebc.R
 import id.deeromptech.ebc.data.local.User
 import id.deeromptech.ebc.databinding.ActivityRegisterBinding
 import id.deeromptech.ebc.ui.auth.login.LoginActivity
-import id.deeromptech.ebc.util.RegisterValidation
 import id.deeromptech.ebc.util.Resource
 import id.deeromptech.ebc.util.ToastUtils
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 
 private val TAG = "RegisterActivity"
 @AndroidEntryPoint

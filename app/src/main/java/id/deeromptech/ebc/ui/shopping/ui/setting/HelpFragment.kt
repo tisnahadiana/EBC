@@ -8,9 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
-import id.deeromptech.ebc.R
 import id.deeromptech.ebc.databinding.FragmentHelpBinding
-import id.deeromptech.ebc.databinding.FragmentProfileBinding
 
 class HelpFragment : Fragment() {
 

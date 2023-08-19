@@ -3,7 +3,6 @@ package id.deeromptech.ebc.ui.shopping.ui.seller.order
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.lifecycle.HiltViewModel
 import id.deeromptech.ebc.data.local.Order
@@ -18,17 +17,13 @@ import javax.inject.Inject
 @HiltViewModel
 class SellerOrderViewModel @Inject constructor(
     private val firestore: FirebaseFirestore,
-    private val firebaseDatabase: FirebaseDb,
-    private val auth: FirebaseAuth
+    private val firebaseDatabase: FirebaseDb
 ) : ViewModel() {
 
     private val _allOrders = MutableStateFlow<Resource<List<Order>>>(Resource.Unspecified())
     val allOrders = _allOrders.asStateFlow()
 
-
-
     val profile = MutableLiveData<Resource<User>>()
-
 
     fun getAllOrders(user: String){
         viewModelScope.launch {

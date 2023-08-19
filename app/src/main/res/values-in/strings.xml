@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">EBC</string>
+
+    <!-- Welcome. -->
+    <string name="welcome">Selamat Datang!</string>
+    <string name="greeting_title1">Belanja Sekarang!</string>
+    <string name="greeting">Bergabung bersama kami dan beli berbagai produk UMKM dari rumahmu!</string>
+    <string name="greeting_title2">Dalam perjalanan</string>
+    <string name="greeting2">Belanja di mana saja dan kapan saja!</string>
+    <string name="greeting_title3">Langsung Beres</string>
+    <string name="greeting3">Lihat produk-produk menarik dari UMKM di Bojong Picung!</string>
+    <string name="greeting_picture">Gambar salam</string>
+    <string name="learn_now">Belajar Sekarang</string>
+    <string name="get_started">Mulai</string>
+    <string name="sign_out">Keluar</string>
+    <string name="tombol_logout">Tombol Keluar</string>
+    <string name="let_s_register">Mari Daftar</string>
+    <string name="do_you_have_an_account_log_in">Apakah kamu sudah punya akun? Masuk</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="register">Daftar</string>
+    <string name="facebook">Facebook</string>
+    <string name="google">Google</string>
+    <string name="skip">Skip</string>
+
+    <!-- CustomView. -->
+    <string name="name_cannot_empty">Nama tidak boleh kosong</string>
+    <string name="valid_email">Harap masukkan email yang valid</string>
+    <string name="email_cannot_empty">Email tidak boleh kosong</string>
+    <string name="phone_cannot_empty">No. HP tidak boleh kosong</string>
+    <string name="password_minimum">Kata sandi harus terdiri dari minimal 8 karakter</string>
+    <string name="password_cannot_empty">Kata sandi tidak boleh kosong</string>
+    <string name="g_check_your_email">Periksa email Anda</string>
+
+    <!-- Login. -->
+    <string name="Login">Masuk</string>
+    <string name="Login_Desc">Silahkan masuk untuk melanjutkan!</string>
+    <string name="forgot_password">Lupa password?</string>
+    <string name="not_have_account">Belum punya akun?</string>
+    <string name="register_login">Daftar</string>
+    <string name="tv_or">Atau</string>
+    <string name="login_with">Masuk dengan</string>
+    <string name="google_account">Akun Google</string>
+    <string name="logo_ebc">logo ebc</string>
+    <string name="illustration_login">Illustrasi Masuk</string>
+    <string name="success_message_login">Login Akun Success</string>
+    <string name="failure_message_login">Login Akun Failed</string>
+    <string name="error_occurred">Ups terjadi kesalahan</string>
+
+    <!-- Register. -->
+    <string name="register_desc">Silakan daftar untuk membuat akun!</string>
+    <string name="hint_register_name">Masukkan Nama</string>
+    <string name="hint_register_email">Masukkan E-mail</string>
+    <string name="hint_register_phone">Masukkan Nomber HP</string>
+    <string name="hint_register_password">Masukkan Kata Kunci</string>
+    <string name="already_have_an_account">Sudah punya akun?</string>
+    <string name="signup_with">Masuk Menggunakan</string>
+    <string name="success_message_register">Daftar Akun Sukses</string>
+    <string name="failure_message_register">Daftar Akun Gagal</string>
+
+    <string name="g_reset_password">Atur Ulang Kata Kunci</string>
+    <string name="g_reset_password_message">Kami akan mengirimkan link reset password pada Email Anda</string>
+    <string name="g_cancel">Batalkan</string>
+    <string name="g_send">Kirim</string>
+    <string name="message_reset">Tautan reset telah dikirim ke email Anda</string>
+
+    <string name="title_activity_shopping">ShoppingActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_profile">Profile</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_search">Cari</string>
+    <string name="logout">Keluar</string>
+    <string name="notification_button">tombol_notifikasi</string>
+
+    <!-- Help. -->
+    <string name="admin_email">admin@example.com</string>
+    <string name="email_subject">Permintaan Bantuan</string>
+    <string name="best_deals">Produk Unggulan</string>
+    <string name="best_products">Produk Terbaik</string>
+    <string name="help_text">Ada pertanyaan? Kami di sini untuk menjawab!</string>
+
+    <string name="want_to_be_seller">Ingin menjadi Penjual?</string>
+    <string name="my_store">Toko Saya</string>
+    <string name="track_order">Lacak Pesanan</string>
+    <string name="language">Bahasa</string>
+    <string name="personal_info">Informasi pribadi</string>
+    <string name="store_name">Nama Toko</string>
+    <string name="address_store">Alamat Toko</string>
+    <string name="rekening_number">Nomor Rekening</string>
+    <string name="save_data">Simpan Data</string>
+
+    <!-- Product Detail. -->
+    <string name="cart">Keranjang</string>
+    <string name="productname">ProductName</string>
+    <string name="price">Harga</string>
+    <string name="product_detail">Detail Produk</string>
+    <string name="product_description">Deskripsi Produk</string>
+    <string name="product_stok">Stok Produk</string>
+    <string name="g_please_select_color">Silahkan pilih warna</string>
+    <string name="g_color">Warna</string>
+    <string name="g_size">Ukuran</string>
+    <string name="g_please_select_size">Tolong Pilih Ukuran</string>
+    <string name="g_add_to_cart">Masukkan ke Keranjang</string>
+
+    <!-- Product Cart. -->
+    <string name="button_cart">Tombol Keranjang</string>
+    <string name="buy_now">Beli Sekarang</string>
+    <string name="_1">1</string>
+    <string name="my_cart">Keranjangku</string>
+    <string name="checkout">Checkout</string>
+    <string name="address_location_ex_home">Alamat lokasi Contoh: Rumah</string>
+
+    <!-- Order. -->
+    <string name="full_name">Full Name</string>
+    <string name="delete">Hapus</string>
+    <string name="save">Simpan</string>
+    <string name="phone">Telepon</string>
+    <string name="state">Negara</string>
+    <string name="city">Kota</string>
+    <string name="street">Jalan</string>
+    <string name="address_location">Alamat lokasi Contoh: Rumah</string>
+    <string name="addresses">Alamat</string>
+    <string name="place_order">Tempatkan Pesanan</string>
+    <string name="payment_explanation">EBC tidak mendukung pembayaran virtual. Anda dapat membayar ketika Anda menerima pesanan Anda.</string>
+    <string name="payment_methods">Cara Pembayaran</string>
+    <string name="shipping">Pengiriman</string>
+    <string name="total">Total :</string>
+    <string name="select_address_error">Pilih atau tambahkan alamat baru!</string>
+    <string name="payment_failed">Pesanan Anda Gagal!</string>
+    <string name="payment_success">Pesanan Anda Selesai</string>
+    <string name="order_error_message">Coba lagi nanti, jika kesalahan ini terus muncul, harap hubungi kami.</string>
+    <string name="g_track_order">Anda dapat melacak pesanan Anda dengan membuka profil Anda dan memilih semua pesanan lalu pilih pesanan terbaru Anda.</string>
+    <string name="order_details">Detail pesanan</string>
+    <string name="order_success_message">Kami menerima pesanan Anda dan kami akan menghubungi Anda melalui panggilan telepon dalam 24 jam berikutnya
+    \n nomor pesanan Anda adalah #</string>
+    <string name="place_order_confirmation">Apakah Anda yakin ingin melakukan pemesanan ini?</string>
+    <string name="confirm">Konfirmasi</string>
+    <string name="order">Memesan</string>
+
+    <string name="g_order_placed">Pesanan Ditempatkan</string>
+    <string name="g_shipped">Dikirim</string>
+    <string name="g_delivered">Terkirim</string>
+
+    <!-- Profile. -->
+    <string name="settings">Pengaturan</string>
+    <string name="edit_personal_details">Edit Data Personal</string>
+    <string name="orders">Pesanan</string>
+    <string name="all_orders">Semua Pesanan</string>
+    <string name="track_orders">Lacak Resi Pesanan</string>
+    <string name="billing">Penagihan</string>
+    <string name="notifications">Notifications</string>
+    <string name="regional">Notifikasi</string>
+    <string name="old_price">Harga lama</string>
+    <string name="g_coming_soon">Fitur ini belum tersedia</string>
+    <string name="select_profile_image">Pilih gambar profil</string>
+    <string name="g_cant_change_email_message">Anda tidak dapat mengubah alamat email Anda, jika Anda ingin mengubahnya, silakan hubungi kami</string>
+    <string name="g_no">Tidak</string>
+    <string name="g_yes">Ya</string>
+    <string name="password_reset">Kami mengirimkan tautan atur ulang kata sandi ke email Anda</string>
+    <string name="calculate_shipping_costs">Hitung biaya pengiriman</string>
+
+
+    <!-- Address. -->
+    <string name="determine_location">Tentukan lokasinya</string>
+    <string name="village">Kampung</string>
+    <string name="desa">Desa</string>
+    <string name="subdistrict">Kecamatan</string>
+    <string name="province">Provinsi</string>
+    <string name="help">Tolong</string>
+    <string name="english">English</string>
+    <string name="indonesia">Indonesia</string>
+    <string name="delete_item">Hapus Item</string>
+    <string name="delete_item_cart">Yakin ingin menghapus item ini dari keranjang?</string>
+
+    <string name="product_added">Produk ditambahkan ke keranjang Anda</string>
+    <string name="categories">Kategori</string>
+    <string name="Beauty">Kecantikan</string>
+    <string name="Electronics">Elektronik</string>
+    <string name="Fashion">Pakaian</string>
+    <string name="Food">Makanan</string>
+    <string name="Handycrafts">Kerajinan</string>
+    <string name="Household">Rumah tangga</string>
+    <string name="become_seller">Isi data di bawah ini untuk menjadi penjual</string>
+    <string name="edit_seller_data">Edit Data Penjual</string>
+    <string name="hint_register_nameStore">Masukkan Nama Toko</string>
+    <string name="hint_register_rekening">Masukkan Rekening</string>
+
+    <!-- Seller. -->
+    <string name="product_name">Nama Produk</string>
+    <string name="product_general_information">Informasi umum produk :</string>
+    <string name="select_product_images">Pilih Gambar Produk</string>
+    <string name="input_product">Masukkan Produk</string>
+    <string name="see_product">Lihat Produk</string>
+    <string name="edit_store_details">Edit Info Toko</string>
+    <string name="edit_data">Edit Data</string>
+    <string name="enter_full_address_store">Masukkan Alamat Lengkap!</string>
+    <string name="save_product">Simpan Produk</string>
+    <string name="edit_product">Edit Produk</string>
+    <string name="store_address">Alamat Toko</string>
+    <string name="confirmed">Konfirmasi</string>
+    <string name="cancel">Batal</string>
+    <string name="shipped">Perjalanan</string>
+    <string name="delivered">Terkirim</string>
+    <string name="buyer">Pembeli</string>
+
+    <!-- Shipping Cost. -->
+    <string name="choose_province">Pilih Provinsi</string>
+    <string name="str_choose_province">- Pilih Provinsi -</string>
+    <string name="choose_city">- Pilih Kota -</string>
+    <string name="postage_fee">Biaya Ongkos Kirim :</string>
+    <string name="rp0">Rp0</string>
+    <string name="destination_city">Kota Tujuan</string>
+    <string name="origin_city">Kota Asal</string>
+    <string name="weight_gram">Berat (gram)</string>
+    <string name="check_postage_fee">Cek Ongkos Kirim</string>
+    <string name="courier">Kurir</string>
+    <string name="form_empty">Beberapa Formulir Kosong!</string>
+    <string name="message_error">ADA KESALAHAN : %1$s</string>
+    <string name="courier_not_available">Kurir %1$s tidak tersedia di kota asal/tujuan ini</string>
+
+    <string-array name="list_courier">
+        <item>POS</item>
+        <item>TIKI</item>
+        <item>JNE</item>
+    </string-array>
+
+    <string-array name="product_categories">
+        <item>Fashion</item>
+        <item>Food</item>
+        <item>Handycrafts</item>
+        <item>Beauty</item>
+        <item>Household</item>
+        <item>Electronics</item>
+    </string-array>
+</resources>
