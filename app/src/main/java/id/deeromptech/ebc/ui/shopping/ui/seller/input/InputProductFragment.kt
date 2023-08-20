@@ -153,25 +153,6 @@ class InputProductFragment : Fragment() {
         }
     }
 
-//    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-//        inflater.inflate(R.menu.toolbar_menu, menu)
-//        super.onCreateOptionsMenu(menu, inflater)
-//    }
-//
-//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-//        if (item.itemId == R.id.saveProduct) {
-//            val productValidation = validateInformation()
-//            if (!productValidation) {
-//                ToastUtils.showMessage(requireContext(), "Check your inputs")
-//                return false
-//            }
-//            saveProduct(){
-//                Log.d("test", it.toString())
-//            }
-//        }
-//        return super.onOptionsItemSelected(item)
-//    }
-
     private fun validateInformation(): Boolean {
         if (selectedImages.isEmpty())
             return false
@@ -193,6 +174,7 @@ class InputProductFragment : Fragment() {
         val offerPercentage = binding.offerPercentage.text.toString().trim()
         val seller = user?.storeName
         val addressStore = user?.addressStore
+        val sellerPhone = user?.phone
 
         val radioGroup = binding.rgStockAvailability
         val selectedRadioButtonId = radioGroup.checkedRadioButtonId
@@ -228,7 +210,8 @@ class InputProductFragment : Fragment() {
                     stock,
                     seller,
                     images,
-                    addressStore
+                    addressStore,
+                    sellerPhone
                 )
 
                 firestore.collection("Products").add(product).addOnSuccessListener {

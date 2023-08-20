@@ -37,8 +37,23 @@ class UserAccountFragment : Fragment() {
     private val args by navArgs<UserAccountFragmentArgs>()
     private var isPicked = false
     var imageArray: ByteArray? = null
+    private lateinit var userRole : String
+    private lateinit var addressUser : String
+    private lateinit var storeName : String
+    private lateinit var addressStore : String
+    private lateinit var rekening : String
 
     private val viewModel by viewModels<UserAccountViewModel> ()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        userRole = args.user.role.toString()
+        addressUser = args.user.addressUser.toString()
+        storeName = args.user.storeName.toString()
+        addressStore = args.user.addressStore.toString()
+        rekening = args.user.rekening.toString()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -53,6 +68,7 @@ class UserAccountFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
 
         setUserInformation(args.user)
         onCloseClick()
@@ -92,7 +108,13 @@ class UserAccountFragment : Fragment() {
                 val email = binding.edEmail.text.toString()
                 val phone = binding.edPhone.text.toString()
                 val image=""
-                viewModel.updateInformation(name,email,phone,image)
+                val role = userRole
+                val addressUserData = addressUser
+                val storeNameData = storeName
+                val addressStoreData = addressStore
+                val rekeningData = rekening
+
+                viewModel.updateInformation(name,email,phone,image, role, addressUserData, storeNameData, addressStoreData, rekeningData)
             }
         }
 
@@ -148,7 +170,7 @@ class UserAccountFragment : Fragment() {
                     val email = binding.edEmail.text.toString()
                     val phone = binding.edPhone.text.toString()
 
-                    viewModel.updateInformation(firstName, email, phone, response.data!!)
+                    viewModel.updateInformation(firstName, email, phone, response.data!!, userRole, addressUser, storeName, addressStore, rekening)
                     return@observe
                 }
 

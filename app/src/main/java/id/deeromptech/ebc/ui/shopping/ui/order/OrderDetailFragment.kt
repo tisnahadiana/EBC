@@ -43,9 +43,14 @@ class OrderDetailFragment : Fragment() {
 
         val order = args.order
 
+
         setupOrderRv()
 
         binding.apply {
+
+            if (order.orderNote == null) {
+                tvOrderNote.visibility = View.GONE
+            }
 
             tvOrderId.text = "Order #${order.orderId}"
 
@@ -55,11 +60,13 @@ class OrderDetailFragment : Fragment() {
                 OrderStatus.Shipped.status,
                 OrderStatus.Delivered.status
             )
-            tvAddress.text = "${order.address}"
-
+            tvAddress.text = order.address
+//            tvPhoneNumber.text = phoneNumber.toString()
 
             val formattedPrice = "Rp. ${decimalFormat.format(order.totalPrice)}"
             tvTotalPrice.text = formattedPrice
+
+            tvOrderNote.text = order.orderNote
 
             stepsView.setLabels(stepLabels.toTypedArray())
                 .setBarColorIndicator(getContext()?.getResources()!!.getColor(com.anton46.stepsview.R.color.yellow))

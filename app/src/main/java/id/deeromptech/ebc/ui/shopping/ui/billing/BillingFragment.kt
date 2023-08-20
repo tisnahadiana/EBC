@@ -199,6 +199,7 @@ class BillingFragment : Fragment() {
 
     private fun showOrderConfirmationDialog() {
         val address = binding.textShippingAddress.text.toString().trim()
+        val orderNote = binding.edNoteOrder.text.toString().trim()
         val dialogResult = DialogResult(requireContext())
         dialogResult.setTitle("Order Items")
         dialogResult.setImage(R.drawable.ic_order)
@@ -211,7 +212,8 @@ class BillingFragment : Fragment() {
                 address,
                 user!!.name,
                 user!!.phone,
-                user!!.email
+                user!!.email,
+                orderNote
             )
             orderViewModel.placeOrder(order)
             dialogResult.dismiss()

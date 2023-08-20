@@ -13,7 +13,9 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
+import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 import id.deeromptech.ebc.BuildConfig
@@ -60,6 +62,8 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        auth = FirebaseAuth.getInstance()
+        googleSignInClient = GoogleSignIn.getClient(requireContext(), GoogleSignInOptions.DEFAULT_SIGN_IN)
 
         binding.linearLogOut.setOnClickListener {
             signOut()
@@ -207,6 +211,7 @@ class ProfileFragment : Fragment() {
         dialogResult.setPositiveButton("Ya", onClickListener = {
             auth.signOut()
             googleSignInClient.signOut()
+            dialogResult.dismiss()
             startActivity(Intent(requireContext(), LoginActivity::class.java))
             requireActivity().finish()
         })

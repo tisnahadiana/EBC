@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import id.deeromptech.ebc.R
 import id.deeromptech.ebc.adapter.CartProductAdapter
+import id.deeromptech.ebc.data.local.Cart
 import id.deeromptech.ebc.databinding.FragmentCartBinding
 import id.deeromptech.ebc.firebase.FirebaseCommon
 import id.deeromptech.ebc.util.Resource
@@ -32,6 +33,7 @@ class CartFragment : Fragment() {
     private val cartAdapter by lazy { CartProductAdapter() }
     private val viewModel by activityViewModels<CartViewModel>()
     private val decimalFormat = DecimalFormat("#,###", DecimalFormatSymbols(Locale.getDefault()))
+    private val checkedProducts = mutableSetOf<Cart>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -50,6 +52,15 @@ class CartFragment : Fragment() {
         setupCartRv()
 
         var totalPrice = 0f
+
+        binding.buttonCheckout.isEnabled = false // Disable button by default
+
+        if (checkedProducts.isNotEmpty()) {
+            val uniqueSellers = checkedProducts.map { it.product.seller }.distinct()
+            if (uniqueSellers.size > 1) {
+                ToastUtils.showMessage(requireContext(), "Pilih produk pada toko yang sama.")
+            }
+        }
 
         lifecycleScope.launchWhenStarted {
             viewModel.productPrice.collectLatest { price ->
@@ -97,6 +108,12 @@ class CartFragment : Fragment() {
                     alertDialog.show()
                 }
             }
+        }
+
+        cartAdapter.onCheckedItemsChanged = { checkedItems ->
+            checkedProducts.clear()
+            checkedProducts.addAll(checkedItems)
+            updateCheckoutButtonState()
         }
 
         binding.buttonCheckout.setOnClickListener {
@@ -153,6 +170,13 @@ class CartFragment : Fragment() {
         binding.imageCloseCart.setOnClickListener {
             findNavController().navigateUp()
         }
+    }
+
+    private fun updateCheckoutButtonState() {
+        val uniqueSellers = checkedProducts.map { it.product.seller }.distinct()
+        val enableCheckout = uniqueSellers.size == 1 && uniqueSellers[0] != null
+
+        binding.buttonCheckout.isEnabled = enableCheckout
     }
 
     private fun hideOtherViews() {

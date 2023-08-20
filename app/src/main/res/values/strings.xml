@@ -119,6 +119,7 @@
     <string name="delete">Delete</string>
     <string name="save">Save</string>
     <string name="phone">Phone</string>
+    <string name="Note">Note</string>
     <string name="state">State</string>
     <string name="city">City</string>
     <string name="street">Street</string>
@@ -221,6 +222,9 @@
     <string name="form_empty">Some Form is Empty!</string>
     <string name="message_error">SOMETHING ERROR : %1$s</string>
     <string name="courier_not_available">Courier %1$s is not available on this origin/destination city</string>
+    <string name="hubungi_pembeli">Contact Buyer</string>
+    <string name="contact_seller">Contact Seller</string>
+    <string name="order_note">Order Note</string>
 
     <string-array name="list_courier">
         <item>POS</item>

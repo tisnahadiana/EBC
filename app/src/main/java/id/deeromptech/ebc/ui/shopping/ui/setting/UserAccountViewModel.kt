@@ -32,10 +32,14 @@ class UserAccountViewModel @Inject constructor(
         }
     }
 
-    fun updateInformation(name: String, email: String, phone: String, imageName: String) {
+    fun updateInformation(name: String, email: String, phone: String, imageName: String, role: String,
+                          addressUser: String,
+                          storeName: String,
+                          addressStore: String,
+                          rekening : String) {
         updateUserInformation.postValue(Resource.Loading())
 
-        firebaseDatabase.getImageUrl(name, email, phone, imageName) { user, exception ->
+        firebaseDatabase.getImageUrl(name, email, phone, imageName, role, addressUser, storeName, addressStore, rekening) { user, exception ->
 
             if (exception != null)
                 updateUserInformation.postValue(Resource.Error(exception))

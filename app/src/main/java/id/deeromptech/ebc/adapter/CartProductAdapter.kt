@@ -29,6 +29,7 @@ class CartProductAdapter: RecyclerView.Adapter<CartProductAdapter.CartProductsVi
                 val discountedPrice = cart.product.price - (cart.product.price * (cart.product.offerPercentage!! / 100))
                 val formattedPrice = "Rp. ${decimalFormat.format(discountedPrice)}"
                 tvcartProductPrice.text = formattedPrice
+
             }
         }
 
@@ -77,10 +78,23 @@ class CartProductAdapter: RecyclerView.Adapter<CartProductAdapter.CartProductsVi
         holder.binding.btnDeleteCart.setOnClickListener {
             onDeleteClick?.invoke(cart)
         }
+
+        holder.binding.checkboxProduct.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                checkedItems.add(cart)
+            } else {
+                checkedItems.remove(cart)
+            }
+            // Notify the listener in CartFragment about checked items change
+            onCheckedItemsChanged?.invoke(checkedItems)
+        }
+        holder.binding.checkboxProduct.isChecked = checkedItems.contains(cart)
     }
 
     var onProductClick:((Cart) -> Unit)? = null
     var onPlusClick:((Cart) -> Unit)? = null
     var onMinusClick:((Cart) -> Unit)? = null
     var onDeleteClick:((Cart) -> Unit)? = null
+    var onCheckedItemsChanged: ((Set<Cart>) -> Unit)? = null
+    private val checkedItems = mutableSetOf<Cart>()
 }

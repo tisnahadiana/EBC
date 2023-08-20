@@ -113,8 +113,6 @@
             app:layout_constraintEnd_toEndOf="@id/guideline2"
             app:layout_constraintTop_toBottomOf="@id/tvShippingAddress">
 
-
-
             <TextView
                 android:id="@+id/tvAddress"
                 android:layout_marginTop="10dp"
@@ -146,6 +144,28 @@
                 android:textColor="@color/navi"
                 android:visibility="visible"
                 android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/tvOrderNote"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Note"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/montserrat_medium"
+                android:textColor="@color/navi"
+                android:visibility="visible"
+                android:textSize="13sp" />
+
+            <Button
+                android:id="@+id/btnContactBuyer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/hubungi_pembeli"
+                android:layout_gravity="center"
+                android:fontFamily="@font/montserrat_medium"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
 
         </LinearLayout>
 
@@ -244,13 +264,13 @@
             android:id="@+id/linear"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="90dp"
             android:layout_marginBottom="20dp"
             android:background="@drawable/bg_total_billing"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/guideline2"
             app:layout_constraintStart_toStartOf="@id/guideline1"
-            app:layout_constraintTop_toBottomOf="@+id/btn_confirmed_order">
+            app:layout_constraintTop_toBottomOf="@+id/rvProducts">
 
             <TextView
                 android:layout_width="0dp"

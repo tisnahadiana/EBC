@@ -130,8 +130,33 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Phone"
-                android:visibility="gone"
-                android:textSize="13sp" />
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/montserrat_medium"
+                android:textColor="@color/navi"
+                android:visibility="visible"
+                android:textSize="13sp"  />
+
+            <TextView
+                android:id="@+id/tvOrderNote"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Note"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/montserrat_medium"
+                android:textColor="@color/navi"
+                android:visibility="visible"
+                android:textSize="13sp"  />
+
+            <Button
+                android:id="@+id/btnContactBuyer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/contact_seller"
+                android:layout_gravity="center"
+                android:fontFamily="@font/montserrat_medium"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
 
         </LinearLayout>
 

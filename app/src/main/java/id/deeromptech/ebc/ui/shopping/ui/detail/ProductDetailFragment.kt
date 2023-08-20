@@ -31,6 +31,7 @@ class ProductDetailFragment : Fragment() {
     private val viewModel by viewModels<ProductDetailViewModel>()
     private val decimalFormat = DecimalFormat("#,###", DecimalFormatSymbols(Locale.getDefault()))
 
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

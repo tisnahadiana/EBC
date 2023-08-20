@@ -133,6 +133,11 @@ class FirebaseDb {
         email: String,
         phone: String,
         imageName: String,
+        role: String,
+        addressUser: String,
+        storeName: String,
+        addressStore: String,
+        rekening : String,
         onResult: (User?, String?) -> Unit,
     ) {
         if (imageName.isNotEmpty())
@@ -141,13 +146,13 @@ class FirebaseDb {
                 .child(imageName).downloadUrl.addOnCompleteListener {
                     if (it.isSuccessful) {
                         val imageUrl = it.result.toString()
-                        val user = User(name, email, phone, imageUrl)
+                        val user = User(name, email, phone, imageUrl,role,addressUser,storeName,addressStore,rekening)
                         onResult(user, null)
                     } else
                         onResult(null, it.exception.toString())
 
                 } else {
-            val user = User(name, email, phone, "")
+            val user = User(name, email, phone, "",role, addressUser, storeName, addressStore, rekening)
             onResult(user, null)
         }
     }

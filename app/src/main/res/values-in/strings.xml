@@ -55,7 +55,7 @@
     <string name="register_desc">Silakan daftar untuk membuat akun!</string>
     <string name="hint_register_name">Masukkan Nama</string>
     <string name="hint_register_email">Masukkan E-mail</string>
-    <string name="hint_register_phone">Masukkan Nomber HP</string>
+    <string name="hint_register_phone">Masukkan Number HP</string>
     <string name="hint_register_password">Masukkan Kata Kunci</string>
     <string name="already_have_an_account">Sudah punya akun?</string>
     <string name="signup_with">Masuk Menggunakan</string>
@@ -121,6 +121,7 @@
     <string name="delete">Hapus</string>
     <string name="save">Simpan</string>
     <string name="phone">Telepon</string>
+    <string name="Note">Catatan</string>
     <string name="state">Negara</string>
     <string name="city">Kota</string>
     <string name="street">Jalan</string>
@@ -154,7 +155,7 @@
     <string name="all_orders">Semua Pesanan</string>
     <string name="track_orders">Lacak Resi Pesanan</string>
     <string name="billing">Penagihan</string>
-    <string name="notifications">Notifications</string>
+    <string name="notifications">Notifikasi</string>
     <string name="regional">Notifikasi</string>
     <string name="old_price">Harga lama</string>
     <string name="g_coming_soon">Fitur ini belum tersedia</string>
@@ -172,7 +173,7 @@
     <string name="desa">Desa</string>
     <string name="subdistrict">Kecamatan</string>
     <string name="province">Provinsi</string>
-    <string name="help">Tolong</string>
+    <string name="help">Bantuan</string>
     <string name="english">English</string>
     <string name="indonesia">Indonesia</string>
     <string name="delete_item">Hapus Item</string>
@@ -223,6 +224,9 @@
     <string name="form_empty">Beberapa Formulir Kosong!</string>
     <string name="message_error">ADA KESALAHAN : %1$s</string>
     <string name="courier_not_available">Kurir %1$s tidak tersedia di kota asal/tujuan ini</string>
+    <string name="hubungi_pembeli">Hubungi Pembeli</string>
+    <string name="contact_seller">Hubungi Penjual</string>
+    <string name="order_note">Catatan Pesanan</string>
 
     <string-array name="list_courier">
         <item>POS</item>

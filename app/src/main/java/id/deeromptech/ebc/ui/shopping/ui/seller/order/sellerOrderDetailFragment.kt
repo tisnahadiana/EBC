@@ -1,6 +1,8 @@
 package id.deeromptech.ebc.ui.shopping.ui.seller.order
 
 import android.annotation.SuppressLint
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -50,16 +52,17 @@ class sellerOrderDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val order = args.order
 
-        var totalPrice = order.totalPrice
-        var products = order.products
-        var address = order.address
-        var userName = order.userName
-        var userPhone = order.userPhone
-        var email = order.email
-        var date = order.date
-        var orderId = order.orderId
+        val totalPrice = order.totalPrice
+        val products = order.products
+        val address = order.address
+        val userName = order.userName
+        val userPhone = order.userPhone
+        val email = order.email
+        val date = order.date
+        val orderId = order.orderId
+        val orderNote = order.orderNote
 
-        ToastUtils.showMessage(requireContext(), "${order.orderStatus}")
+        ToastUtils.showMessage(requireContext(), order.orderStatus)
         setupOrderRv()
 
         binding.apply {
@@ -107,6 +110,7 @@ class sellerOrderDetailFragment : Fragment() {
             tvAddress.text = "${order.address}"
             tvUserName.text = "${getString(R.string.buyer)} : ${order.userName}"
             tvPhoneNumber.text = "${getString(R.string.phone)} : ${order.userPhone}"
+            tvOrderNote.text = "${getString(R.string.Note)} : ${order.orderNote}"
 
             val formattedPrice = "Rp. ${decimalFormat.format(order.totalPrice)}"
             tvTotalPrice.text = formattedPrice
@@ -121,6 +125,11 @@ class sellerOrderDetailFragment : Fragment() {
                 .setLabelColorIndicator(getContext()?.getResources()!!.getColor(R.color.green))
                 .setCompletedPosition(getCurrentOrderState(order.orderStatus))
                 .drawView();
+
+            btnContactBuyer.setOnClickListener {
+                val phoneNumber = order.userPhone
+                showConfirmationDialog(phoneNumber)
+            }
         }
 
         billingProductsSellerAdapter.differ.submitList(order.products)
@@ -150,8 +159,9 @@ class sellerOrderDetailFragment : Fragment() {
                     userName,
                     userPhone,
                     email,
+                    orderNote,
                     date,
-                    orderId
+                    orderId,
                 )
 
                 sellerOrderDetailViewModel.placeOrder(orderData)
@@ -177,6 +187,7 @@ class sellerOrderDetailFragment : Fragment() {
                     userName,
                     userPhone,
                     email,
+                    orderNote,
                     date,
                     orderId
                 )
@@ -203,6 +214,7 @@ class sellerOrderDetailFragment : Fragment() {
                     userName,
                     userPhone,
                     email,
+                    orderNote,
                     date,
                     orderId
                 )
@@ -229,6 +241,7 @@ class sellerOrderDetailFragment : Fragment() {
                     userName,
                     userPhone,
                     email,
+                    orderNote,
                     date,
                     orderId
                 )
@@ -241,6 +254,27 @@ class sellerOrderDetailFragment : Fragment() {
             dialogResult.show()
         }
     }
+
+    private fun showConfirmationDialog(phoneNumber: String) {
+        val dialogResult = DialogResult(requireContext())
+        dialogResult.setTitle("Send Messaage to Buyer")
+        dialogResult.setImage(R.drawable.ic_phonecall)
+        dialogResult.setMessage("Do you want to update this status order to shipped?")
+        dialogResult.setPositiveButton("Yes", onClickListener = {
+            contactBuyer(phoneNumber)
+            dialogResult.dismiss()
+        })
+        dialogResult.setNegativeButton("No", onClickListener = {
+            dialogResult.dismiss()
+        })
+        dialogResult.show()
+    }
+
+    private fun contactBuyer(phoneNumber: String) {
+        val dialPhoneIntent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:$phoneNumber"))
+        startActivity(dialPhoneIntent)
+    }
+
 
     private fun getCurrentOrderState(orderStatus: String): Int {
         return when (orderStatus) {
