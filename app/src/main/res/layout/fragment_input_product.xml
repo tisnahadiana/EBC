@@ -96,7 +96,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="5dp"
-                android:hint="Offer Percentage (Optional)"
+                android:hint="@string/offer_percentage_optional"
                 android:inputType="number"/>
 
             <TextView

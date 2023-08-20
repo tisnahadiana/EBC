@@ -225,6 +225,8 @@
     <string name="hubungi_pembeli">Contact Buyer</string>
     <string name="contact_seller">Contact Seller</string>
     <string name="order_note">Order Note</string>
+    <string name="offer_percentage_optional">Offer Percentage (Optional)</string>
+
 
     <string-array name="list_courier">
         <item>POS</item>

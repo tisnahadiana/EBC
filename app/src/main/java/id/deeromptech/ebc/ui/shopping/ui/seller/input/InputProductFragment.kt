@@ -38,7 +38,6 @@ class InputProductFragment : Fragment() {
     private val storage = Firebase.storage.reference
     val viewModel by viewModels<InputProductViewModel> ()
     private var selectedImagePosition = 0
-    private lateinit var seller: String
     private val args by navArgs<InputProductFragmentArgs>()
 
     override fun onCreateView(
