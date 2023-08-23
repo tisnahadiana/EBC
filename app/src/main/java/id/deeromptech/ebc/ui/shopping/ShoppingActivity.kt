@@ -11,7 +11,9 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import dagger.hilt.android.AndroidEntryPoint
 import id.deeromptech.ebc.R
+import id.deeromptech.ebc.data.model.CostPostageFee
 import id.deeromptech.ebc.databinding.ActivityShoppingBinding
+import id.deeromptech.ebc.ui.shopping.ui.billing.BillingFragment
 import id.deeromptech.ebc.ui.shopping.ui.cart.CartViewModel
 import id.deeromptech.ebc.util.Resource
 import kotlinx.coroutines.flow.collectLatest
@@ -28,6 +30,7 @@ class ShoppingActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         supportActionBar?.hide()
+
 
         val navView: BottomNavigationView = binding.bottomNavView
 

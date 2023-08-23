@@ -89,6 +89,7 @@ class CartProductAdapter: RecyclerView.Adapter<CartProductAdapter.CartProductsVi
             onCheckedItemsChanged?.invoke(checkedItems)
         }
         holder.binding.checkboxProduct.isChecked = checkedItems.contains(cart)
+
     }
 
     var onProductClick:((Cart) -> Unit)? = null

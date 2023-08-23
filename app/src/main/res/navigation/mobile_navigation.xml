@@ -107,6 +107,13 @@
             app:exitAnim="@anim/to_left"
             app:popEnterAnim="@anim/from_left"
             app:popExitAnim="@anim/to_right"/>
+        <action
+            android:id="@+id/action_navigation_profile_to_shippingCostFragment"
+            app:destination="@id/shippingCostFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"/>
     </fragment>
     <fragment
         android:id="@+id/productDetailFragment"
@@ -155,6 +162,12 @@
             app:destination="@id/orderCompletionFragment"
             app:popUpTo="@id/billingFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_billingFragment_to_shippingCostFragment"
+            app:destination="@id/shippingCostFragment" />
+        <action
+            android:id="@+id/action_billingFragment_to_shippingCostActivity"
+            app:destination="@id/shippingCostActivity" />
 
     </fragment>
     <fragment
@@ -301,4 +314,45 @@
             android:name="order"
             app:argType="id.deeromptech.ebc.data.local.Order" />
     </fragment>
+    <fragment
+        android:id="@+id/shippingCostFragment"
+        android:name="id.deeromptech.ebc.ui.shopping.ui.shippingcost.ShippingCostFragment"
+        android:label="fragment_shipping_cost"
+        tools:layout="@layout/fragment_shipping_cost" >
+        <action
+            android:id="@+id/action_shippingCostFragment_to_postageFeeFragment"
+            app:destination="@id/postageFeeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/postageFeeFragment"
+        android:name="id.deeromptech.ebc.ui.shopping.ui.shippingcost.PostageFeeFragment"
+        android:label="fragment_postage_fee"
+        tools:layout="@layout/fragment_postage_fee" >
+        <argument
+            android:name="listPostageFee"
+            app:argType="id.deeromptech.ebc.data.model.CostPostageFee" />
+        <argument
+            android:name="originDetails"
+            app:argType="id.deeromptech.ebc.data.model.cost.OriginDetails" />
+        <argument
+            android:name="destinationDetails"
+            app:argType="id.deeromptech.ebc.data.model.cost.DestinationDetails" />
+        <argument
+            android:name="courierName"
+            app:argType="java.lang.String" />
+        <action
+            android:id="@+id/action_postageFeeFragment_to_billingFragment"
+            app:destination="@id/billingFragment" />
+    </fragment>
+    <activity
+        android:id="@+id/shippingCostActivity"
+        android:name="id.deeromptech.ebc.ui.shopping.ui.shippingcost.ShippingCostActivity"
+        android:label="activity_shipping_cost"
+        tools:layout="@layout/activity_shipping_cost" />
+    <activity
+        android:id="@+id/postageFeeActivity"
+        android:name="id.deeromptech.ebc.ui.shopping.ui.shippingcost.PostageFeeActivity"
+        android:label="activity_postage_fee"
+        tools:layout="@layout/activity_postage_fee">
+    </activity>
 </navigation>

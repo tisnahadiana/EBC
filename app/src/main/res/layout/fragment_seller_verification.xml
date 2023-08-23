@@ -94,11 +94,40 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_address" />
 
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/originTIL"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:hint="@string/kota_asal"
+            app:hintEnabled="true"
+            app:layout_constraintEnd_toEndOf="@+id/edAddressStore"
+            app:layout_constraintStart_toStartOf="@+id/edAddressStore"
+            app:layout_constraintTop_toBottomOf="@+id/edAddressStore">
+
+            <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                android:id="@+id/originAutoCompleteTV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <ProgressBar
+            android:id="@+id/loadingPB"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_gravity="center_vertical|center_horizontal"
+            app:layout_constraintBottom_toBottomOf="@+id/originTIL"
+            app:layout_constraintEnd_toEndOf="@+id/originTIL"
+            app:layout_constraintStart_toStartOf="@+id/originTIL" />
+
+
         <com.github.leandroborgesferreira.loadingbutton.customViews.CircularProgressButton
             android:id="@+id/btnSaveSellerData"
             android:layout_width="0dp"
             android:layout_height="45dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="100dp"
             android:background="@drawable/bg_button"
             android:fontFamily="@font/montserrat"
             android:gravity="center"

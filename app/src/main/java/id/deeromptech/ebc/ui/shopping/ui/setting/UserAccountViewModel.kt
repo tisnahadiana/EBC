@@ -36,10 +36,12 @@ class UserAccountViewModel @Inject constructor(
                           addressUser: String,
                           storeName: String,
                           addressStore: String,
-                          rekening : String) {
+                          rekening : String,
+                          cityUserData : String,
+                          cityStoreData : String  ) {
         updateUserInformation.postValue(Resource.Loading())
 
-        firebaseDatabase.getImageUrl(name, email, phone, imageName, role, addressUser, storeName, addressStore, rekening) { user, exception ->
+        firebaseDatabase.getImageUrl(name, email, phone, imageName, role, addressUser, storeName, addressStore, rekening, cityUserData, cityStoreData) { user, exception ->
 
             if (exception != null)
                 updateUserInformation.postValue(Resource.Error(exception))

@@ -35,7 +35,8 @@ class sellerOrderDetailFragment : Fragment() {
     private val billingProductsSellerAdapter by lazy { BillingProductsSellerAdapter() }
     private val decimalFormat =
         DecimalFormat("#,###", DecimalFormatSymbols(Locale.getDefault()))
-    private val sellerOrderDetailViewModel by viewModels<SellerOrderDetailViewModel> ()
+    private val sellerOrderDetailViewModel by viewModels<SellerOrderDetailViewModel>()
+    var order = Order()
 
 
     override fun onCreateView(
@@ -46,6 +47,7 @@ class sellerOrderDetailFragment : Fragment() {
         val root: View = binding.root
         return root
     }
+
 
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -61,9 +63,20 @@ class sellerOrderDetailFragment : Fragment() {
         val date = order.date
         val orderId = order.orderId
         val orderNote = order.orderNote
+        val codeTV = order.codeTV
+        val estimationTV = order.estimationTV
+        val serviceTV = order.serviceTV
+        val serviceDescriptionTV = order.serviceDescriptionTV
+        val costValueTV = order.costValueTV
 
         ToastUtils.showMessage(requireContext(), order.orderStatus)
         setupOrderRv()
+
+        binding.codeTV.text = order.codeTV
+        binding.estimationTV.text = order.estimationTV
+        binding.serviceTV.text = order.serviceTV
+        binding.serviceDescriptionTV.text = order.serviceDescriptionTV
+        binding.costValueTV.text = order.costValueTV
 
         binding.apply {
 
@@ -101,12 +114,6 @@ class sellerOrderDetailFragment : Fragment() {
 
             tvOrderId.text = "Order #${order.orderId}"
 
-            val stepLabels = listOf(
-                OrderStatus.Ordered.status,
-                OrderStatus.Confirmed.status,
-                OrderStatus.Shipped.status,
-                OrderStatus.Delivered.status
-            )
             tvAddress.text = "${order.address}"
             tvUserName.text = "${getString(R.string.buyer)} : ${order.userName}"
             tvPhoneNumber.text = "${getString(R.string.phone)} : ${order.userPhone}"
@@ -115,16 +122,8 @@ class sellerOrderDetailFragment : Fragment() {
             val formattedPrice = "Rp. ${decimalFormat.format(order.totalPrice)}"
             tvTotalPrice.text = formattedPrice
 
-            stepsView.setLabels(stepLabels.toTypedArray())
-                .setBarColorIndicator(
-                    getContext()?.getResources()!!.getColor(com.anton46.stepsview.R.color.yellow)
-                )
-                .setProgressColorIndicator(
-                    getContext()?.getResources()!!.getColor(R.color.green_variant)
-                )
-                .setLabelColorIndicator(getContext()?.getResources()!!.getColor(R.color.green))
-                .setCompletedPosition(getCurrentOrderState(order.orderStatus))
-                .drawView();
+
+            updateStepViewLabel()
 
             btnContactBuyer.setOnClickListener {
                 val phoneNumber = order.userPhone
@@ -160,12 +159,17 @@ class sellerOrderDetailFragment : Fragment() {
                     userPhone,
                     email,
                     orderNote,
+                    codeTV,
+                    estimationTV,
+                    serviceTV,
+                    serviceDescriptionTV,
+                    costValueTV,
                     date,
-                    orderId,
+                    orderId
                 )
-
                 sellerOrderDetailViewModel.placeOrder(orderData)
                 dialogResult.dismiss()
+                findNavController().navigateUp()
             })
             dialogResult.setNegativeButton("No", onClickListener = {
                 dialogResult.dismiss()
@@ -188,11 +192,17 @@ class sellerOrderDetailFragment : Fragment() {
                     userPhone,
                     email,
                     orderNote,
+                    codeTV,
+                    estimationTV,
+                    serviceTV,
+                    serviceDescriptionTV,
+                    costValueTV,
                     date,
                     orderId
                 )
                 sellerOrderDetailViewModel.placeOrder(orderData)
                 dialogResult.dismiss()
+                findNavController().navigateUp()
             })
             dialogResult.setNegativeButton("No", onClickListener = {
                 dialogResult.dismiss()
@@ -215,11 +225,17 @@ class sellerOrderDetailFragment : Fragment() {
                     userPhone,
                     email,
                     orderNote,
+                    codeTV,
+                    estimationTV,
+                    serviceTV,
+                    serviceDescriptionTV,
+                    costValueTV,
                     date,
                     orderId
                 )
                 sellerOrderDetailViewModel.placeOrder(orderData)
                 dialogResult.dismiss()
+                findNavController().navigateUp()
             })
             dialogResult.setNegativeButton("No", onClickListener = {
                 dialogResult.dismiss()
@@ -242,11 +258,17 @@ class sellerOrderDetailFragment : Fragment() {
                     userPhone,
                     email,
                     orderNote,
+                    codeTV,
+                    estimationTV,
+                    serviceTV,
+                    serviceDescriptionTV,
+                    costValueTV,
                     date,
                     orderId
                 )
                 sellerOrderDetailViewModel.placeOrder(orderData)
                 dialogResult.dismiss()
+                findNavController().navigateUp()
             })
             dialogResult.setNegativeButton("No", onClickListener = {
                 dialogResult.dismiss()
@@ -255,16 +277,39 @@ class sellerOrderDetailFragment : Fragment() {
         }
     }
 
+    fun updateStepViewLabel() {
+        val order = args.order
+
+        val stepLabels = listOf(
+            OrderStatus.Ordered.status,
+            OrderStatus.Confirmed.status,
+            OrderStatus.Shipped.status,
+            OrderStatus.Delivered.status
+        )
+
+        binding.stepsView.setLabels(stepLabels.toTypedArray())
+            .setBarColorIndicator(
+                getContext()?.getResources()!!.getColor(com.anton46.stepsview.R.color.yellow)
+            )
+            .setProgressColorIndicator(
+                getContext()?.getResources()!!.getColor(R.color.green_variant)
+            )
+            .setLabelColorIndicator(getContext()?.getResources()!!.getColor(R.color.green))
+            .setCompletedPosition(getCurrentOrderState(order.orderStatus))
+            .drawView()
+    }
+
+
     private fun showConfirmationDialog(phoneNumber: String) {
         val dialogResult = DialogResult(requireContext())
-        dialogResult.setTitle("Send Messaage to Buyer")
+        dialogResult.setTitle(getString(R.string.contact_buyer_title))
         dialogResult.setImage(R.drawable.ic_phonecall)
-        dialogResult.setMessage("Do you want to update this status order to shipped?")
-        dialogResult.setPositiveButton("Yes", onClickListener = {
+        dialogResult.setMessage(getString(R.string.contact_buyer_dialog))
+        dialogResult.setPositiveButton(getString(R.string.g_yes), onClickListener = {
             contactBuyer(phoneNumber)
             dialogResult.dismiss()
         })
-        dialogResult.setNegativeButton("No", onClickListener = {
+        dialogResult.setNegativeButton(getString(R.string.g_no), onClickListener = {
             dialogResult.dismiss()
         })
         dialogResult.show()

@@ -47,7 +47,9 @@ class AddressViewModel @Inject constructor(
 
         firestore.collection("users").document(auth.currentUser?.uid ?: "")
             .update(
-                "addressUser", user.addressUser
+                "addressUser", user.addressUser ,
+                "cityUser", user.cityUser,
+                "cityStore", user.cityStore
             )
             .addOnSuccessListener {
                 viewModelScope.launch {

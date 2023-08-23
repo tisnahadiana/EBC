@@ -105,8 +105,9 @@ class ProfileFragment : Fragment() {
 
     private fun onShippingCost() {
         binding.linearShippingCosts.setOnClickListener {
-            val intent = Intent(requireContext(), ShippingCostActivity::class.java)
-            startActivity(intent)
+//            val intent = Intent(requireContext(), ShippingCostActivity::class.java)
+//            startActivity(intent)
+            findNavController().navigate(R.id.action_navigation_profile_to_shippingCostFragment)
         }
     }
 

@@ -127,8 +127,8 @@
     <string name="street">Jalan</string>
     <string name="address_location">Alamat lokasi Contoh: Rumah</string>
     <string name="addresses">Alamat</string>
-    <string name="place_order">Tempatkan Pesanan</string>
-    <string name="payment_explanation">EBC tidak mendukung pembayaran virtual. Anda dapat membayar ketika Anda menerima pesanan Anda.</string>
+    <string name="place_order">Buat Pesanan</string>
+    <string name="payment_explanation">EBC tidak mendukung pembayaran virtual. Anda dapat membayar ketika Penjual menghubungi anda lebih lanjut.</string>
     <string name="payment_methods">Cara Pembayaran</string>
     <string name="shipping">Pengiriman</string>
     <string name="total">Total :</string>
@@ -228,6 +228,17 @@
     <string name="contact_seller">Hubungi Penjual</string>
     <string name="order_note">Catatan Pesanan</string>
     <string name="offer_percentage_optional">Persentase Penawaran</string>
+    <string name="pilih_jasa_pengiriman">Pilih Jasa Pengiriman</string>
+    <string name="full_delivery_address">Alamat Lengkap Pengiriman</string>
+    <string name="harga_ongkir">Harga Ongkir</string>
+    <string name="choose_delivery_service">Pilih Layanan Pengiriman</string>
+    <string name="kota_asal">Kota Asal</string>
+    <string name="asal_kota_toko">Asal Kota Toko</string>
+    <string name="berat_barang_gram">Berat Barang (gram)</string>
+    <string name="contact_seller_dialog">Apakah Anda ingin menghubungi penjual?</string>
+    <string name="contact_seller_title">Hubungi penjual</string>
+    <string name="contact_buyer_title">Hubungi Pembeli</string>
+    <string name="contact_buyer_dialog">Apakah Anda ingin menghubungi pembeli?</string>
 
     <string-array name="list_courier">
         <item>POS</item>

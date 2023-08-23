@@ -42,6 +42,8 @@ class UserAccountFragment : Fragment() {
     private lateinit var storeName : String
     private lateinit var addressStore : String
     private lateinit var rekening : String
+    private lateinit var cityUser : String
+    private lateinit var cityStore : String
 
     private val viewModel by viewModels<UserAccountViewModel> ()
 
@@ -53,6 +55,8 @@ class UserAccountFragment : Fragment() {
         storeName = args.user.storeName.toString()
         addressStore = args.user.addressStore.toString()
         rekening = args.user.rekening.toString()
+        cityUser = args.user.cityUser.toString()
+        cityStore = args.user.cityStore.toString()
     }
 
     override fun onCreateView(
@@ -113,8 +117,10 @@ class UserAccountFragment : Fragment() {
                 val storeNameData = storeName
                 val addressStoreData = addressStore
                 val rekeningData = rekening
+                val cityUserData = cityUser
+                val cityStoreData = cityStore
 
-                viewModel.updateInformation(name,email,phone,image, role, addressUserData, storeNameData, addressStoreData, rekeningData)
+                viewModel.updateInformation(name,email,phone,image, role, addressUserData, storeNameData, addressStoreData, rekeningData, cityUserData, cityStoreData)
             }
         }
 
@@ -170,7 +176,7 @@ class UserAccountFragment : Fragment() {
                     val email = binding.edEmail.text.toString()
                     val phone = binding.edPhone.text.toString()
 
-                    viewModel.updateInformation(firstName, email, phone, response.data!!, userRole, addressUser, storeName, addressStore, rekening)
+                    viewModel.updateInformation(firstName, email, phone, response.data!!, userRole, addressUser, storeName, addressStore, rekening, cityUser, cityStore)
                     return@observe
                 }
 

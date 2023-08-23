@@ -174,6 +174,8 @@ class InputProductFragment : Fragment() {
         val seller = user?.storeName
         val addressStore = user?.addressStore
         val sellerPhone = user?.phone
+        val cityStore = user?.cityStore
+        val weight = binding.edWeight.text.toString().trim()
 
         val radioGroup = binding.rgStockAvailability
         val selectedRadioButtonId = radioGroup.checkedRadioButtonId
@@ -210,7 +212,9 @@ class InputProductFragment : Fragment() {
                     seller,
                     images,
                     addressStore,
-                    sellerPhone
+                    sellerPhone,
+                    cityStore,
+                    weight
                 )
 
                 firestore.collection("Products").add(product).addOnSuccessListener {

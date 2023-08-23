@@ -1,5 +1,8 @@
 package id.deeromptech.ebc.ui.shopping.ui.order
 
+import android.annotation.SuppressLint
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,7 +16,9 @@ import id.deeromptech.ebc.R
 import id.deeromptech.ebc.adapter.BillingProductsAdapter
 import id.deeromptech.ebc.data.local.OrderStatus
 import id.deeromptech.ebc.databinding.FragmentOrderDetailBinding
+import id.deeromptech.ebc.dialog.DialogResult
 import id.deeromptech.ebc.util.VerticalItemDecoration
+import id.deeromptech.ebc.util.toRupiah
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.util.*
@@ -38,6 +43,7 @@ class OrderDetailFragment : Fragment() {
         return root
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -53,6 +59,12 @@ class OrderDetailFragment : Fragment() {
             }
 
             tvOrderId.text = "Order #${order.orderId}"
+            tvPhoneNumber.text = "${getString(R.string.phone)} : ${order.products[0].product.sellerPhone}"
+            codeTV.text = order.codeTV
+            estimationTV.text = order.estimationTV
+            serviceTV.text = order.serviceTV
+            serviceDescriptionTV.text = order.serviceDescriptionTV
+            costValueTV.text = order.costValueTV
 
             val stepLabels = listOf(
                 OrderStatus.Ordered.status,
@@ -66,7 +78,7 @@ class OrderDetailFragment : Fragment() {
             val formattedPrice = "Rp. ${decimalFormat.format(order.totalPrice)}"
             tvTotalPrice.text = formattedPrice
 
-            tvOrderNote.text = order.orderNote
+            tvOrderNote.text = "${getString(R.string.Note)} : ${order.orderNote}"
 
             stepsView.setLabels(stepLabels.toTypedArray())
                 .setBarColorIndicator(getContext()?.getResources()!!.getColor(com.anton46.stepsview.R.color.yellow))
@@ -74,6 +86,11 @@ class OrderDetailFragment : Fragment() {
                 .setLabelColorIndicator(getContext()?.getResources()!!.getColor(R.color.green))
                 .setCompletedPosition(getCurrentOrderState(order.orderStatus))
                 .drawView();
+
+            btnContactBuyer.setOnClickListener {
+                val phoneNumber = order.userPhone
+                showConfirmationDialog(phoneNumber)
+            }
         }
 
         billingProductsAdapter.differ.submitList(order.products)
@@ -85,6 +102,26 @@ class OrderDetailFragment : Fragment() {
             }
             findNavController().navigate(R.id.action_orderDetailFragment_to_productDetailFragment, b)
         }
+    }
+
+    private fun showConfirmationDialog(phoneNumber: String) {
+        val dialogResult = DialogResult(requireContext())
+        dialogResult.setTitle(getString(R.string.contact_seller_title))
+        dialogResult.setImage(R.drawable.ic_phonecall)
+        dialogResult.setMessage(getString(R.string.contact_seller_dialog))
+        dialogResult.setPositiveButton(getString(R.string.g_yes), onClickListener = {
+            contactBuyer(phoneNumber)
+            dialogResult.dismiss()
+        })
+        dialogResult.setNegativeButton(getString(R.string.g_no), onClickListener = {
+            dialogResult.dismiss()
+        })
+        dialogResult.show()
+    }
+
+    private fun contactBuyer(phoneNumber: String) {
+        val dialPhoneIntent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:$phoneNumber"))
+        startActivity(dialPhoneIntent)
     }
 
     private fun getCurrentOrderState(orderStatus: String): Int {

@@ -23,23 +23,14 @@ class SellerOrderAdapter : RecyclerView.Adapter<SellerOrderAdapter.OrdersViewHol
                 tvOrderDate.text = order.date
                 val resources = itemView.resources
 
-                val colorDrawable = when (getOrderStatus(order.orderStatus)) {
-                    is OrderStatus.Ordered -> {
+                val colorDrawable = when (order.orderStatus) {
+                    "Ordered" -> {
                         ColorDrawable(resources.getColor(R.color.orang_yellow))
                     }
-                    is OrderStatus.Confirmed -> {
+                    "Confirmed" ,"Shipped", "Delivered" -> {
                         ColorDrawable(resources.getColor(R.color.green))
                     }
-                    is OrderStatus.Delivered -> {
-                        ColorDrawable(resources.getColor(R.color.green))
-                    }
-                    is OrderStatus.Shipped -> {
-                        ColorDrawable(resources.getColor(R.color.green))
-                    }
-                    is OrderStatus.Canceled -> {
-                        ColorDrawable(resources.getColor(R.color.red))
-                    }
-                    is OrderStatus.Returned -> {
+                    else -> {
                         ColorDrawable(resources.getColor(R.color.red))
                     }
                 }

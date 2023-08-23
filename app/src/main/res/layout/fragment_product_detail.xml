@@ -33,6 +33,8 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:padding="5dp"
+                android:layout_gravity="end"
+                android:background="@color/white"
                 android:src="@drawable/ic_close"/>
 
         </androidx.cardview.widget.CardView>

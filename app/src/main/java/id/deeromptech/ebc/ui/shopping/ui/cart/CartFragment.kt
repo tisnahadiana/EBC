@@ -1,10 +1,12 @@
 package id.deeromptech.ebc.ui.shopping.ui.cart
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -46,14 +48,15 @@ class CartFragment : Fragment() {
         return root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState:  Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         setupCartRv()
 
         var totalPrice = 0f
 
-        binding.buttonCheckout.isEnabled = false // Disable button by default
+        binding.buttonCheckout.isEnabled = false
+        binding.buttonCheckout.setBackgroundResource(R.drawable.bg_button_off)
 
         if (checkedProducts.isNotEmpty()) {
             val uniqueSellers = checkedProducts.map { it.product.seller }.distinct()
@@ -172,11 +175,18 @@ class CartFragment : Fragment() {
         }
     }
 
+    @SuppressLint("ResourceType")
     private fun updateCheckoutButtonState() {
         val uniqueSellers = checkedProducts.map { it.product.seller }.distinct()
         val enableCheckout = uniqueSellers.size == 1 && uniqueSellers[0] != null
 
         binding.buttonCheckout.isEnabled = enableCheckout
+
+        if (binding.buttonCheckout.isEnabled) {
+            binding.buttonCheckout.setBackgroundResource(R.drawable.bg_button)
+        } else {
+            binding.buttonCheckout.setBackgroundResource(R.drawable.bg_button_off)
+        }
     }
 
     private fun hideOtherViews() {

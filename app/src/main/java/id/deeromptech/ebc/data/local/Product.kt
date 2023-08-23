@@ -16,8 +16,11 @@ data class Product(
     val seller: String? = "",
     val images: List<String>,
     val addressStore: String? = "",
-    val sellerPhone: String? = ""
+    val sellerPhone: String? = "",
+    val cityStore: String? = "",
+    val weight: String? = ""
 ): Parcelable {
-    constructor(): this("0", "","",0f,0f,"", "","", images = emptyList(), "")
+    constructor(): this("0", "","",0f,0f,"", ""
+        ,"", images = emptyList(), "","","","")
 }
 

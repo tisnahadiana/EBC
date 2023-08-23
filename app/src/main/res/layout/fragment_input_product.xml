@@ -108,6 +108,15 @@
                 android:textColor="@color/black"
                 android:text="Contoh 20.000"/>
 
+            <EditText
+                android:id="@+id/edWeight"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="5dp"
+                android:hint="@string/berat_barang_gram"
+                android:inputType="number"/>
+
             <TextView
                 android:id="@+id/tvSeller"
                 android:layout_width="match_parent"
@@ -203,6 +212,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
                 android:scaleType="fitXY"
+                android:visibility="visible"
                 android:src="@drawable/default_image"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

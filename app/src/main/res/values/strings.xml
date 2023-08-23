@@ -126,7 +126,7 @@
     <string name="address_location">Address location Ex: Home</string>
     <string name="addresses">Addresses</string>
     <string name="place_order">Place Order</string>
-    <string name="payment_explanation">EBC does not support virtual payments. You can pay when you receive your order.</string>
+    <string name="payment_explanation">EBC does not support virtual payments. You can pay when the Seller further contacts you.</string>
     <string name="payment_methods">Payment methods</string>
     <string name="shipping">Shipping</string>
     <string name="total">Total:</string>
@@ -226,6 +226,17 @@
     <string name="contact_seller">Contact Seller</string>
     <string name="order_note">Order Note</string>
     <string name="offer_percentage_optional">Offer Percentage (Optional)</string>
+    <string name="pilih_jasa_pengiriman">Select Delivery Service</string>
+    <string name="full_delivery_address">Full delivery address</string>
+    <string name="harga_ongkir">Postage Price</string>
+    <string name="choose_delivery_service">Choose Delivery Service</string>
+    <string name="kota_asal">City</string>
+    <string name="asal_kota_toko">Shop City</string>
+    <string name="berat_barang_gram">Item Weight (grams)</string>
+    <string name="contact_seller_dialog">Do you want to contack the seller?</string>
+    <string name="contact_seller_title">Contact Seller</string>
+    <string name="contact_buyer_title">Contact Buyer</string>
+    <string name="contact_buyer_dialog">Do you want to contack the buyer?</string>
 
 
     <string-array name="list_courier">

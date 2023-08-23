@@ -71,15 +71,64 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/topLine" />
 
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/originTIL"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:hint="@string/kota_asal"
+        app:hintEnabled="true"
+        app:layout_constraintEnd_toEndOf="@+id/edAddressStore"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/edAddressStore"
+        app:layout_constraintTop_toBottomOf="@+id/edAddressStore">
+
+        <com.google.android.material.textfield.MaterialAutoCompleteTextView
+            android:id="@+id/originAutoCompleteTV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <ProgressBar
+        android:id="@+id/loadingPB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|center_horizontal"
+        app:layout_constraintBottom_toBottomOf="@+id/originTIL"
+        app:layout_constraintEnd_toEndOf="@+id/originTIL"
+        app:layout_constraintStart_toStartOf="@+id/originTIL" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/destinationTIL"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:hint="@string/asal_kota_toko"
+        app:hintEnabled="true"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@+id/originTIL"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/originTIL"
+        app:layout_constraintTop_toBottomOf="@+id/originTIL">
+
+        <com.google.android.material.textfield.MaterialAutoCompleteTextView
+            android:id="@+id/destinationAutoCompleteTV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="100dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="@id/guideline2"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@id/guideline1"
-        app:layout_constraintTop_toBottomOf="@+id/edAddressStore">
+        app:layout_constraintTop_toBottomOf="@+id/originTIL">
 
 
         <androidx.appcompat.widget.AppCompatButton
