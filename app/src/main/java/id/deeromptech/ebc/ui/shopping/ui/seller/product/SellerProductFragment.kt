@@ -1,6 +1,5 @@
 package id.deeromptech.ebc.ui.shopping.ui.seller.product
 
-import android.app.AlertDialog
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -16,6 +15,7 @@ import id.deeromptech.ebc.R
 import id.deeromptech.ebc.SpacingDecorator.VerticalSpacingItemDecorator
 import id.deeromptech.ebc.adapter.SellerProductAdapter
 import id.deeromptech.ebc.databinding.FragmentSellerProductBinding
+import id.deeromptech.ebc.dialog.DialogResult
 import id.deeromptech.ebc.util.Resource
 import id.deeromptech.ebc.util.ToastUtils
 import kotlinx.coroutines.flow.collectLatest
@@ -94,21 +94,20 @@ class SellerProductFragment : Fragment() {
         }
 
         sellerProductAdapter.onDelete = { product ->
-            val alertDialog = AlertDialog.Builder(requireContext()).apply {
-                setTitle("Delete item from cart")
-                setMessage("Do you want to delete this product from your store?")
-                setNegativeButton("Cancel") { dialog, _ ->
-                    dialog.dismiss()
+            val dialogResult = DialogResult(requireContext())
+            dialogResult.setTitle(getString(R.string.delete_product_title))
+            dialogResult.setImage(R.drawable.ic_sell_product)
+            dialogResult.setMessage(getString(R.string.delete_product_dialog) + product.name)
+            dialogResult.setPositiveButton(getString(R.string.g_yes), onClickListener = {
+                lifecycleScope.launchWhenStarted {
+                    viewModel.deleteSellerProduct(product)
                 }
-                setPositiveButton("Yes") { dialog, _ ->
-                    lifecycleScope.launchWhenStarted {
-                        viewModel.deleteSellerProduct(product)
-                    }
-                    dialog.dismiss()
-                }
-            }
-            alertDialog.create()
-            alertDialog.show()
+                dialogResult.dismiss()
+            })
+            dialogResult.setNegativeButton(getString(R.string.g_no), onClickListener = {
+                dialogResult.dismiss()
+            })
+            dialogResult.show()
         }
 
         sellerProductAdapter.onUpdate = {

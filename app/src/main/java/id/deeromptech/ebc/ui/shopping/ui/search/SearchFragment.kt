@@ -126,10 +126,10 @@ class SearchFragment : Fragment() {
 
     private fun hideCancelTv() {
         binding.tvCancel.visibility = View.GONE
-        binding.imgMic.visibility = View.VISIBLE
-        binding.imgScan.visibility = View.VISIBLE
-        binding.fragmeMicrohpone.visibility = View.VISIBLE
-        binding.frameScan.visibility = View.VISIBLE
+//        binding.imgMic.visibility = View.VISIBLE
+//        binding.imgScan.visibility = View.VISIBLE
+//        binding.fragmeMicrohpone.visibility = View.VISIBLE
+//        binding.frameScan.visibility = View.VISIBLE
     }
 
     private fun observeSearch() {
@@ -158,10 +158,10 @@ class SearchFragment : Fragment() {
 
     private fun showChancelTv() {
         binding.tvCancel.visibility = View.VISIBLE
-        binding.imgMic.visibility = View.GONE
-        binding.imgScan.visibility = View.GONE
-        binding.fragmeMicrohpone.visibility = View.GONE
-        binding.frameScan.visibility = View.GONE
+//        binding.imgMic.visibility = View.GONE
+//        binding.imgScan.visibility = View.GONE
+//        binding.fragmeMicrohpone.visibility = View.GONE
+//        binding.frameScan.visibility = View.GONE
 
     }
 

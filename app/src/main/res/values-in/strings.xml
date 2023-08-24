@@ -106,7 +106,7 @@
     <string name="g_color">Warna</string>
     <string name="g_size">Ukuran</string>
     <string name="g_please_select_size">Tolong Pilih Ukuran</string>
-    <string name="g_add_to_cart">Masukkan ke Keranjang</string>
+    <string name="g_add_to_cart">Keranjang</string>
 
     <!-- Product Cart. -->
     <string name="button_cart">Tombol Keranjang</string>
@@ -142,7 +142,7 @@
     \n nomor pesanan Anda adalah #</string>
     <string name="place_order_confirmation">Apakah Anda yakin ingin melakukan pemesanan ini?</string>
     <string name="confirm">Konfirmasi</string>
-    <string name="order">Memesan</string>
+    <string name="order">Pesanan</string>
 
     <string name="g_order_placed">Pesanan Ditempatkan</string>
     <string name="g_shipped">Dikirim</string>
@@ -154,9 +154,9 @@
     <string name="orders">Pesanan</string>
     <string name="all_orders">Semua Pesanan</string>
     <string name="track_orders">Lacak Resi Pesanan</string>
-    <string name="billing">Penagihan</string>
+    <string name="billing">Tagihan</string>
     <string name="notifications">Notifikasi</string>
-    <string name="regional">Notifikasi</string>
+    <string name="regional">Pengaturan</string>
     <string name="old_price">Harga lama</string>
     <string name="g_coming_soon">Fitur ini belum tersedia</string>
     <string name="select_profile_image">Pilih gambar profil</string>
@@ -239,6 +239,22 @@
     <string name="contact_seller_title">Hubungi penjual</string>
     <string name="contact_buyer_title">Hubungi Pembeli</string>
     <string name="contact_buyer_dialog">Apakah Anda ingin menghubungi pembeli?</string>
+    <string name="profile">Profile</string>
+    <string name="delete_product_title">Hapus Produk</string>
+    <string name="delete_product_dialog">Apakah kamu ingin menghapus produk ini?</string>
+    <string name="logout_title_dialog">Keluar</string>
+    <string name="logout_dialog_message">Apakah anda yakin ingin logout?</string>
+    <string name="dialog_title_confirm_order">Konfirmasi Pesanan</string>
+    <string name="dialog_message_confirm_order">Apakah kamu ingin mengkonfirmasi pesanan ini?</string>
+    <string name="dialog_cancel_order_title">Batalkan Pesanan</string>
+    <string name="dialog_message_cancel_order">Apakah kamu ingin membatalkan pesanan ini?</string>
+    <string name="dialog_title_shipped_order">Kirim Pesanan</string>
+    <string name="dialog_message_order_shipped">Apakah kamu ingin mengupdate status pesanan menjadi Pesanan sudah dikirim?</string>
+    <string name="dialog_title_delivered_order">Pesanan sudah terkirim</string>
+    <string name="dialog_message_order_delivered">Apakah kamu ingin mengupdate status pesanan ini menjadi sudah sampai terkirim?</string>
+    <string name="order_cancelled">Pesanan Dibatalkan</string>
+    <string name="dialog_delete_order">Hapus Pesanan</string>
+    <string name="dialog_message_order_result">Apakah kamu ingin menghapus pesanan ini?</string>
 
     <string-array name="list_courier">
         <item>POS</item>

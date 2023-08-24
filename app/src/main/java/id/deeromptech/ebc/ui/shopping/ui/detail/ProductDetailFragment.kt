@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.viewpager2.widget.ViewPager2
 import dagger.hilt.android.AndroidEntryPoint
 import id.deeromptech.ebc.adapter.ViewPager2Images
 import id.deeromptech.ebc.data.local.Cart
@@ -63,6 +64,10 @@ class ProductDetailFragment : Fragment() {
             viewModel.addUpdateProductInCart(Cart(product, 1))
         }
 
+        binding.btnBuynow.setOnClickListener {
+            viewModel.addUpdateProductInCart(Cart(product, 1))
+        }
+
         lifecycleScope.launchWhenStarted {
             viewModel.addToCart.collectLatest {
                 when(it){
@@ -104,6 +109,34 @@ class ProductDetailFragment : Fragment() {
 
         viewPagerAdapter.differ.submitList(product.images)
 
+        val arrowLeft = binding.arrowLeft
+        val arrowRight = binding.arrowRight
+
+        arrowLeft.setOnClickListener {
+            binding.viewpagerProductImages.currentItem -= 1
+        }
+
+        arrowRight.setOnClickListener {
+            binding.viewpagerProductImages.currentItem += 1
+        }
+
+        binding.viewpagerProductImages.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                val totalImages = viewPagerAdapter.differ.currentList.size
+
+                // Hide both arrows if there's only one image
+                if (totalImages == 1) {
+                    binding.arrowLeft.visibility = View.GONE
+                    binding.arrowRight.visibility = View.GONE
+                } else {
+                    // Show left arrow if not at the beginning
+                    binding.arrowLeft.visibility = if (position > 0) View.VISIBLE else View.GONE
+
+                    // Show right arrow if not at the end
+                    binding.arrowRight.visibility = if (position < totalImages - 1) View.VISIBLE else View.GONE
+                }
+            }
+        })
     }
 
     private fun setupViewpager() {

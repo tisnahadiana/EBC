@@ -219,25 +219,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:fontFamily="@font/montserrat"
-            android:text="Total Ongkir"
             android:textColor="@color/black"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="@+id/textView3"
             app:layout_constraintEnd_toStartOf="@+id/guideline2"
             app:layout_constraintTop_toTopOf="@+id/textView3" />
-
-
-        <TextView
-            android:id="@+id/tvNameCourier"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:fontFamily="@font/montserrat"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            android:text="Courier Name"
-            app:layout_constraintEnd_toEndOf="@+id/tvTotalOngkir"
-            app:layout_constraintTop_toBottomOf="@+id/tvTotalOngkir" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/originTIL"
@@ -495,11 +481,11 @@
             android:id="@+id/totalBoxContainer"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             android:background="@color/white"
             app:layout_constraintEnd_toEndOf="@id/guideline2"
             app:layout_constraintStart_toStartOf="@id/guideline1"
-            app:layout_constraintTop_toBottomOf="@+id/tvNameCourier">
+            app:layout_constraintTop_toBottomOf="@+id/tvTotalOngkir">
 
 
             <id.deeromptech.ebc.customview.CustomEditText

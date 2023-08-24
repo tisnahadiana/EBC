@@ -43,6 +43,7 @@
             app:layout_constraintTop_toBottomOf="@+id/img_product" />
 
         <ImageView
+            android:visibility="gone"
             android:id="@+id/img_favorite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

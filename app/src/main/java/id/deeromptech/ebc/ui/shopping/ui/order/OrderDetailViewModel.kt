@@ -1,4 +1,4 @@
-package id.deeromptech.ebc.ui.shopping.ui.seller.order
+package id.deeromptech.ebc.ui.shopping.ui.order
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SellerOrderDetailViewModel @Inject constructor(
+class OrderDetailViewModel @Inject constructor(
     private val firestore: FirebaseFirestore
 ) : ViewModel() {
 
@@ -21,21 +21,6 @@ class SellerOrderDetailViewModel @Inject constructor(
     val order = _order.asStateFlow()
 
     fun placeOrder(order: Order) {
-//        viewModelScope.launch {
-//            _order.emit(Resource.Loading())
-//        }
-//        firestore.runBatch { batch ->
-//            firestore.collection("orders").add(order)
-//
-//        }.addOnSuccessListener {
-//            viewModelScope.launch {
-//                _order.emit(Resource.Success(order))
-//            }
-//        }.addOnFailureListener {
-//            viewModelScope.launch {
-//                _order.emit(Resource.Error(it.message.toString()))
-//            }
-//        }
 
         viewModelScope.launch {
             try {

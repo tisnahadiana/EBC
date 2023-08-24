@@ -136,7 +136,6 @@ class BillingFragment : Fragment() {
 
             val formattedOldPrice = "Rp. ${decimalFormat.format(selectedPostageFee.value)}"
             binding.tvTotalOngkir.text = formattedOldPrice
-            binding.tvNameCourier.text = selectedPostageFee.code
 
             val totalPriceWithoutOngkir =
                 totalPrice // Get the original total price without shipping cost
@@ -173,12 +172,19 @@ class BillingFragment : Fragment() {
                 ToastUtils.showMessage(requireContext(), "Please Select address")
                 return@setOnClickListener
             }
+
+            if (binding.tvTotalOngkir.text.isNullOrBlank()) {
+                ToastUtils.showMessage(requireContext(), "Please select a shipping service")
+                return@setOnClickListener
+            }
+
+            if (binding.edNoteOrder.text.isNullOrBlank()) {
+                ToastUtils.showMessage(requireContext(), "Please add order notes")
+                return@setOnClickListener
+            }
             showOrderConfirmationDialog()
         }
 
-//        binding.btnChooseCourier.setOnClickListener {
-//            findNavController().navigate(R.id.action_billingFragment_to_shippingCostActivity)
-//        }
     }
 
     private fun observeAddress() {

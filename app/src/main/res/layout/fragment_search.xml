@@ -10,11 +10,16 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <EditText
             android:id="@+id/ed_search"
             android:layout_width="0dp"
             android:layout_height="@dimen/_40sdp"
+            android:layout_marginTop="@dimen/_7sdp"
             android:background="@drawable/search_box_background"
+            android:drawableEnd="@drawable/ic_search"
+            android:drawablePadding="10dp"
+            android:drawableTint="@color/green"
             android:fontFamily="@font/montserrat_medium"
             android:gravity="center_vertical"
             android:hint="@string/title_search"
@@ -22,19 +27,14 @@
             android:singleLine="true"
             android:textColor="@color/gray"
             android:textSize="@dimen/_12ssp"
-            app:layout_constraintEnd_toEndOf="@id/guideline3"
-            android:layout_marginTop="@dimen/_7sdp"
+            app:layout_constraintEnd_toStartOf="@+id/guideline2"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@id/guideline1"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0"
-            android:drawableEnd="@drawable/ic_search"
-            android:drawablePadding="10dp"
-            android:drawableTint="@color/green"
-            />
+            app:layout_constraintTop_toTopOf="parent" />
 
 
         <FrameLayout
+            android:visibility="gone"
             android:id="@+id/frame_scan"
             android:layout_width="0dp"
             android:layout_height="@dimen/_40sdp"
@@ -58,6 +58,7 @@
         </FrameLayout>
 
         <FrameLayout
+            android:visibility="gone"
             android:id="@+id/fragme_microhpone"
             android:layout_width="0dp"
             android:layout_height="@dimen/_40sdp"
@@ -80,20 +81,19 @@
         </FrameLayout>
 
         <TextView
+            android:visibility="gone"
             android:id="@+id/tv_cancel"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:textSize="@dimen/_15ssp"
-            app:layout_constraintStart_toStartOf="@id/guideline3"
-            app:layout_constraintEnd_toEndOf="@id/guideline2"
-            app:layout_constraintTop_toTopOf="@id/ed_search"
-            app:layout_constraintBottom_toBottomOf="@id/ed_search"
+            android:layout_marginEnd="8dp"
+            android:fontFamily="@font/montserrat_medium"
             android:gravity="center"
             android:text="@string/g_cancel"
-            android:fontFamily="@font/montserrat_medium"
             android:textColor="#919394"
-            android:visibility="gone"
-            />
+            android:textSize="@dimen/_15ssp"
+            app:layout_constraintBottom_toBottomOf="@id/ed_search"
+            app:layout_constraintEnd_toStartOf="@+id/guideline8"
+            app:layout_constraintTop_toTopOf="@id/ed_search" />
 
 
         <androidx.recyclerview.widget.RecyclerView

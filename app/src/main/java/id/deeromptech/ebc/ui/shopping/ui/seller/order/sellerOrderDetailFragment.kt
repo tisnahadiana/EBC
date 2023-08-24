@@ -108,8 +108,13 @@ class sellerOrderDetailFragment : Fragment() {
                 btnShippedOrder.visibility = View.GONE
                 btnDeliveredOrder.visibility = View.GONE
 
-            } else {
-                //
+            } else if (order.orderStatus == "Canceled") {
+                cardViewCancelOrder.visibility = View.VISIBLE
+                stepsView.visibility = View.GONE
+                btnConfirmedOrder.visibility = View.GONE
+                btnCancelOrder.visibility = View.GONE
+                btnShippedOrder.visibility = View.GONE
+                btnDeliveredOrder.visibility = View.GONE
             }
 
             tvOrderId.text = "Order #${order.orderId}"
@@ -146,10 +151,10 @@ class sellerOrderDetailFragment : Fragment() {
 
         binding.btnConfirmedOrder.setOnClickListener {
             val dialogResult = DialogResult(requireContext())
-            dialogResult.setTitle("Confirm Order")
+            dialogResult.setTitle(getString(R.string.dialog_title_confirm_order))
             dialogResult.setImage(R.drawable.ic_verified)
-            dialogResult.setMessage("Do you want to confirm this order?")
-            dialogResult.setPositiveButton("Yes", onClickListener = {
+            dialogResult.setMessage(getString(R.string.dialog_message_confirm_order))
+            dialogResult.setPositiveButton(getString(R.string.g_yes), onClickListener = {
                 val orderData = Order(
                     OrderStatus.Confirmed.status,
                     totalPrice,
@@ -171,7 +176,7 @@ class sellerOrderDetailFragment : Fragment() {
                 dialogResult.dismiss()
                 findNavController().navigateUp()
             })
-            dialogResult.setNegativeButton("No", onClickListener = {
+            dialogResult.setNegativeButton(getString(R.string.g_no), onClickListener = {
                 dialogResult.dismiss()
             })
             dialogResult.show()
@@ -179,10 +184,10 @@ class sellerOrderDetailFragment : Fragment() {
 
         binding.btnCancelOrder.setOnClickListener {
             val dialogResult = DialogResult(requireContext())
-            dialogResult.setTitle("Cancel Order")
+            dialogResult.setTitle(getString(R.string.dialog_cancel_order_title))
             dialogResult.setImage(R.drawable.ic_cancel)
-            dialogResult.setMessage("Do you want to cancel this order?")
-            dialogResult.setPositiveButton("Yes", onClickListener = {
+            dialogResult.setMessage(getString(R.string.dialog_message_cancel_order))
+            dialogResult.setPositiveButton(getString(R.string.g_yes), onClickListener = {
                 val orderData = Order(
                     OrderStatus.Canceled.status,
                     totalPrice,
@@ -204,7 +209,7 @@ class sellerOrderDetailFragment : Fragment() {
                 dialogResult.dismiss()
                 findNavController().navigateUp()
             })
-            dialogResult.setNegativeButton("No", onClickListener = {
+            dialogResult.setNegativeButton(getString(R.string.g_no), onClickListener = {
                 dialogResult.dismiss()
             })
             dialogResult.show()
@@ -212,10 +217,10 @@ class sellerOrderDetailFragment : Fragment() {
 
         binding.btnShippedOrder.setOnClickListener {
             val dialogResult = DialogResult(requireContext())
-            dialogResult.setTitle("Shipped Order")
+            dialogResult.setTitle(getString(R.string.dialog_title_shipped_order))
             dialogResult.setImage(R.drawable.ic_shipped)
-            dialogResult.setMessage("Do you want to update this status order to shipped?")
-            dialogResult.setPositiveButton("Yes", onClickListener = {
+            dialogResult.setMessage(getString(R.string.dialog_message_order_shipped))
+            dialogResult.setPositiveButton(getString(R.string.g_yes), onClickListener = {
                 val orderData = Order(
                     OrderStatus.Shipped.status,
                     totalPrice,
@@ -237,7 +242,7 @@ class sellerOrderDetailFragment : Fragment() {
                 dialogResult.dismiss()
                 findNavController().navigateUp()
             })
-            dialogResult.setNegativeButton("No", onClickListener = {
+            dialogResult.setNegativeButton(getString(R.string.g_no), onClickListener = {
                 dialogResult.dismiss()
             })
             dialogResult.show()
@@ -245,10 +250,10 @@ class sellerOrderDetailFragment : Fragment() {
 
         binding.btnDeliveredOrder.setOnClickListener {
             val dialogResult = DialogResult(requireContext())
-            dialogResult.setTitle("Shipped Order")
+            dialogResult.setTitle(getString(R.string.dialog_title_delivered_order))
             dialogResult.setImage(R.drawable.ic_delivered)
-            dialogResult.setMessage("Do you want to update this status order to shipped?")
-            dialogResult.setPositiveButton("Yes", onClickListener = {
+            dialogResult.setMessage(getString(R.string.dialog_message_order_delivered))
+            dialogResult.setPositiveButton(getString(R.string.g_yes), onClickListener = {
                 val orderData = Order(
                     OrderStatus.Delivered.status,
                     totalPrice,
@@ -270,7 +275,7 @@ class sellerOrderDetailFragment : Fragment() {
                 dialogResult.dismiss()
                 findNavController().navigateUp()
             })
-            dialogResult.setNegativeButton("No", onClickListener = {
+            dialogResult.setNegativeButton(getString(R.string.g_no), onClickListener = {
                 dialogResult.dismiss()
             })
             dialogResult.show()

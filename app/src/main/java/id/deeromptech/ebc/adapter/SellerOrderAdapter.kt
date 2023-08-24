@@ -2,6 +2,7 @@ package id.deeromptech.ebc.adapter
 
 import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
@@ -14,7 +15,7 @@ import id.deeromptech.ebc.databinding.OrderItemBinding
 
 class SellerOrderAdapter : RecyclerView.Adapter<SellerOrderAdapter.OrdersViewHolder>() {
 
-    inner class OrdersViewHolder(private val binding: OrderItemBinding):
+    inner class OrdersViewHolder(val binding: OrderItemBinding):
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(order: Order){
@@ -22,6 +23,14 @@ class SellerOrderAdapter : RecyclerView.Adapter<SellerOrderAdapter.OrdersViewHol
                 tvOrderId.text = order.orderId.toString()
                 tvOrderDate.text = order.date
                 val resources = itemView.resources
+
+                if (order.orderStatus == "Canceled"){
+                    btnDeleteOrder.visibility = View.VISIBLE
+                }
+
+                if (order.orderStatus == "Delivered"){
+                    btnDeleteOrder.visibility = View.VISIBLE
+                }
 
                 val colorDrawable = when (order.orderStatus) {
                     "Ordered" -> {
@@ -72,7 +81,11 @@ class SellerOrderAdapter : RecyclerView.Adapter<SellerOrderAdapter.OrdersViewHol
         holder.itemView.setOnClickListener {
             onClick?.invoke(order)
         }
+        holder.binding.btnDeleteOrder.setOnClickListener {
+            onDeleteClick?.invoke(order)
+        }
     }
 
     var onClick:((Order) -> Unit)? = null
+    var onDeleteClick:((Order) -> Unit)? = null
 }

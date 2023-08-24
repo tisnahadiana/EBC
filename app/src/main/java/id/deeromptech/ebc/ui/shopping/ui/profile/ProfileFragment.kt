@@ -105,9 +105,8 @@ class ProfileFragment : Fragment() {
 
     private fun onShippingCost() {
         binding.linearShippingCosts.setOnClickListener {
-//            val intent = Intent(requireContext(), ShippingCostActivity::class.java)
-//            startActivity(intent)
-            findNavController().navigate(R.id.action_navigation_profile_to_shippingCostFragment)
+            val intent = Intent(requireContext(), ShippingCostActivity::class.java)
+            startActivity(intent)
         }
     }
 
@@ -173,11 +172,11 @@ class ProfileFragment : Fragment() {
 
                 is Resource.Error -> {
                     hideLoading()
-                    Toast.makeText(
-                        activity,
-                        resources.getText(R.string.error_occurred),
-                        Toast.LENGTH_SHORT
-                    ).show()
+//                    Toast.makeText(
+//                        activity,
+//                        resources.getText(R.string.error_occurred),
+//                        Toast.LENGTH_SHORT
+//                    ).show()
                     Log.e(TAG, response.message.toString())
                     return@observe
                 } else -> Unit
@@ -206,17 +205,17 @@ class ProfileFragment : Fragment() {
 
     private fun signOut() {
         val dialogResult = DialogResult(requireContext())
-        dialogResult.setTitle("Logout")
+        dialogResult.setTitle(getString(R.string.logout_title_dialog))
         dialogResult.setImage(R.drawable.logout)
-        dialogResult.setMessage("Apakah anda yakin ingin logout?")
-        dialogResult.setPositiveButton("Ya", onClickListener = {
+        dialogResult.setMessage(getString(R.string.logout_dialog_message))
+        dialogResult.setPositiveButton(getString(R.string.g_yes), onClickListener = {
             auth.signOut()
             googleSignInClient.signOut()
             dialogResult.dismiss()
             startActivity(Intent(requireContext(), LoginActivity::class.java))
             requireActivity().finish()
         })
-        dialogResult.setNegativeButton("Tidak", onClickListener = {
+        dialogResult.setNegativeButton(getString(R.string.g_no), onClickListener = {
             dialogResult.dismiss()
         })
         dialogResult.show()

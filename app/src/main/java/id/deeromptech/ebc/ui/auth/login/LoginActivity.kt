@@ -54,6 +54,7 @@ class LoginActivity : AppCompatActivity() {
 
     }
 
+
     private fun onFacebookSignIn() {
 
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)

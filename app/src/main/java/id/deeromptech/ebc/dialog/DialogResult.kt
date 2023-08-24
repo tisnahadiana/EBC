@@ -20,7 +20,7 @@ class DialogResult (context: Context) {
 
         val layoutParams = WindowManager.LayoutParams()
         layoutParams.copyFrom(dialog.window?.attributes)
-        layoutParams.horizontalMargin = 100f // Adjust the margin value as per your requirements
+        layoutParams.horizontalMargin = 100f
         layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT
         layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
         dialog.window?.attributes = layoutParams
