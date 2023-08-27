@@ -25,10 +25,8 @@ import id.deeromptech.ebc.data.local.Order
 import id.deeromptech.ebc.data.local.OrderStatus
 import id.deeromptech.ebc.databinding.FragmentOrderDetailBinding
 import id.deeromptech.ebc.dialog.DialogResult
-import id.deeromptech.ebc.ui.shopping.ui.seller.order.SellerOrderDetailViewModel
 import id.deeromptech.ebc.util.ToastUtils
 import id.deeromptech.ebc.util.VerticalItemDecoration
-import id.deeromptech.ebc.util.toRupiah
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.util.*
@@ -136,12 +134,9 @@ class OrderDetailFragment : Fragment() {
                 OrderStatus.Delivered.status
             )
             tvAddress.text = order.address
-//            tvPhoneNumber.text = phoneNumber.toString()
 
             val formattedPrice = "Rp. ${decimalFormat.format(order.totalPrice)}"
             tvTotalPrice.text = formattedPrice
-
-            ToastUtils.showMessage(requireContext(), order.totalPrice.toString())
 
             tvOrderNote.text = "${getString(R.string.Note)} : ${order.orderNote}"
 

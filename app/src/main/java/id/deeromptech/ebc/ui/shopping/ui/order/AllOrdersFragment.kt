@@ -139,6 +139,7 @@ class AllOrdersFragment: Fragment() {
                                         }
                                     }
                                     setupOrdersRv()
+                                    findNavController().navigateUp()
                                 }
                                 .addOnFailureListener { exception ->
                                     // Handle failure

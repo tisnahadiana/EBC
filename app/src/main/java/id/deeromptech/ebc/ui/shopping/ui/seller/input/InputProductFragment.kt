@@ -37,11 +37,9 @@ class InputProductFragment : Fragment() {
     private var _binding: FragmentInputProductBinding? = null
     private val binding get() = _binding!!
     private val selectedImages = mutableListOf<Uri>()
-    private val selectedImagesEdit = mutableListOf<Uri>()
     private val firestore = Firebase.firestore
     private val storage = Firebase.storage.reference
     val viewModel by viewModels<InputProductViewModel>()
-    private var selectedImagePosition = 0
     private val args by navArgs<InputProductFragmentArgs>()
     private val MAX_SELECTED_IMAGES = 3
     override fun onCreateView(
@@ -275,96 +273,16 @@ class InputProductFragment : Fragment() {
             return false
         if (binding.edPrice.text.toString().trim().isEmpty())
             return false
+        if (binding.edDescription.text.toString().trim().isEmpty())
+            return false
+        if (binding.offerPercentage.text.toString().trim().isEmpty())
+            return false
+        if (binding.edWeight.text.toString().trim().isEmpty())
+            return false
         return true
     }
 
     private fun saveProduct(state: (Boolean) -> Unit) {
-        observeData()
-        val imagesByteArrays = getImagesByteArraysEdit()
-        val name = binding.edName.text.toString().trim()
-        val images = mutableListOf<String>()
-        val category = binding.spCategory.selectedItem.toString()
-        val productDescription = binding.edDescription.text.toString().trim()
-        val price = binding.edPrice.text.toString().trim()
-        val offerPercentage = binding.offerPercentage.text.toString().trim()
-        val seller = user?.storeName
-        val addressStore = user?.addressStore
-        val sellerPhone = user?.phone
-        val cityStore = user?.cityStore
-        val weight = binding.edWeight.text.toString().trim()
-        val rekening = user?.rekening
-
-        if (sellerPhone.isNullOrEmpty()) {
-            ToastUtils.showMessage(requireContext(), "Lengkapi Profil Pengguna")
-            return
-        }
-
-        val radioGroup = binding.rgStockAvailability
-        val selectedRadioButtonId = radioGroup.checkedRadioButtonId
-        val stock: String = when (selectedRadioButtonId) {
-            R.id.rbStockReady -> "Ready"
-            R.id.rbStockNotReady -> "Not Ready"
-            else -> "" // Jika tidak ada RadioButton yang dipilih
-        }
-
-        lifecycleScope.launch {
-            showLoading()
-            try {
-                async {
-                    imagesByteArrays.forEach {
-                        val id = UUID.randomUUID().toString()
-                        launch {
-                            val imagesStorage = storage.child("products/images/$id")
-                            val result = imagesStorage.putBytes(it).await()
-                            val downloadUrl = result.storage.downloadUrl.await().toString()
-                            images.add(selectedImages.toString())
-                            images.add(downloadUrl)
-                        }
-                    }
-                }.await()
-                hideLoading()
-
-                val product = Product(
-                    UUID.randomUUID().toString(),
-                    name,
-                    category,
-                    price.toFloat(),
-                    if (offerPercentage.isEmpty()) null else offerPercentage.toFloat(),
-                    if (productDescription.isEmpty()) null else productDescription,
-                    stock,
-                    seller,
-                    images,
-                    addressStore,
-                    sellerPhone,
-                    cityStore,
-                    weight,
-                    rekening
-                )
-
-                firestore.collection("Products").add(product).addOnSuccessListener {
-                    state(true)
-                    hideLoading()
-                    ToastUtils.showMessage(requireActivity(), "Adding Product Success")
-                }.addOnFailureListener {
-                    Log.e("test2", it.message.toString())
-                    state(false)
-                    hideLoading()
-                    ToastUtils.showMessage(
-                        requireActivity(),
-                        "Adding Product Failed : ${it.message}"
-                    )
-                }
-
-                ToastUtils.showMessage(requireActivity(), "Adding Product Success")
-
-            } catch (e: Exception) {
-                hideLoading()
-                ToastUtils.showMessage(requireActivity(), "Adding Product Failed : ${e.message}")
-            }
-        }
-    }
-
-    private fun createEditedProduct(state: (Boolean) -> Unit) {
         observeData()
         val imagesByteArrays = getImagesByteArrays()
         val name = binding.edName.text.toString().trim()
@@ -426,6 +344,93 @@ class InputProductFragment : Fragment() {
                     rekening
                 )
 
+                firestore.collection("Products").add(product).addOnSuccessListener {
+                    state(true)
+                    hideLoading()
+                    ToastUtils.showMessage(requireActivity(), "Adding Product Success")
+                }.addOnFailureListener {
+                    Log.e("test2", it.message.toString())
+                    state(false)
+                    hideLoading()
+                    ToastUtils.showMessage(
+                        requireActivity(),
+                        "Adding Product Failed : ${it.message}"
+                    )
+                }
+
+                ToastUtils.showMessage(requireActivity(), "Adding Product Success")
+
+            } catch (e: Exception) {
+                hideLoading()
+                ToastUtils.showMessage(requireActivity(), "Adding Product Failed : ${e.message}")
+            }
+        }
+    }
+
+    private fun createEditedProduct(state: (Boolean) -> Unit) {
+        observeData()
+        val newImagesByteArrays = getImagesByteArraysEdit()
+        val name = binding.edName.text.toString().trim()
+        val images = mutableListOf<String>()
+        val category = binding.spCategory.selectedItem.toString()
+        val productDescription = binding.edDescription.text.toString().trim()
+        val price = binding.edPrice.text.toString().trim()
+        val offerPercentage = binding.offerPercentage.text.toString().trim()
+        val seller = user?.storeName
+        val addressStore = user?.addressStore
+        val sellerPhone = user?.phone
+        val cityStore = user?.cityStore
+        val weight = binding.edWeight.text.toString().trim()
+        val rekening = user?.rekening
+        val productId = args.product.id
+
+        if (sellerPhone.isNullOrEmpty()) {
+            ToastUtils.showMessage(requireContext(), "Lengkapi Profil Pengguna")
+            return
+        }
+
+        val radioGroup = binding.rgStockAvailability
+        val selectedRadioButtonId = radioGroup.checkedRadioButtonId
+        val stock: String = when (selectedRadioButtonId) {
+            R.id.rbStockReady -> "Ready"
+            R.id.rbStockNotReady -> "Not Ready"
+            else -> "" // Jika tidak ada RadioButton yang dipilih
+        }
+
+        lifecycleScope.launch {
+            showLoading()
+            try {
+                async {
+                    newImagesByteArrays.forEach {
+                        val id = UUID.randomUUID().toString()
+                        launch {
+                            val imagesStorage = storage.child("products/images/$id")
+                            val result = imagesStorage.putBytes(it).await()
+                            val downloadUrl = result.storage.downloadUrl.await().toString()
+                            images.add(downloadUrl)
+                        }
+                    }
+                }.await()
+
+                val combinedImages = selectedImages.map { it.toString() } + images
+
+                val product = Product(
+                    productId,
+                    name,
+                    category,
+                    price.toFloat(),
+                    if (offerPercentage.isEmpty()) null else offerPercentage.toFloat(),
+                    if (productDescription.isEmpty()) null else productDescription,
+                    stock,
+                    seller,
+                    images = combinedImages,
+                    addressStore,
+                    sellerPhone,
+                    cityStore,
+                    weight,
+                    rekening
+                )
+
                 firestore.collection("Products")
                     .whereEqualTo("id", product.id)
                     .whereEqualTo("seller", product.seller)
@@ -464,57 +469,14 @@ class InputProductFragment : Fragment() {
                         hideLoading()
                     }
 
-                ToastUtils.showMessage(requireActivity(), "Adding Product Success")
+                ToastUtils.showMessage(requireActivity(), "Edit Product Success")
 
             } catch (e: Exception) {
                 hideLoading()
-                ToastUtils.showMessage(requireActivity(), "Adding Product Failed : ${e.message}")
+                ToastUtils.showMessage(requireActivity(), "Edit Product Failed : ${e.message}")
             }
         }
 
-
-
-    }
-
-    private fun editProduct(editedProduct: Product, state: (Boolean) -> Unit) {
-        showLoading()
-        firestore.collection("Products")
-            .whereEqualTo("id", editedProduct.id)
-            .whereEqualTo("seller", editedProduct.seller)
-            .get()
-            .addOnSuccessListener { result ->
-                val documents = result.documents
-                if (documents.isNotEmpty()) {
-                    val document = documents[0]
-                    document.reference.update(
-                        "name", editedProduct.name,
-                        "category", editedProduct.category,
-                        "price", editedProduct.price,
-                        "offerPercentage", editedProduct.offerPercentage,
-                        "description", editedProduct.description,
-                        "stock", editedProduct.stock,
-                        "images", editedProduct.images,
-                        "addressStore", editedProduct.addressStore,
-                        "sellerPhone", editedProduct.sellerPhone,
-                        "cityStore", editedProduct.cityStore,
-                        "weight", editedProduct.weight,
-                        "rekening", editedProduct.rekeningSeller
-                    ).addOnSuccessListener {
-                        state(true)
-                        hideLoading()
-                    }.addOnFailureListener {
-                        state(false)
-                        hideLoading()
-                    }
-                } else {
-                    state(false)
-                    hideLoading()
-                }
-            }
-            .addOnFailureListener {
-                state(false)
-                hideLoading()
-            }
     }
 
     private fun hideLoading() {
@@ -538,12 +500,19 @@ class InputProductFragment : Fragment() {
 
     private fun getImagesByteArraysEdit(): List<ByteArray> {
         val imagesByteArray = mutableListOf<ByteArray>()
-        selectedImages.forEach { imageUri ->
+
+        val newSelectedImages = selectedImages.filter { imageUri ->
+            !args.product.images.contains(imageUri.toString())
+        }
+
+        newSelectedImages.forEach { imageUri ->
             context?.contentResolver?.openInputStream(imageUri)?.use { inputStream ->
                 val byteArray = inputStream.readBytes()
                 imagesByteArray.add(byteArray)
+                selectedImages.remove(imageUri)
             }
         }
+
         return imagesByteArray
     }
 

@@ -128,6 +128,7 @@ class SellerOrderFragment : Fragment() {
                                         }
                                     }
                                     setupOrdersRv()
+                                    findNavController().navigateUp()
                                 }
                                 .addOnFailureListener { exception ->
                                     // Handle failure
