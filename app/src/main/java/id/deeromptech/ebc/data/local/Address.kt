@@ -12,6 +12,6 @@ data class Address(
     val kecamatan: String,
     val city: String,
     val provinsi: String
-): Parcelable {
-    constructor(): this("","","","","","","")
+) : Parcelable {
+    constructor() : this("", "", "", "", "", "", "")
 }

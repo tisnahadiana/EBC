@@ -7,9 +7,9 @@
     <string name="welcome">Selamat Datang!</string>
     <string name="greeting_title1">Belanja Sekarang!</string>
     <string name="greeting">Bergabung bersama kami dan beli berbagai produk UMKM dari rumahmu!</string>
-    <string name="greeting_title2">Dalam perjalanan</string>
+    <string name="greeting_title2">Belanja di manapun</string>
     <string name="greeting2">Belanja di mana saja dan kapan saja!</string>
-    <string name="greeting_title3">Langsung Beres</string>
+    <string name="greeting_title3">Produk Menarik</string>
     <string name="greeting3">Lihat produk-produk menarik dari UMKM di Bojong Picung!</string>
     <string name="greeting_picture">Gambar salam</string>
     <string name="learn_now">Belajar Sekarang</string>
@@ -255,6 +255,21 @@
     <string name="order_cancelled">Pesanan Dibatalkan</string>
     <string name="dialog_delete_order">Hapus Pesanan</string>
     <string name="dialog_message_order_result">Apakah kamu ingin menghapus pesanan ini?</string>
+    <string name="messsage_nameStore_blank">Masukkan Nama Toko terlebih dahulu!</string>
+    <string name="message_rekening_blank">Masukkan Nomor Rekening terlebih dahulu!</string>
+    <string name="message_addressStore_blank">Masukkan Alamat Toko terlebih dahulu!</string>
+    <string name="message_cityStore_blank">Masukkan Kota Toko terlebih dahulu!</string>
+    <string name="order_addressUser_message">Masukkan alamat terlebih dahulu!</string>
+    <string name="order_totalongkir_blank">Mohon pilih jasa pengiriman!</string>
+    <string name="order_edNoteOrder_blank">Silakan tambahkan catatan pesanan!</string>
+    <string name="order_addressDetail_blank">Silakan tambahkan Alamat Lengkap!</string>
+    <string name="message_transaksi">Sebelum melakukan transaksi harap Hubungi Seller Terlebih dahulu!!</string>
+    <string name="tampilan_harga_pada_produk">Contoh jika Harga 20.000 dan diskon 20, Maka Harga yang muncul 16.000</string>
+    <string name="image_choose"> Foto dipilih</string>
+    <string name="maximum_image">Maksimal gambar yang bisa dipilih hanya 3</string>
+    <string name="seller_product_empty">Kamu belum mengupload produk</string>
+    <string name="seller_order_empty">Tidak ada pesanan untuk ditampilkan</string>
+    <string name="inform_user_empty">Lengkapi informasi pengguna pada halaman profil</string>
 
     <string-array name="list_courier">
         <item>POS</item>

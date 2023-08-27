@@ -137,6 +137,27 @@ class SellerVerificationFragment : Fragment() {
         val address = binding.edAddressStore.text.toString()
         val cityStore = binding.originAutoCompleteTV.text.toString()
 
+        if (nameStore.isBlank()) {
+            ToastUtils.showMessage(requireContext(), getString(R.string.messsage_nameStore_blank))
+            return
+        }
+
+        if (rekening.isBlank()) {
+            ToastUtils.showMessage(requireContext(), getString(R.string.message_rekening_blank))
+            return
+        }
+
+        if (address.isBlank()) {
+            ToastUtils.showMessage(requireContext(), getString(R.string.message_addressStore_blank))
+            return
+        }
+
+        if (cityStore.isBlank()) {
+            ToastUtils.showMessage(requireContext(), getString(R.string.message_cityStore_blank))
+            return
+        }
+
+
         val user = User(
             "", "", "", "", "seller",
             addressStore = address,
@@ -148,30 +169,6 @@ class SellerVerificationFragment : Fragment() {
         viewModel.updateUserStoreData(user)
 
     }
-
-//    fun saveSellerAddress() {
-//        binding.apply {
-//            val addressTitle = edAddressTitle.text.toString()
-//            val kampung = edKampung.text.toString()
-//            val desa = edDesa.text.toString()
-//            val kecamatan = edSubdistrict.text.toString()
-//            val city = edCity.text.toString()
-//            val state = edProvince.text.toString()
-//
-//            val newAddress = Address(
-//                UUID.randomUUID().toString(),
-//                addressTitle,
-//                kampung,
-//                desa,
-//                kecamatan,
-//                city,
-//                state
-//            )
-//
-//            viewModel.addNewAddress(newAddress)
-//        }
-//
-//    }
 
     override fun onDestroyView() {
         super.onDestroyView()

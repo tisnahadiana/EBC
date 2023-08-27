@@ -28,7 +28,7 @@ class SearchRecyclerAdapter : RecyclerView.Adapter<SearchRecyclerAdapter.SearchV
                 Glide.with(itemView).load(product.images[0]).into(imgBestDeal)
 
 
-                tvOldPrice.paintFlags= Paint.STRIKE_THRU_TEXT_FLAG
+                tvOldPrice.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
                 if (product.offerPercentage == null)
                     tvNewPrice.visibility = View.INVISIBLE
                 tvDealProductName.text = product.name
@@ -36,13 +36,14 @@ class SearchRecyclerAdapter : RecyclerView.Adapter<SearchRecyclerAdapter.SearchV
                 val formattedOldPrice = "Rp. ${decimalFormat.format(product.price)}"
                 tvOldPrice.text = formattedOldPrice
 
-                val discountedPrice = product.price - (product.price * (product.offerPercentage!! / 100))
+                val discountedPrice =
+                    product.price - (product.price * (product.offerPercentage!! / 100))
                 val formattedPrice = "Rp. ${decimalFormat.format(discountedPrice)}"
                 tvNewPrice.text = formattedPrice
             }
 
         }
-        }
+    }
 
     private val diffCallback = object : DiffUtil.ItemCallback<Product>() {
         override fun areItemsTheSame(oldItem: Product, newItem: Product): Boolean {

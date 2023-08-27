@@ -20,7 +20,6 @@ import id.deeromptech.ebc.data.local.Order
 import id.deeromptech.ebc.data.local.OrderStatus
 import id.deeromptech.ebc.databinding.FragmentSellerOrderDetailBinding
 import id.deeromptech.ebc.dialog.DialogResult
-import id.deeromptech.ebc.util.ToastUtils
 import id.deeromptech.ebc.util.VerticalItemDecoration
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
@@ -69,7 +68,6 @@ class sellerOrderDetailFragment : Fragment() {
         val serviceDescriptionTV = order.serviceDescriptionTV
         val costValueTV = order.costValueTV
 
-        ToastUtils.showMessage(requireContext(), order.orderStatus)
         setupOrderRv()
 
         binding.codeTV.text = order.codeTV

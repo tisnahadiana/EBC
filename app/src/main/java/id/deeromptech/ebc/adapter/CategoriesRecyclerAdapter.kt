@@ -8,9 +8,12 @@ import androidx.recyclerview.widget.RecyclerView
 import id.deeromptech.ebc.data.local.Category
 import id.deeromptech.ebc.databinding.RecyclerViewCategoryItemBinding
 
-class CategoriesRecyclerAdapter : RecyclerView.Adapter<CategoriesRecyclerAdapter.CategoriesRecyclerAdapterViewHolder>() {
-    inner class CategoriesRecyclerAdapterViewHolder(val binding: RecyclerViewCategoryItemBinding) : RecyclerView.ViewHolder(binding.root)
-    private val diffCallback = object : DiffUtil.ItemCallback<Category>(){
+class CategoriesRecyclerAdapter :
+    RecyclerView.Adapter<CategoriesRecyclerAdapter.CategoriesRecyclerAdapterViewHolder>() {
+    inner class CategoriesRecyclerAdapterViewHolder(val binding: RecyclerViewCategoryItemBinding) :
+        RecyclerView.ViewHolder(binding.root)
+
+    private val diffCallback = object : DiffUtil.ItemCallback<Category>() {
         override fun areItemsTheSame(oldItem: Category, newItem: Category): Boolean {
             return oldItem.category == newItem.category
         }
@@ -20,7 +23,7 @@ class CategoriesRecyclerAdapter : RecyclerView.Adapter<CategoriesRecyclerAdapter
         }
     }
 
-    val differ = AsyncListDiffer(this,diffCallback)
+    val differ = AsyncListDiffer(this, diffCallback)
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -53,5 +56,5 @@ class CategoriesRecyclerAdapter : RecyclerView.Adapter<CategoriesRecyclerAdapter
         return differ.currentList.size
     }
 
-    var onItemClick :((Category)->Unit)?=null
+    var onItemClick: ((Category) -> Unit)? = null
 }

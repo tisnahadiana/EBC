@@ -15,11 +15,11 @@
 
         <ImageView
             android:id="@+id/img_best_deal"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
             android:scaleType="fitXY"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -58,7 +58,6 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-
             android:fontFamily="@font/montserrat_medium"
             android:text="Rp. 20.000"
             android:textColor="@color/black"

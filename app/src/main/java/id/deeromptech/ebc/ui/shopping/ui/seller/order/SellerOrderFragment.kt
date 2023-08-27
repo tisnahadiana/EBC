@@ -21,7 +21,6 @@ import id.deeromptech.ebc.data.local.Order
 import id.deeromptech.ebc.data.local.User
 import id.deeromptech.ebc.databinding.FragmentSellerOrderBinding
 import id.deeromptech.ebc.dialog.DialogResult
-import id.deeromptech.ebc.ui.auth.login.LoginActivity
 import id.deeromptech.ebc.util.Resource
 import id.deeromptech.ebc.util.ToastUtils
 import kotlinx.coroutines.flow.collectLatest

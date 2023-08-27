@@ -81,6 +81,7 @@ class FirebaseDb {
 
     fun getUser() = usersCollectionRef
         .document(FirebaseAuth.getInstance().currentUser!!.uid)
+
     fun getUserAddressStore() = usersCollectionRef
         .document(FirebaseAuth.getInstance().currentUser!!.uid).collection("addressStore")
 
@@ -137,8 +138,8 @@ class FirebaseDb {
         addressUser: String,
         storeName: String,
         addressStore: String,
-        rekening : String,
-        cityUser : String,
+        rekening: String,
+        cityUser: String,
         cityStore: String,
         onResult: (User?, String?) -> Unit,
     ) {
@@ -148,13 +149,37 @@ class FirebaseDb {
                 .child(imageName).downloadUrl.addOnCompleteListener {
                     if (it.isSuccessful) {
                         val imageUrl = it.result.toString()
-                        val user = User(name, email, phone, imageUrl,role,addressUser,storeName,addressStore,rekening, cityUser, cityStore)
+                        val user = User(
+                            name,
+                            email,
+                            phone,
+                            imageUrl,
+                            role,
+                            addressUser,
+                            storeName,
+                            addressStore,
+                            rekening,
+                            cityUser,
+                            cityStore
+                        )
                         onResult(user, null)
                     } else
                         onResult(null, it.exception.toString())
 
                 } else {
-            val user = User(name, email, phone, "",role, addressUser, storeName, addressStore, rekening, cityUser, cityStore)
+            val user = User(
+                name,
+                email,
+                phone,
+                "",
+                role,
+                addressUser,
+                storeName,
+                addressStore,
+                rekening,
+                cityUser,
+                cityStore
+            )
             onResult(user, null)
         }
     }
@@ -185,8 +210,8 @@ class FirebaseDb {
     fun getHomeProducts(pagingPage: Long) =
         productsCollection.limit(pagingPage).get()
 
-    fun getProductsByCategory(category: String,page:Long) =
-        productsCollection.whereEqualTo(CATEGORY,category).limit(page).get()
+    fun getProductsByCategory(category: String, page: Long) =
+        productsCollection.whereEqualTo(CATEGORY, category).limit(page).get()
 
     fun getAddresses() = userAddressesCollection
 

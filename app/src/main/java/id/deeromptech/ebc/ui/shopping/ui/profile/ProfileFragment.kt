@@ -7,7 +7,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
@@ -26,7 +25,6 @@ import id.deeromptech.ebc.dialog.DialogResult
 import id.deeromptech.ebc.ui.auth.login.LoginActivity
 import id.deeromptech.ebc.ui.shopping.ui.shippingcost.ShippingCostActivity
 import id.deeromptech.ebc.util.Resource
-import id.deeromptech.ebc.util.ToastUtils
 import id.deeromptech.ebc.util.showBottomNavigationView
 
 @AndroidEntryPoint
@@ -35,7 +33,7 @@ class ProfileFragment : Fragment() {
     private var _binding: FragmentProfileBinding? = null
     private lateinit var auth: FirebaseAuth
     private lateinit var googleSignInClient: GoogleSignInClient
-    val viewModel by viewModels<ProfileViewModel> ()
+    val viewModel by viewModels<ProfileViewModel>()
 
     private val binding get() = _binding!!
     val TAG = "ProfileFragment"
@@ -63,7 +61,8 @@ class ProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         auth = FirebaseAuth.getInstance()
-        googleSignInClient = GoogleSignIn.getClient(requireContext(), GoogleSignInOptions.DEFAULT_SIGN_IN)
+        googleSignInClient =
+            GoogleSignIn.getClient(requireContext(), GoogleSignInOptions.DEFAULT_SIGN_IN)
 
         binding.linearLogOut.setOnClickListener {
             signOut()
@@ -120,29 +119,35 @@ class ProfileFragment : Fragment() {
         binding.constraintProfile.setOnClickListener {
             user?.let {
                 val bundle = Bundle()
-                bundle.putParcelable("user",user)
-                findNavController().navigate(R.id.action_navigation_profile_to_userAccountFragment,bundle)
+                bundle.putParcelable("user", user)
+                findNavController().navigate(
+                    R.id.action_navigation_profile_to_userAccountFragment,
+                    bundle
+                )
             }
         }
     }
 
-    private fun onTobeSellerClick(){
+    private fun onTobeSellerClick() {
         binding.linearTobeSeller.setOnClickListener {
             val bundle = Bundle().apply {
                 putParcelable("user", user)
                 putBoolean("edit", false)
             }
-            findNavController().navigate(R.id.action_navigation_profile_to_sellerVerificationFragment, bundle)
+            findNavController().navigate(
+                R.id.action_navigation_profile_to_sellerVerificationFragment,
+                bundle
+            )
         }
     }
 
-    private fun onMyStoreClick(){
+    private fun onMyStoreClick() {
         binding.linearMystore.setOnClickListener {
             findNavController().navigate(R.id.action_navigation_profile_to_sellerFragment)
         }
     }
 
-    var user: User?=null
+    var user: User? = null
     private fun observeProfile() {
         viewModel.profile.observe(viewLifecycleOwner) { response ->
             when (response) {
@@ -179,14 +184,19 @@ class ProfileFragment : Fragment() {
 //                    ).show()
                     Log.e(TAG, response.message.toString())
                     return@observe
-                } else -> Unit
+                }
+                else -> Unit
             }
         }
     }
 
     private fun onBillingAndAddressesClick() {
         binding.linearBilling.setOnClickListener {
-            val action = ProfileFragmentDirections.actionNavigationProfileToBillingFragment(0f, emptyArray(), false)
+            val action = ProfileFragmentDirections.actionNavigationProfileToBillingFragment(
+                0f,
+                emptyArray(),
+                false
+            )
             findNavController().navigate(action)
         }
     }
@@ -209,7 +219,8 @@ class ProfileFragment : Fragment() {
         dialogResult.setImage(R.drawable.logout)
         dialogResult.setMessage(getString(R.string.logout_dialog_message))
         dialogResult.setPositiveButton(getString(R.string.g_yes), onClickListener = {
-            auth.signOut()
+//            auth.signOut()
+            FirebaseAuth.getInstance().signOut()
             googleSignInClient.signOut()
             dialogResult.dismiss()
             startActivity(Intent(requireContext(), LoginActivity::class.java))

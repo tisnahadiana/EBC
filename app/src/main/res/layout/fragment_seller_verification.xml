@@ -127,7 +127,7 @@
             android:id="@+id/btnSaveSellerData"
             android:layout_width="0dp"
             android:layout_height="45dp"
-            android:layout_marginTop="100dp"
+            android:layout_marginTop="16dp"
             android:background="@drawable/bg_button"
             android:fontFamily="@font/montserrat"
             android:gravity="center"
@@ -137,7 +137,7 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="@+id/edAddressStore"
             app:layout_constraintStart_toStartOf="@+id/edAddressStore"
-            app:layout_constraintTop_toBottomOf="@+id/edAddressStore"
+            app:layout_constraintTop_toBottomOf="@+id/originTIL"
             app:spinning_bar_color="@color/white" />
 
         <com.github.leandroborgesferreira.loadingbutton.customViews.CircularProgressButton

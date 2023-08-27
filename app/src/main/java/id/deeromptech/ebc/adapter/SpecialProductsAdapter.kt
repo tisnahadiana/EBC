@@ -12,19 +12,22 @@ import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.util.*
 
-class SpecialProductsAdapter: RecyclerView.Adapter<SpecialProductsAdapter.SpecialProductsViewHolder>() {
+class SpecialProductsAdapter :
+    RecyclerView.Adapter<SpecialProductsAdapter.SpecialProductsViewHolder>() {
 
-    inner class SpecialProductsViewHolder(private val binding: SpecialRvItemBinding):
+    inner class SpecialProductsViewHolder(private val binding: SpecialRvItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        private val decimalFormat = DecimalFormat("#,###", DecimalFormatSymbols(Locale.getDefault()))
+        private val decimalFormat =
+            DecimalFormat("#,###", DecimalFormatSymbols(Locale.getDefault()))
 
-        fun bind(product: Product){
+        fun bind(product: Product) {
             binding.apply {
                 Glide.with(itemView).load(product.images[0]).into(imgSpecialRv)
                 tvSpecialName.text = product.name
 
-                val discountedPrice = product.price - (product.price * (product.offerPercentage!! / 100))
+                val discountedPrice =
+                    product.price - (product.price * (product.offerPercentage!! / 100))
                 val formattedPrice = "Rp. ${decimalFormat.format(discountedPrice)}"
                 tvSpecialPrice.text = formattedPrice
             }
@@ -32,7 +35,7 @@ class SpecialProductsAdapter: RecyclerView.Adapter<SpecialProductsAdapter.Specia
 
     }
 
-    private val diffCallback = object : DiffUtil.ItemCallback<Product>(){
+    private val diffCallback = object : DiffUtil.ItemCallback<Product>() {
         override fun areItemsTheSame(oldItem: Product, newItem: Product): Boolean {
             return oldItem.id == newItem.id
         }
@@ -42,7 +45,7 @@ class SpecialProductsAdapter: RecyclerView.Adapter<SpecialProductsAdapter.Specia
         }
     }
 
-    val differ = AsyncListDiffer(this,diffCallback)
+    val differ = AsyncListDiffer(this, diffCallback)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SpecialProductsViewHolder {
         return SpecialProductsViewHolder(
@@ -65,5 +68,5 @@ class SpecialProductsAdapter: RecyclerView.Adapter<SpecialProductsAdapter.Specia
         }
     }
 
-    var onClick:((Product) -> Unit)? = null
+    var onClick: ((Product) -> Unit)? = null
 }

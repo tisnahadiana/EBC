@@ -11,45 +11,35 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ProgressBar
-            android:id="@+id/progressbar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/productsInfo"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
             android:layout_marginTop="20dp"
+            android:layout_marginEnd="10dp"
             android:orientation="vertical"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            app:layout_constraintTop_toTopOf="parent">
 
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/product_general_information"
+                android:textColor="@color/black"
                 android:textSize="18sp"
-                android:textStyle="bold"
-                android:textColor="@color/black" />
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/edName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/product_name"
                 android:layout_marginTop="10dp"
-                android:layout_marginBottom="5dp"/>
-
+                android:layout_marginBottom="5dp"
+                android:hint="@string/product_name" />
 
 
             <EditText
@@ -58,18 +48,18 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="5dp"
-                android:hint="@string/product_description"
-                />
+                android:hint="@string/product_description" />
 
 
             <TextView
                 android:id="@+id/tvCategory"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"
-                android:textStyle="bold"
+                android:text="Category :"
                 android:textColor="@color/black"
-                android:text="Category :"/>
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
             <Spinner
                 android:id="@+id/spCategory"
                 style="@android:style/Widget.Spinner.DropDown"
@@ -88,7 +78,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="5dp"
                 android:hint="@string/price"
-                android:inputType="number"/>
+                android:inputType="number" />
 
             <EditText
                 android:id="@+id/offerPercentage"
@@ -97,16 +87,17 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="5dp"
                 android:hint="@string/offer_percentage_optional"
-                android:inputType="number"/>
+                android:inputType="number" />
 
             <TextView
                 android:id="@+id/tvPrice"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"
-                android:textStyle="bold"
+                android:text="@string/tampilan_harga_pada_produk"
                 android:textColor="@color/black"
-                android:text="Contoh 20.000"/>
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
 
             <EditText
                 android:id="@+id/edWeight"
@@ -115,17 +106,17 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="5dp"
                 android:hint="@string/berat_barang_gram"
-                android:inputType="number"/>
+                android:inputType="number" />
 
             <TextView
                 android:id="@+id/tvSeller"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="sellerName"
+                android:textColor="@color/black"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                android:visibility="gone"
-                android:text="sellerName"
-                android:textColor="@color/black"/>
+                android:visibility="gone" />
 
 
         </androidx.appcompat.widget.LinearLayoutCompat>
@@ -212,8 +203,8 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
                 android:scaleType="fitXY"
-                android:visibility="visible"
                 android:src="@drawable/default_image"
+                android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/buttonImagesPicker" />
@@ -226,7 +217,7 @@
                 android:layout_marginBottom="16dp"
                 android:scaleType="fitXY"
                 android:src="@drawable/default_image"
-                android:visibility="gone"
+                android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/buttonImagesPicker" />
@@ -239,20 +230,27 @@
                 android:layout_marginBottom="16dp"
                 android:scaleType="fitXY"
                 android:src="@drawable/default_image"
-                android:visibility="gone"
+                android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/buttonImagesPicker" />
+
+            <ProgressBar
+                android:id="@+id/progressbar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:layout_gravity="center"/>
 
             <com.github.leandroborgesferreira.loadingbutton.customViews.CircularProgressButton
                 android:id="@+id/btnSaveProduct"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/bg_button"
                 android:fontFamily="@font/montserrat"
                 android:gravity="center"
-                android:layout_gravity="center"
                 android:padding="6dp"
                 android:text="@string/save_product"
                 android:textColor="@color/white"
@@ -260,21 +258,22 @@
                 android:textStyle="bold"
                 app:spinning_bar_color="@color/white" />
 
+
             <com.github.leandroborgesferreira.loadingbutton.customViews.CircularProgressButton
                 android:id="@+id/btnEditProduct"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/bg_button"
                 android:fontFamily="@font/montserrat"
                 android:gravity="center"
-                android:layout_gravity="center"
                 android:padding="6dp"
-                android:visibility="gone"
                 android:text="@string/edit_product"
                 android:textColor="@color/white"
                 android:textSize="15sp"
                 android:textStyle="bold"
+                android:visibility="gone"
                 app:spinning_bar_color="@color/white" />
 
         </LinearLayout>

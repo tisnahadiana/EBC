@@ -1,12 +1,17 @@
 package id.deeromptech.ebc.ui.shopping.ui.order
 
 import android.annotation.SuppressLint
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -21,6 +26,7 @@ import id.deeromptech.ebc.data.local.OrderStatus
 import id.deeromptech.ebc.databinding.FragmentOrderDetailBinding
 import id.deeromptech.ebc.dialog.DialogResult
 import id.deeromptech.ebc.ui.shopping.ui.seller.order.SellerOrderDetailViewModel
+import id.deeromptech.ebc.util.ToastUtils
 import id.deeromptech.ebc.util.VerticalItemDecoration
 import id.deeromptech.ebc.util.toRupiah
 import java.text.DecimalFormat
@@ -99,12 +105,29 @@ class OrderDetailFragment : Fragment() {
             }
 
             tvOrderId.text = "Order #${order.orderId}"
-            tvPhoneNumber.text = "${getString(R.string.phone)} : ${order.products[0].product.sellerPhone}"
+            tvPhoneNumber.text = "${getString(R.string.phone)} Seller : ${order.products[0].product.sellerPhone}"
+            accountNumberTextView.text ="Rekening : ${order.products[0].product.rekeningSeller}"
+            accountNumberTextView.setTextIsSelectable(true)
+            accountNumberTextView.setOnLongClickListener {
+                val clipboard = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                val clip = ClipData.newPlainText("Rekening", accountNumberTextView.text)
+                clipboard.setPrimaryClip(clip)
+                Toast.makeText(requireContext(), "Text copied to clipboard", Toast.LENGTH_SHORT).show()
+                true  // Return true to consume the long click event
+            }
+
             binding.codeTV.text = order.codeTV
             binding.estimationTV.text = order.estimationTV
             binding.serviceTV.text = order.serviceTV
             binding.serviceDescriptionTV.text = order.serviceDescriptionTV
             binding.costValueTV.text = order.costValueTV
+
+            copyButton.setOnClickListener {
+                val clipboard = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                val clip = ClipData.newPlainText("Rekening", binding.accountNumberTextView.text)
+                clipboard.setPrimaryClip(clip)
+                Toast.makeText(requireContext(), "Text copied to clipboard", Toast.LENGTH_SHORT).show()
+            }
 
             val stepLabels = listOf(
                 OrderStatus.Ordered.status,
@@ -117,6 +140,8 @@ class OrderDetailFragment : Fragment() {
 
             val formattedPrice = "Rp. ${decimalFormat.format(order.totalPrice)}"
             tvTotalPrice.text = formattedPrice
+
+            ToastUtils.showMessage(requireContext(), order.totalPrice.toString())
 
             tvOrderNote.text = "${getString(R.string.Note)} : ${order.orderNote}"
 

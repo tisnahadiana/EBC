@@ -201,6 +201,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:visibility="gone"
                     android:id="@+id/linearBilling"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -316,9 +317,8 @@
                 </LinearLayout>
             </LinearLayout>
 
-
-
             <TextView
+                android:visibility="gone"
                 android:id="@+id/tvNotifications"
                 android:textSize="14sp"
                 android:fontFamily="@font/montserrat_semibold"
@@ -332,6 +332,7 @@
                 app:layout_constraintTop_toBottomOf="@id/linearOrders" />
 
             <LinearLayout
+                android:visibility="gone"
                 android:id="@+id/linearNotifications"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

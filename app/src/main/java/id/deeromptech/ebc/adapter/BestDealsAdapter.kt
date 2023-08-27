@@ -27,7 +27,7 @@ class BestDealsAdapter : RecyclerView.Adapter<BestDealsAdapter.BestDealsViewHold
                 Glide.with(itemView).load(product.images[0]).into(imgBestDeal)
 
 
-                tvOldPrice.paintFlags= Paint.STRIKE_THRU_TEXT_FLAG
+                tvOldPrice.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
                 if (product.offerPercentage == null)
                     tvNewPrice.visibility = View.INVISIBLE
                 tvDealProductName.text = product.name
@@ -35,7 +35,8 @@ class BestDealsAdapter : RecyclerView.Adapter<BestDealsAdapter.BestDealsViewHold
                 val formattedOldPrice = "Rp. ${decimalFormat.format(product.price)}"
                 tvOldPrice.text = formattedOldPrice
 
-                val discountedPrice = product.price - (product.price * (product.offerPercentage!! / 100))
+                val discountedPrice =
+                    product.price - (product.price * (product.offerPercentage!! / 100))
                 val formattedPrice = "Rp. ${decimalFormat.format(discountedPrice)}"
                 tvNewPrice.text = formattedPrice
             }

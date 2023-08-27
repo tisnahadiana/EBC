@@ -72,6 +72,15 @@ class BillingFragment : Fragment() {
         loadCities()
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        if (user?.addressUser != null) {
+            binding.originAutoCompleteTV.setText(user?.cityUser)
+        }
+        loadCities()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -168,18 +177,26 @@ class BillingFragment : Fragment() {
         }
 
         binding.buttonPlaceOrder.setOnClickListener {
+            if (user?.phone.isNullOrEmpty()) {
+                ToastUtils.showMessage(requireContext(), getString(R.string.inform_user_empty))
+                return@setOnClickListener
+            }
             if (user?.addressUser == null) {
-                ToastUtils.showMessage(requireContext(), "Please Select address")
+                ToastUtils.showMessage(requireContext(), getString(R.string.order_addressUser_message))
                 return@setOnClickListener
             }
 
             if (binding.tvTotalOngkir.text.isNullOrBlank()) {
-                ToastUtils.showMessage(requireContext(), "Please select a shipping service")
+                ToastUtils.showMessage(requireContext(), getString(R.string.order_totalongkir_blank))
                 return@setOnClickListener
             }
 
             if (binding.edNoteOrder.text.isNullOrBlank()) {
-                ToastUtils.showMessage(requireContext(), "Please add order notes")
+                ToastUtils.showMessage(requireContext(), getString(R.string.order_edNoteOrder_blank))
+                return@setOnClickListener
+            }
+            if (binding.textShippingAddress.text.isNullOrEmpty()) {
+                ToastUtils.showMessage(requireContext(), getString(R.string.order_addressDetail_blank))
                 return@setOnClickListener
             }
             showOrderConfirmationDialog()
@@ -236,6 +253,8 @@ class BillingFragment : Fragment() {
         val serviceTV = binding.serviceTV.text.toString().trim()
         val serviceDescriptionTV = binding.serviceDescriptionTV.text.toString()
         val costValueTV = binding.costValueTV.text.toString()
+        val totalPriceData = binding.tvTotalPrice.text.toString().trim()
+        val totalPriceFloat = totalPriceData.replace("Rp. ", "").replace(".", "").toFloat()
 
         val dialogResult = DialogResult(requireContext())
         dialogResult.setTitle("Order Items")
@@ -244,7 +263,7 @@ class BillingFragment : Fragment() {
         dialogResult.setPositiveButton("Yes", onClickListener = {
             val order = Order(
                 OrderStatus.Ordered.status,
-                totalPrice,
+                totalPriceFloat,
                 products,
                 address,
                 user!!.name,

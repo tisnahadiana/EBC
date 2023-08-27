@@ -11,18 +11,20 @@ import id.deeromptech.ebc.R
 import id.deeromptech.ebc.data.local.Address
 import id.deeromptech.ebc.databinding.AddressRvItemBinding
 
-class AddressAdapter: RecyclerView.Adapter<AddressAdapter.AddressViewHolder>() {
+class AddressAdapter : RecyclerView.Adapter<AddressAdapter.AddressViewHolder>() {
 
-    inner class AddressViewHolder (val binding: AddressRvItemBinding) :
-        ViewHolder(binding.root){
-        fun bind(address: Address, isSelected: Boolean){
+    inner class AddressViewHolder(val binding: AddressRvItemBinding) :
+        ViewHolder(binding.root) {
+        fun bind(address: Address, isSelected: Boolean) {
             binding.apply {
                 buttonAddress.text = address.addressTitle
-                if (isSelected){
-                    buttonAddress.background = ColorDrawable(itemView.context.resources.getColor(R.color.green))
+                if (isSelected) {
+                    buttonAddress.background =
+                        ColorDrawable(itemView.context.resources.getColor(R.color.green))
                     buttonAddress.setTextColor(itemView.context.resources.getColor(R.color.white))
                 } else {
-                    buttonAddress.background = ColorDrawable(itemView.context.resources.getColor(R.color.white))
+                    buttonAddress.background =
+                        ColorDrawable(itemView.context.resources.getColor(R.color.white))
                     buttonAddress.setTextColor(itemView.context.resources.getColor(R.color.gray))
                 }
             }
@@ -30,7 +32,7 @@ class AddressAdapter: RecyclerView.Adapter<AddressAdapter.AddressViewHolder>() {
 
     }
 
-    private val diffCallback = object : DiffUtil.ItemCallback<Address>(){
+    private val diffCallback = object : DiffUtil.ItemCallback<Address>() {
         override fun areItemsTheSame(oldItem: Address, newItem: Address): Boolean {
             return oldItem.addressTitle == newItem.addressTitle && oldItem.kampung == newItem.kampung
         }
@@ -40,7 +42,7 @@ class AddressAdapter: RecyclerView.Adapter<AddressAdapter.AddressViewHolder>() {
         }
     }
 
-    val differ = AsyncListDiffer(this,diffCallback)
+    val differ = AsyncListDiffer(this, diffCallback)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AddressViewHolder {
         return AddressViewHolder(
@@ -74,5 +76,5 @@ class AddressAdapter: RecyclerView.Adapter<AddressAdapter.AddressViewHolder>() {
         }
     }
 
-    var onClick:((Address) -> Unit)? = null
+    var onClick: ((Address) -> Unit)? = null
 }

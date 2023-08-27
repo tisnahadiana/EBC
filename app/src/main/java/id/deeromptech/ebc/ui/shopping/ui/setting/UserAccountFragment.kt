@@ -84,6 +84,10 @@ class UserAccountFragment : Fragment() {
         observeResetPassword()
 
         observeUpdateInformation()
+
+        binding.edEmail.isEnabled = false
+        binding.edEmail.isFocusable = false
+        binding.edEmail.isFocusableInTouchMode = false
     }
 
     private fun setUserInformation(user: User) {

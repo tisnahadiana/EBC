@@ -5,9 +5,9 @@
     <string name="welcome">Welcome!</string>
     <string name="greeting_title1">Shop Now</string>
     <string name="greeting">Come join us and buy many products UMKM from your home!</string>
-    <string name="greeting_title2">On The Way</string>
+    <string name="greeting_title2">Shop anywhere</string>
     <string name="greeting2">Shop anywhere and anytime! </string>
-    <string name="greeting_title3">Work Done</string>
+    <string name="greeting_title3">Interesting Product</string>
     <string name="greeting3">See interesting products from UMKM in Bojong Picung! </string>
     <string name="greeting_picture">Greeting picture</string>
     <string name="learn_now">Learn Now!</string>
@@ -225,7 +225,7 @@
     <string name="hubungi_pembeli">Contact Buyer</string>
     <string name="contact_seller">Contact Seller</string>
     <string name="order_note">Order Note</string>
-    <string name="offer_percentage_optional">Offer Percentage (Optional)</string>
+    <string name="offer_percentage_optional">Offer Percentage</string>
     <string name="pilih_jasa_pengiriman">Select Delivery Service</string>
     <string name="full_delivery_address">Full delivery address</string>
     <string name="harga_ongkir">Postage Price</string>
@@ -253,6 +253,21 @@
     <string name="order_cancelled">Order Cancelled</string>
     <string name="dialog_delete_order">Delete Order</string>
     <string name="dialog_message_order_result">Are you want to delete this order?</string>
+    <string name="messsage_nameStore_blank">Enter the Store Name first!</string>
+    <string name="message_rekening_blank">Enter the Account Number first!</string>
+    <string name="message_addressStore_blank">Masukkan Alamat Toko terlebih dahulu!</string>
+    <string name="message_cityStore_blank">Enter the Store Address first!</string>
+    <string name="order_addressUser_message">Please Select address</string>
+    <string name="order_totalongkir_blank">Please select a shipping service</string>
+    <string name="order_edNoteOrder_blank">Please add order notes</string>
+    <string name="order_addressDetail_blank">Please add Full Address</string>
+    <string name="message_transaksi">Before making a transaction please contact the seller first!!</string>
+    <string name="tampilan_harga_pada_produk">For example, if the price is 20,000 and the discount is 20, then the price that appears is 16,000</string>
+    <string name="image_choose"> Photo selected</string>
+    <string name="maximum_image">The maximum image that can be selected is only 3</string>
+    <string name="seller_product_empty">You haven\'t uploaded a product yet</string>
+    <string name="seller_order_empty">No orders to show</string>
+    <string name="inform_user_empty">Complete the user information on the profile page</string>
 
 
     <string-array name="list_courier">

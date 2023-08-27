@@ -8,14 +8,15 @@ class FirebaseCommon(
     private val firestore: FirebaseFirestore,
     private val auth: FirebaseAuth
 ) {
-    private val cartCollection = firestore.collection("users").document(auth.uid!!).collection("cart")
+    private val cartCollection =
+        firestore.collection("users").document(auth.uid!!).collection("cart")
 
     fun addProductToCart(cart: Cart, onResult: (Cart?, Exception?) -> Unit) {
         cartCollection.document().set(cart)
             .addOnSuccessListener {
                 onResult(cart, null)
             }.addOnFailureListener {
-                onResult(null,it)
+                onResult(null, it)
             }
     }
 
@@ -25,7 +26,7 @@ class FirebaseCommon(
             val document = transition.get(documentRef)
             val productObject = document.toObject(Cart::class.java)
             productObject?.let { cartProduct ->
-                val newQuantity = cartProduct.quantity +1
+                val newQuantity = cartProduct.quantity + 1
                 val newProductObject = cartProduct.copy(quantity = newQuantity)
                 transition.set(documentRef, newProductObject)
             }
@@ -53,7 +54,7 @@ class FirebaseCommon(
         }
     }
 
-    enum class QuantityChanging{
-        INCREASE,DECREASE
+    enum class QuantityChanging {
+        INCREASE, DECREASE
     }
 }

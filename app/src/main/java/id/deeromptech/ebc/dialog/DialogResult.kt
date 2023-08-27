@@ -10,7 +10,7 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import id.deeromptech.ebc.databinding.LayoutDialogBinding
 
-class DialogResult (context: Context) {
+class DialogResult(context: Context) {
     private val dialog: Dialog = Dialog(context)
     private val binding: LayoutDialogBinding
 

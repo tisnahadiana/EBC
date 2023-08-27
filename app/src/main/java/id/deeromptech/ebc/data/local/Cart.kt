@@ -7,6 +7,6 @@ import kotlinx.parcelize.Parcelize
 data class Cart(
     val product: Product,
     val quantity: Int
-): Parcelable {
-    constructor(): this(Product(), 1)
+) : Parcelable {
+    constructor() : this(Product(), 1)
 }

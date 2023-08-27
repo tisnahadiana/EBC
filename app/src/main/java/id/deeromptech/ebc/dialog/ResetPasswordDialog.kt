@@ -7,7 +7,7 @@ import id.deeromptech.ebc.databinding.ResetPasswordDialogBinding
 
 fun Activity.setupBottomSheetDialog(
     onSendClick: (String) -> Unit
-){
+) {
     val dialog = BottomSheetDialog(this)
     val binding = ResetPasswordDialogBinding.inflate(layoutInflater)
     dialog.setContentView(binding.root)

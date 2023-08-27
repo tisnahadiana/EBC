@@ -137,7 +137,6 @@
                     android:paddingTop="5dp"
                     android:paddingEnd="10dp"
                     android:paddingBottom="5dp"
-                    android:text="@string/addresses"
                     android:textColor="@color/black"
                     android:textSize="16sp" />
 

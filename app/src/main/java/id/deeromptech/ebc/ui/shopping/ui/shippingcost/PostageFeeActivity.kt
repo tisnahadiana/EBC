@@ -43,14 +43,14 @@ class PostageFeeActivity : AppCompatActivity() {
         initView(originCity, destinationCity, courierName)
         setupAdapter(costPostageFee ?: return)
 
-        postageFeeAdapter.onClick = { selectedPostageFee ->
-            val intent = Intent(this, ShoppingActivity::class.java).apply {
-                putExtra("selectedCost", selectedPostageFee)
-                putExtra("openBillingFragment", true) // Signal to open BillingFragment
-            }
-            startActivity(intent)
-            finish() // Finish the current activity
-        }
+//        postageFeeAdapter.onClick = { selectedPostageFee ->
+//            val intent = Intent(this, ShoppingActivity::class.java).apply {
+//                putExtra("selectedCost", selectedPostageFee)
+//                putExtra("openBillingFragment", true) // Signal to open BillingFragment
+//            }
+//            startActivity(intent)
+//            finish() // Finish the current activity
+//        }
     }
 
     private fun initView(originCity: OriginDetails?, destinationCity: DestinationDetails?, courierName: String?) {

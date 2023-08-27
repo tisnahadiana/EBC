@@ -9,26 +9,24 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import id.deeromptech.ebc.R
 import id.deeromptech.ebc.data.local.Order
-import id.deeromptech.ebc.data.local.OrderStatus
-import id.deeromptech.ebc.data.local.getOrderStatus
 import id.deeromptech.ebc.databinding.OrderItemBinding
 
 class SellerOrderAdapter : RecyclerView.Adapter<SellerOrderAdapter.OrdersViewHolder>() {
 
-    inner class OrdersViewHolder(val binding: OrderItemBinding):
+    inner class OrdersViewHolder(val binding: OrderItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(order: Order){
+        fun bind(order: Order) {
             binding.apply {
                 tvOrderId.text = order.orderId.toString()
                 tvOrderDate.text = order.date
                 val resources = itemView.resources
 
-                if (order.orderStatus == "Canceled"){
+                if (order.orderStatus == "Canceled") {
                     btnDeleteOrder.visibility = View.VISIBLE
                 }
 
-                if (order.orderStatus == "Delivered"){
+                if (order.orderStatus == "Delivered") {
                     btnDeleteOrder.visibility = View.VISIBLE
                 }
 
@@ -36,7 +34,7 @@ class SellerOrderAdapter : RecyclerView.Adapter<SellerOrderAdapter.OrdersViewHol
                     "Ordered" -> {
                         ColorDrawable(resources.getColor(R.color.orang_yellow))
                     }
-                    "Confirmed" ,"Shipped", "Delivered" -> {
+                    "Confirmed", "Shipped", "Delivered" -> {
                         ColorDrawable(resources.getColor(R.color.green))
                     }
                     else -> {
@@ -50,7 +48,7 @@ class SellerOrderAdapter : RecyclerView.Adapter<SellerOrderAdapter.OrdersViewHol
 
     }
 
-    private val diffCallback = object : DiffUtil.ItemCallback<Order>(){
+    private val diffCallback = object : DiffUtil.ItemCallback<Order>() {
         override fun areItemsTheSame(oldItem: Order, newItem: Order): Boolean {
             return oldItem.products == newItem.products
         }
@@ -60,7 +58,7 @@ class SellerOrderAdapter : RecyclerView.Adapter<SellerOrderAdapter.OrdersViewHol
         }
     }
 
-    val differ = AsyncListDiffer(this,diffCallback)
+    val differ = AsyncListDiffer(this, diffCallback)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OrdersViewHolder {
         return OrdersViewHolder(
@@ -86,6 +84,6 @@ class SellerOrderAdapter : RecyclerView.Adapter<SellerOrderAdapter.OrdersViewHol
         }
     }
 
-    var onClick:((Order) -> Unit)? = null
-    var onDeleteClick:((Order) -> Unit)? = null
+    var onClick: ((Order) -> Unit)? = null
+    var onDeleteClick: ((Order) -> Unit)? = null
 }

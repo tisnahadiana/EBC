@@ -28,12 +28,6 @@ class BillingProductsSellerAdapter : RecyclerView.Adapter<BillingProductsSellerA
                 Glide.with(itemView).load(billingProduct.product.images[0]).into(imageCartProduct)
                 tvBillingProductQuantity.text = billingProduct.quantity.toString()
 
-//                val priceAfterPercentage = billingProduct.product.offerPercentage.getProductPrice(billingProduct.product.price)
-//                tvProductCartPrice.text = "$ ${String.format("%.2f", priceAfterPercentage)}"
-//
-//                val formattedPrice = "Rp. ${decimalFormat.format(billingProduct.product.price)}"
-//                tvProductCartPrice.text = formattedPrice
-
                 val discountedPrice = billingProduct.product.price - (billingProduct.product.price * (billingProduct.product.offerPercentage!! / 100))
                 val formattedPrice = "Rp. ${decimalFormat.format(discountedPrice)}"
                 tvProductCartPrice.text = formattedPrice

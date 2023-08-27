@@ -11,9 +11,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import dagger.hilt.android.AndroidEntryPoint
 import id.deeromptech.ebc.R
-import id.deeromptech.ebc.data.model.CostPostageFee
 import id.deeromptech.ebc.databinding.ActivityShoppingBinding
-import id.deeromptech.ebc.ui.shopping.ui.billing.BillingFragment
 import id.deeromptech.ebc.ui.shopping.ui.cart.CartViewModel
 import id.deeromptech.ebc.util.Resource
 import kotlinx.coroutines.flow.collectLatest
@@ -38,7 +36,10 @@ class ShoppingActivity : AppCompatActivity() {
 
         val appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.navigation_home, R.id.navigation_search ,R.id.navigation_cart, R.id.navigation_profile
+                R.id.navigation_home,
+                R.id.navigation_search,
+                R.id.navigation_cart,
+                R.id.navigation_profile
             )
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -46,10 +47,11 @@ class ShoppingActivity : AppCompatActivity() {
 
         lifecycleScope.launchWhenStarted {
             viewmodel.cartProducts.collectLatest {
-                when(it) {
+                when (it) {
                     is Resource.Success -> {
                         val count = it.data?.size ?: 0
-                        val bottomNavigation = findViewById<BottomNavigationView>(R.id.bottom_nav_view)
+                        val bottomNavigation =
+                            findViewById<BottomNavigationView>(R.id.bottom_nav_view)
                         bottomNavigation.getOrCreateBadge(R.id.navigation_cart).apply {
                             number = count
                             backgroundColor = resources.getColor(R.color.blue)

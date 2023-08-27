@@ -14,12 +14,12 @@ class ViewPager2Images : RecyclerView.Adapter<ViewPager2Images.ViewPager2ImagesV
     inner class ViewPager2ImagesViewHolder(val binding: ViewpagerImagesItemBinding) :
         ViewHolder(binding.root) {
 
-            fun bind(imagePath: String){
-                Glide.with(itemView).load(imagePath).into(binding.imageProductDetails)
-            }
+        fun bind(imagePath: String) {
+            Glide.with(itemView).load(imagePath).into(binding.imageProductDetails)
         }
+    }
 
-    private val diffCallback = object : DiffUtil.ItemCallback<String>(){
+    private val diffCallback = object : DiffUtil.ItemCallback<String>() {
         override fun areItemsTheSame(oldItem: String, newItem: String): Boolean {
             return oldItem == newItem
         }

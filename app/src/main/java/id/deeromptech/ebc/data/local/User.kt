@@ -11,11 +11,11 @@ data class User(
     var imagePath: String = "",
     val role: String = "",
     val addressUser: String = "",
-    val cityUser : String = "",
+    val cityUser: String = "",
     val storeName: String = "",
     val addressStore: String = "",
     val cityStore: String = "",
     val rekening: String = ""
-): Parcelable {
-    constructor(): this("","", "", "","", "", "","","")
+) : Parcelable {
+    constructor() : this("", "", "", "", "", "", "", "", "")
 }

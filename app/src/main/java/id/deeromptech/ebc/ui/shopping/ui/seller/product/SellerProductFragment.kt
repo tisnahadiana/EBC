@@ -43,7 +43,6 @@ class SellerProductFragment : Fragment() {
 
         setupProductSellerRV()
 
-
         viewModel.getUser()
 
         viewModel.profile.observe(viewLifecycleOwner) { resource ->
@@ -72,6 +71,10 @@ class SellerProductFragment : Fragment() {
                     is Resource.Success -> {
                         sellerProductAdapter.differ.submitList(it.data)
                         hideLoading()
+                        if (it.data.isNullOrEmpty()) {
+                            binding.imgProductEmpty.visibility = View.VISIBLE
+                            binding.tvProductEmpty.visibility = View.VISIBLE
+                        }
 //                        ToastUtils.showMessage(requireContext(), "Fetch Data Success")
                     }
                     is Resource.Error -> {

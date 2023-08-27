@@ -15,26 +15,23 @@ import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.util.*
 
-class BillingProductsAdapter : RecyclerView.Adapter<BillingProductsAdapter.BillingProductViewHolder>() {
+class BillingProductsAdapter :
+    RecyclerView.Adapter<BillingProductsAdapter.BillingProductViewHolder>() {
 
-    inner class BillingProductViewHolder (val binding: BillingProductsRvItemBinding) :
-        RecyclerView.ViewHolder(binding.root){
+    inner class BillingProductViewHolder(val binding: BillingProductsRvItemBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
-        private val decimalFormat = DecimalFormat("#,###", DecimalFormatSymbols(Locale.getDefault()))
+        private val decimalFormat =
+            DecimalFormat("#,###", DecimalFormatSymbols(Locale.getDefault()))
 
         @SuppressLint("SetTextI18n")
-        fun bind(billingProduct: Cart){
+        fun bind(billingProduct: Cart) {
             binding.apply {
                 Glide.with(itemView).load(billingProduct.product.images[0]).into(imageCartProduct)
                 tvBillingProductQuantity.text = billingProduct.quantity.toString()
 
-//                val priceAfterPercentage = billingProduct.product.offerPercentage.getProductPrice(billingProduct.product.price)
-//                tvProductCartPrice.text = "$ ${String.format("%.2f", priceAfterPercentage)}"
-//
-//                val formattedPrice = "Rp. ${decimalFormat.format(billingProduct.product.price)}"
-//                tvProductCartPrice.text = formattedPrice
-
-                val discountedPrice = billingProduct.product.price - (billingProduct.product.price * (billingProduct.product.offerPercentage!! / 100))
+                val discountedPrice =
+                    billingProduct.product.price - (billingProduct.product.price * (billingProduct.product.offerPercentage!! / 100))
                 val formattedPrice = "Rp. ${decimalFormat.format(discountedPrice)}"
                 tvProductCartPrice.text = formattedPrice
 
@@ -45,7 +42,7 @@ class BillingProductsAdapter : RecyclerView.Adapter<BillingProductsAdapter.Billi
 
     }
 
-    private val diffCallback = object : DiffUtil.ItemCallback<Cart>(){
+    private val diffCallback = object : DiffUtil.ItemCallback<Cart>() {
         override fun areItemsTheSame(oldItem: Cart, newItem: Cart): Boolean {
             return oldItem.product == newItem.product
         }
@@ -55,7 +52,7 @@ class BillingProductsAdapter : RecyclerView.Adapter<BillingProductsAdapter.Billi
         }
     }
 
-    val differ = AsyncListDiffer(this,diffCallback)
+    val differ = AsyncListDiffer(this, diffCallback)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BillingProductViewHolder {
         return BillingProductViewHolder(
@@ -81,6 +78,6 @@ class BillingProductsAdapter : RecyclerView.Adapter<BillingProductsAdapter.Billi
         }
     }
 
-    var onClick:((Address) -> Unit)? = null
+    var onClick: ((Address) -> Unit)? = null
     var onClickProduct: ((Product) -> Unit)? = null
 }

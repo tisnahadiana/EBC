@@ -15,6 +15,7 @@ import id.deeromptech.ebc.util.Resource
 import id.deeromptech.ebc.util.ToastUtils
 
 private val TAG = "RegisterActivity"
+
 @AndroidEntryPoint
 class RegisterActivity : AppCompatActivity() {
 
@@ -22,14 +23,14 @@ class RegisterActivity : AppCompatActivity() {
         ActivityRegisterBinding.inflate(layoutInflater)
     }
     private val viewModel by viewModels<RegisterViewModel>()
-     override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         supportActionBar?.hide()
 
-         onRegisterBtnClick()
-         observeSaveUserInformation()
-         onLoginClick()
+        onRegisterBtnClick()
+        observeSaveUserInformation()
+        onLoginClick()
 
 
     }
@@ -45,7 +46,10 @@ class RegisterActivity : AppCompatActivity() {
                 is Resource.Success -> {
                     Log.d(TAG, "EmailRegister:Successful")
                     binding.btnRegisterActivity.stopAnimation()
-                    ToastUtils.showMessage(this@RegisterActivity, getString(R.string.success_message_register))
+                    ToastUtils.showMessage(
+                        this@RegisterActivity,
+                        getString(R.string.success_message_register)
+                    )
                     viewModel.logOut()
                     viewModel.register.postValue(null)
                     val loginIntent = Intent(this@RegisterActivity, LoginActivity::class.java)
@@ -56,7 +60,10 @@ class RegisterActivity : AppCompatActivity() {
                 is Resource.Error -> {
                     binding.btnRegisterActivity.stopAnimation()
                     Log.e(TAG, "EmailRegister:Error ${response.message.toString()}")
-                    ToastUtils.showMessage(this@RegisterActivity, "Register Failed : ${response.message}")
+                    ToastUtils.showMessage(
+                        this@RegisterActivity,
+                        "Register Failed : ${response.message}"
+                    )
                 }
                 else -> Unit
             }
@@ -73,7 +80,8 @@ class RegisterActivity : AppCompatActivity() {
     private fun onRegisterBtnClick() {
         binding.btnRegisterActivity.setOnClickListener {
             binding.btnRegisterActivity.spinningBarColor = resources.getColor(R.color.white)
-            binding.btnRegisterActivity.spinningBarWidth = resources.getDimension(com.intuit.sdp.R.dimen._3sdp)
+            binding.btnRegisterActivity.spinningBarWidth =
+                resources.getDimension(com.intuit.sdp.R.dimen._3sdp)
             val user = getUser()
             val password = getPassword()
             user?.let { user ->

@@ -39,9 +39,6 @@ class HomeFragment : Fragment() {
         binding.btnHelp.setOnClickListener {
             findNavController().navigate(R.id.action_navigation_home_to_helpFragment)
         }
-        binding.btnNotification.setOnClickListener {
-
-        }
 
         val categoriesFragments = arrayListOf<Fragment>(
             MainCategoryFragment(),
