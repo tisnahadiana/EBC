@@ -57,6 +57,8 @@ class SellerOrderFragment : Fragment() {
         setupOrdersRv()
         observeOrderSeller()
 
+        binding.imageCloseOrders.setOnClickListener { findNavController().navigateUp() }
+
         lifecycleScope.launchWhenStarted {
             viewModel.allOrders.collectLatest {
                 when(it){

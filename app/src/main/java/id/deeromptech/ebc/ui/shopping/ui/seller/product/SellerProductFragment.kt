@@ -75,7 +75,6 @@ class SellerProductFragment : Fragment() {
                             binding.imgProductEmpty.visibility = View.VISIBLE
                             binding.tvProductEmpty.visibility = View.VISIBLE
                         }
-//                        ToastUtils.showMessage(requireContext(), "Fetch Data Success")
                     }
                     is Resource.Error -> {
                         hideLoading()

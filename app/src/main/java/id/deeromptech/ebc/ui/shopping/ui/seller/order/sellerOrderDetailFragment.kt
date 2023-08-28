@@ -132,6 +132,10 @@ class sellerOrderDetailFragment : Fragment() {
                 val phoneNumber = order.userPhone
                 showConfirmationDialog(phoneNumber)
             }
+
+            imageCloseOrder.setOnClickListener {
+                findNavController().navigateUp()
+            }
         }
 
         billingProductsSellerAdapter.differ.submitList(order.products)

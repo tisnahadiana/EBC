@@ -202,6 +202,7 @@ class BillingFragment : Fragment() {
             showOrderConfirmationDialog()
         }
 
+        binding.imageCloseBilling.setOnClickListener { findNavController().navigateUp() }
     }
 
     private fun observeAddress() {

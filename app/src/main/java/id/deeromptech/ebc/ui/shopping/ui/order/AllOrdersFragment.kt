@@ -164,6 +164,8 @@ class AllOrdersFragment: Fragment() {
             dialogResult.show()
 
         }
+
+        binding.imageCloseOrders.setOnClickListener { findNavController().navigateUp() }
     }
 
     private fun setupOrdersRv() {

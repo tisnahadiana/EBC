@@ -148,7 +148,7 @@ class OrderDetailFragment : Fragment() {
                 .drawView();
 
             btnContactBuyer.setOnClickListener {
-                val phoneNumber = order.userPhone
+                val phoneNumber = order.products[0].product.sellerPhone.toString()
                 showConfirmationDialog(phoneNumber)
             }
         }
@@ -196,6 +196,8 @@ class OrderDetailFragment : Fragment() {
             }
             findNavController().navigate(R.id.action_orderDetailFragment_to_productDetailFragment, b)
         }
+
+        binding.imageCloseOrder.setOnClickListener { findNavController().navigateUp() }
     }
 
     private fun showConfirmationDialog(phoneNumber: String) {
