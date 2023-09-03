@@ -8,6 +8,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.lifecycle.HiltViewModel
 import id.deeromptech.ebc.data.local.Address
 import id.deeromptech.ebc.data.local.Cart
+import id.deeromptech.ebc.data.local.User
 import id.deeromptech.ebc.util.Resource
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -33,13 +34,44 @@ class AddressViewModel @Inject constructor(
 
     private var addressDocuments = emptyList<DocumentSnapshot>()
 
+    private val _updateUserStoreDataResult = MutableStateFlow<Resource<Unit>>(Resource.Unspecified())
+    val updateUserStoreDataResult = _updateUserStoreDataResult.asStateFlow()
+
     private val _deleteDialog = MutableSharedFlow<Cart>()
     val deleteDialog = _deleteDialog.asSharedFlow()
+
+    fun updateUserStoreData(user: User) {
+        viewModelScope.launch {
+            _updateUserStoreDataResult.emit(Resource.Loading())
+        }
+
+        firestore.collection("users").document(auth.currentUser?.uid ?: "")
+            .update(
+                "addressUser", user.addressUser ,
+                "cityUser", user.cityUser,
+                "cityStore", user.cityStore
+            )
+            .addOnSuccessListener {
+                viewModelScope.launch {
+                    _updateUserStoreDataResult.emit(Resource.Success(Unit))
+                }
+            }
+            .addOnFailureListener { exception ->
+                viewModelScope.launch {
+                    _updateUserStoreDataResult.emit(
+                        Resource.Error(
+                            exception.message ?: ""
+                        )
+                    ) // Error, stop the animation
+                }
+            }
+    }
+
     fun deleteAddress(address: Address) {
         val index = deleteAddress.value.data?.indexOf(address)
         if (index != null && index != -1) {
             val documentId = addressDocuments[index].id
-            firestore.collection("users").document(auth.uid!!).collection("address")
+            firestore.collection("users").document(auth.uid!!).collection("addressUser")
                 .document(documentId).delete()
         }
     }

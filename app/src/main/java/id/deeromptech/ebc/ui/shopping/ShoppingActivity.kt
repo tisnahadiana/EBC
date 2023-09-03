@@ -29,13 +29,17 @@ class ShoppingActivity : AppCompatActivity() {
 
         supportActionBar?.hide()
 
+
         val navView: BottomNavigationView = binding.bottomNavView
 
         val navController = findNavController(R.id.nav_host_fragment_activity_shopping)
 
         val appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.navigation_home, R.id.navigation_search ,R.id.navigation_cart, R.id.navigation_profile
+                R.id.navigation_home,
+                R.id.navigation_search,
+                R.id.navigation_cart,
+                R.id.navigation_profile
             )
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -43,10 +47,11 @@ class ShoppingActivity : AppCompatActivity() {
 
         lifecycleScope.launchWhenStarted {
             viewmodel.cartProducts.collectLatest {
-                when(it) {
+                when (it) {
                     is Resource.Success -> {
                         val count = it.data?.size ?: 0
-                        val bottomNavigation = findViewById<BottomNavigationView>(R.id.bottom_nav_view)
+                        val bottomNavigation =
+                            findViewById<BottomNavigationView>(R.id.bottom_nav_view)
                         bottomNavigation.getOrCreateBadge(R.id.navigation_cart).apply {
                             number = count
                             backgroundColor = resources.getColor(R.color.blue)

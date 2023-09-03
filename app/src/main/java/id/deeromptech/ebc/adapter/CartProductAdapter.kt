@@ -1,9 +1,6 @@
 package id.deeromptech.ebc.adapter
 
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
@@ -11,35 +8,42 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import id.deeromptech.ebc.data.local.Cart
 import id.deeromptech.ebc.databinding.ItemCartProductBinding
-import id.deeromptech.ebc.helper.getProductPrice
-import id.deeromptech.ebc.util.Constants.CART_FLAG
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.util.*
 
-class CartProductAdapter: RecyclerView.Adapter<CartProductAdapter.CartProductsViewHolder>() {
+class CartProductAdapter : RecyclerView.Adapter<CartProductAdapter.CartProductsViewHolder>() {
 
-    inner class CartProductsViewHolder( val binding: ItemCartProductBinding):
+    inner class CartProductsViewHolder(val binding: ItemCartProductBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        private val decimalFormat = DecimalFormat("#,###", DecimalFormatSymbols(Locale.getDefault()))
+        private val decimalFormat =
+            DecimalFormat("#,###", DecimalFormatSymbols(Locale.getDefault()))
 
-        fun bind(cart: Cart){
+        fun bind(cart: Cart) {
             binding.apply {
                 Glide.with(itemView).load(cart.product.images[0]).into(imageCartProduct)
-                tvcartProductName.text = cart.product.name
-                tvQuantity.text = cart.quantity.toString()
 
+                if (cart.product.offerPercentage == null) {
+                    tvcartProductName.text = cart.product.name
+                    tvQuantity.text = cart.quantity.toString()
+                    val formattedPrice = "Rp. ${decimalFormat.format(cart.product.price)}"
+                    tvcartProductPrice.text = formattedPrice
+                } else {
+                    tvcartProductName.text = cart.product.name
+                    tvQuantity.text = cart.quantity.toString()
 
-                val discountedPrice = cart.product.price - (cart.product.price * (cart.product.offerPercentage!! / 100))
-                val formattedPrice = "Rp. ${decimalFormat.format(discountedPrice)}"
-                tvcartProductPrice.text = formattedPrice
+                    val discountedPrice =
+                        cart.product.price - (cart.product.price * (cart.product.offerPercentage!! / 100))
+                    val formattedPrice = "Rp. ${decimalFormat.format(discountedPrice)}"
+                    tvcartProductPrice.text = formattedPrice
+                }
             }
         }
 
     }
 
-    private val diffCallback = object : DiffUtil.ItemCallback<Cart>(){
+    private val diffCallback = object : DiffUtil.ItemCallback<Cart>() {
         override fun areItemsTheSame(oldItem: Cart, newItem: Cart): Boolean {
             return oldItem.product.id == newItem.product.id
         }
@@ -49,7 +53,7 @@ class CartProductAdapter: RecyclerView.Adapter<CartProductAdapter.CartProductsVi
         }
     }
 
-    val differ = AsyncListDiffer(this,diffCallback)
+    val differ = AsyncListDiffer(this, diffCallback)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CartProductsViewHolder {
         return CartProductsViewHolder(
@@ -82,10 +86,24 @@ class CartProductAdapter: RecyclerView.Adapter<CartProductAdapter.CartProductsVi
         holder.binding.btnDeleteCart.setOnClickListener {
             onDeleteClick?.invoke(cart)
         }
+
+        holder.binding.checkboxProduct.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                checkedItems.add(cart)
+            } else {
+                checkedItems.remove(cart)
+            }
+            // Notify the listener in CartFragment about checked items change
+            onCheckedItemsChanged?.invoke(checkedItems)
+        }
+        holder.binding.checkboxProduct.isChecked = checkedItems.contains(cart)
+
     }
 
-    var onProductClick:((Cart) -> Unit)? = null
-    var onPlusClick:((Cart) -> Unit)? = null
-    var onMinusClick:((Cart) -> Unit)? = null
-    var onDeleteClick:((Cart) -> Unit)? = null
+    var onProductClick: ((Cart) -> Unit)? = null
+    var onPlusClick: ((Cart) -> Unit)? = null
+    var onMinusClick: ((Cart) -> Unit)? = null
+    var onDeleteClick: ((Cart) -> Unit)? = null
+    var onCheckedItemsChanged: ((Set<Cart>) -> Unit)? = null
+    private val checkedItems = mutableSetOf<Cart>()
 }

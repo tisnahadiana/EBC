@@ -1,6 +1,5 @@
 package id.deeromptech.ebc.firebase
 
-import android.util.Log
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseAuth
@@ -11,26 +10,18 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.UploadTask
 import com.google.firebase.storage.ktx.storage
-import id.deeromptech.ebc.data.local.Address
 import id.deeromptech.ebc.data.local.Cart
-import id.deeromptech.ebc.data.local.Order
 import id.deeromptech.ebc.data.local.User
 import id.deeromptech.ebc.util.Constants.ADDRESS_COLLECTION
-import id.deeromptech.ebc.util.Constants.BEST_DEALS
 import id.deeromptech.ebc.util.Constants.CART_COLLECTION
 import id.deeromptech.ebc.util.Constants.CATEGORIES_COLLECTION
 import id.deeromptech.ebc.util.Constants.CATEGORY
 import id.deeromptech.ebc.util.Constants.FASHION
-import id.deeromptech.ebc.util.Constants.ID
 import id.deeromptech.ebc.util.Constants.ORDERS
-import id.deeromptech.ebc.util.Constants.ORDER_PLACED_STATE
 import id.deeromptech.ebc.util.Constants.PRODUCTS_COLLECTION
 import id.deeromptech.ebc.util.Constants.QUANTITY
 import id.deeromptech.ebc.util.Constants.STORES_COLLECTION
 import id.deeromptech.ebc.util.Constants.USERS_COLLECTION
-import java.util.*
-import kotlin.collections.ArrayList
-import kotlin.collections.HashMap
 
 class FirebaseDb {
     private val usersCollectionRef = Firebase.firestore.collection(USERS_COLLECTION)
@@ -91,6 +82,9 @@ class FirebaseDb {
     fun getUser() = usersCollectionRef
         .document(FirebaseAuth.getInstance().currentUser!!.uid)
 
+    fun getUserAddressStore() = usersCollectionRef
+        .document(FirebaseAuth.getInstance().currentUser!!.uid).collection("addressStore")
+
     fun getItemsInCart() = userCartCollection!!
 
 //    fun getProductInCart(product: Cart) = userCartCollection!!
@@ -140,6 +134,13 @@ class FirebaseDb {
         email: String,
         phone: String,
         imageName: String,
+        role: String,
+        addressUser: String,
+        storeName: String,
+        addressStore: String,
+        rekening: String,
+        cityUser: String,
+        cityStore: String,
         onResult: (User?, String?) -> Unit,
     ) {
         if (imageName.isNotEmpty())
@@ -148,13 +149,37 @@ class FirebaseDb {
                 .child(imageName).downloadUrl.addOnCompleteListener {
                     if (it.isSuccessful) {
                         val imageUrl = it.result.toString()
-                        val user = User(name, email, phone, imageUrl)
+                        val user = User(
+                            name,
+                            email,
+                            phone,
+                            imageUrl,
+                            role,
+                            addressUser,
+                            storeName,
+                            addressStore,
+                            rekening,
+                            cityUser,
+                            cityStore
+                        )
                         onResult(user, null)
                     } else
                         onResult(null, it.exception.toString())
 
                 } else {
-            val user = User(name, email, phone, "")
+            val user = User(
+                name,
+                email,
+                phone,
+                "",
+                role,
+                addressUser,
+                storeName,
+                addressStore,
+                rekening,
+                cityUser,
+                cityStore
+            )
             onResult(user, null)
         }
     }
@@ -185,8 +210,8 @@ class FirebaseDb {
     fun getHomeProducts(pagingPage: Long) =
         productsCollection.limit(pagingPage).get()
 
-    fun getProductsByCategory(category: String,page:Long) =
-        productsCollection.whereEqualTo(CATEGORY,category).limit(page).get()
+    fun getProductsByCategory(category: String, page: Long) =
+        productsCollection.whereEqualTo(CATEGORY, category).limit(page).get()
 
     fun getAddresses() = userAddressesCollection
 

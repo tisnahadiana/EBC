@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 import id.deeromptech.ebc.R
@@ -36,10 +37,7 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.btnHelp.setOnClickListener {
-            sendEmailToAdmin()
-        }
-        binding.btnNotification.setOnClickListener {
-
+            findNavController().navigate(R.id.action_navigation_home_to_helpFragment)
         }
 
         val categoriesFragments = arrayListOf<Fragment>(

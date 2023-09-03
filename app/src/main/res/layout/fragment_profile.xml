@@ -20,7 +20,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:indeterminateTint="@color/gray"
+            android:indeterminateTint="@color/green"
             android:visibility="gone"/>
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -36,9 +36,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="@string/settings"
+                android:text="@string/profile"
                 app:layout_constraintStart_toStartOf="@id/guideline1"
                 app:layout_constraintTop_toTopOf="parent" />
+
+
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/constraintProfile"
@@ -95,8 +97,6 @@
                     app:layout_constraintTop_toTopOf="@id/tvUserName"
                     app:layout_constraintBottom_toBottomOf="@id/tv_edit_personal_details"
                     app:tint="@color/gray" />
-
-
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -168,12 +168,12 @@
                     android:orientation="horizontal"
                     android:layout_marginTop="10dp"
                     android:layout_margin="5dp"
-                    android:id="@+id/linearTrackOrder">
+                    android:id="@+id/linearShippingCosts">
 
                     <ImageView
                         android:layout_width="30dp"
                         android:layout_height="30dp"
-                        android:src="@drawable/ic_search"
+                        android:src="@drawable/ic_kurir"
                         android:layout_gravity="center_vertical"
                         android:background="@drawable/settings_items_background"
                         android:backgroundTint="@color/gray"
@@ -187,7 +187,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="@string/track_orders"
+                        android:text="@string/calculate_shipping_costs"
                         android:textStyle="bold"
                         android:layout_marginStart="15dp"
                         android:layout_gravity="center_vertical"/>
@@ -201,6 +201,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:visibility="gone"
                     android:id="@+id/linearBilling"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -316,9 +317,8 @@
                 </LinearLayout>
             </LinearLayout>
 
-
-
             <TextView
+                android:visibility="gone"
                 android:id="@+id/tvNotifications"
                 android:textSize="14sp"
                 android:fontFamily="@font/montserrat_semibold"
@@ -332,6 +332,7 @@
                 app:layout_constraintTop_toBottomOf="@id/linearOrders" />
 
             <LinearLayout
+                android:visibility="gone"
                 android:id="@+id/linearNotifications"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -430,7 +431,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Language"
+                        android:text="@string/language"
                         android:textColor="@color/black"
                         android:textStyle="bold"
                         android:layout_marginStart="15dp"

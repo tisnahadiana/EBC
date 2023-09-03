@@ -25,12 +25,14 @@
 
         <TextView
             android:id="@+id/tv_title"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
             android:fontFamily="@font/montserrat_semibold"
-            android:text="@string/become_seller"
-            android:textSize="28sp"
             android:gravity="center"
+            android:text="@string/become_seller"
+            android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageView3" />
@@ -44,8 +46,8 @@
             android:fontFamily="@font/montserrat_semibold"
             android:gravity="center"
             android:text="@string/addresses"
-            android:textSize="28sp"
-            app:layout_constraintStart_toStartOf="@+id/edAddressTitle"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="@+id/edAddressStore"
             app:layout_constraintTop_toBottomOf="@+id/ed_register_rekening" />
 
         <id.deeromptech.ebc.customview.CustomEditText
@@ -79,108 +81,81 @@
 
 
         <id.deeromptech.ebc.customview.CustomEditText
-            android:id="@+id/edAddressTitle"
+            android:id="@+id/edAddressStore"
             style="@style/EditText"
             android:layout_marginStart="50dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="50dp"
             android:gravity="center"
-            android:hint="@string/address_location"
-            android:inputType="text"
+            android:hint="@string/enter_full_address_store"
+            android:inputType="textMultiLine"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_address" />
 
-        <id.deeromptech.ebc.customview.CustomEditText
-            android:id="@+id/edKampung"
-            style="@style/EditText"
-            android:layout_marginStart="50dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="50dp"
-            android:gravity="center"
-            android:hint="@string/determine_location"
-            android:inputType="text"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edAddressTitle" />
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/originTIL"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:hint="@string/kota_asal"
+            app:hintEnabled="true"
+            app:layout_constraintEnd_toEndOf="@+id/edAddressStore"
+            app:layout_constraintStart_toStartOf="@+id/edAddressStore"
+            app:layout_constraintTop_toBottomOf="@+id/edAddressStore">
 
-        <id.deeromptech.ebc.customview.CustomEditText
-            android:id="@+id/edDesa"
-            style="@style/EditText"
-            android:layout_marginStart="50dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="50dp"
-            android:gravity="center"
-            android:hint="@string/village"
-            android:inputType="text"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edKampung" />
+            <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                android:id="@+id/originAutoCompleteTV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <id.deeromptech.ebc.customview.CustomEditText
-            android:id="@+id/edSubdistrict"
-            style="@style/EditText"
-            android:layout_marginStart="50dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="50dp"
-            android:gravity="center"
-            android:hint="@string/subdistrict"
-            android:inputType="text"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edDesa" />
+        <ProgressBar
+            android:id="@+id/loadingPB"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_gravity="center_vertical|center_horizontal"
+            app:layout_constraintBottom_toBottomOf="@+id/originTIL"
+            app:layout_constraintEnd_toEndOf="@+id/originTIL"
+            app:layout_constraintStart_toStartOf="@+id/originTIL" />
 
-        <id.deeromptech.ebc.customview.CustomEditText
-            android:id="@+id/edCity"
-            style="@style/EditText"
-            android:layout_marginStart="50dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="50dp"
-            android:gravity="center"
-            android:hint="@string/city"
-            android:inputType="text"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edSubdistrict" />
-
-        <id.deeromptech.ebc.customview.CustomEditText
-            android:id="@+id/edProvince"
-            style="@style/EditText"
-            android:layout_marginStart="50dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="50dp"
-            android:gravity="center"
-            android:hint="@string/province"
-            android:inputType="text"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edCity" />
 
         <com.github.leandroborgesferreira.loadingbutton.customViews.CircularProgressButton
-            android:id="@+id/btn_save_seller_data"
+            android:id="@+id/btnSaveSellerData"
             android:layout_width="0dp"
             android:layout_height="45dp"
-            android:layout_marginStart="50dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="50dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginTop="16dp"
             android:background="@drawable/bg_button"
             android:fontFamily="@font/montserrat"
+            android:gravity="center"
             android:text="@string/save_data"
             android:textColor="@color/white"
             android:textSize="20sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/edAddressStore"
+            app:layout_constraintStart_toStartOf="@+id/edAddressStore"
+            app:layout_constraintTop_toBottomOf="@+id/originTIL"
+            app:spinning_bar_color="@color/white" />
+
+        <com.github.leandroborgesferreira.loadingbutton.customViews.CircularProgressButton
+            android:id="@+id/btn_edit_infoSeller"
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/bg_button"
+            android:fontFamily="@font/montserrat"
+            android:text="@string/edit_data"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="@+id/btnSaveSellerData"
             app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edProvince"
+            app:layout_constraintStart_toStartOf="@+id/btnSaveSellerData"
+            app:layout_constraintTop_toBottomOf="@+id/btnSaveSellerData"
             app:spinning_bar_color="@color/white" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

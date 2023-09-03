@@ -73,7 +73,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.68" />
+            app:layout_constraintGuide_end="233dp" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvCart"
@@ -102,11 +102,10 @@
             android:id="@+id/totalBoxContainer"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
-            android:background="#F6FAF6"
+            android:background="@color/gray_light"
             app:layout_constraintEnd_toEndOf="@id/rightGuideLine"
             app:layout_constraintStart_toStartOf="@id/leftGuideLine"
-            app:layout_constraintTop_toBottomOf="@id/bottomGuideLine">
+            app:layout_constraintTop_toTopOf="@+id/bottomGuideLine">
 
 
             <TextView
@@ -132,7 +131,6 @@
                 android:layout_marginEnd="10dp"
                 android:layout_marginBottom="15dp"
                 android:fontFamily="@font/montserrat"
-                android:text="Rp. 20.000"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"

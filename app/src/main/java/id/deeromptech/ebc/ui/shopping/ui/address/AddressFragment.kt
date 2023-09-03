@@ -5,18 +5,27 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
+import id.deeromptech.ebc.R
 import id.deeromptech.ebc.data.local.Address
+import id.deeromptech.ebc.data.local.User
+import id.deeromptech.ebc.data.model.ResultData
+import id.deeromptech.ebc.data.model.city.CityResult
 import id.deeromptech.ebc.databinding.FragmentAddressBinding
+import id.deeromptech.ebc.ui.shopping.ui.shippingcost.ShippingCostViewModel
 import id.deeromptech.ebc.util.Resource
 import id.deeromptech.ebc.util.ToastUtils
+import id.deeromptech.ebc.util.gone
+import id.deeromptech.ebc.util.visible
 import kotlinx.coroutines.flow.collectLatest
-import java.util.*
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
 @AndroidEntryPoint
 class AddressFragment: Fragment(){
@@ -24,12 +33,21 @@ class AddressFragment: Fragment(){
     private var _binding: FragmentAddressBinding? = null
     private val binding get() = _binding!!
     val viewModel by viewModels<AddressViewModel>()
-    val args by navArgs<AddressFragmentArgs>()
+    private val args by navArgs<AddressFragmentArgs>()
     private var currentAddress: Address? = null
+    private lateinit var address: String
+    private lateinit var cityUser: String
+    private lateinit var cityStore: String
+
+    private val mainViewModel by viewModels<ShippingCostViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        currentAddress = args.address
+
+        address = args.user.addressUser.toString()
+
+
+        loadCities()
 
         lifecycleScope.launchWhenStarted {
             viewModel.addNewAddress.collectLatest {
@@ -72,69 +90,40 @@ class AddressFragment: Fragment(){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val address = args.address
-        if (address == null) {
-            binding.buttonDelete.visibility = View.GONE
-        } else {
-            binding.apply {
-                edAddressTitle.setText(address.addressTitle)
-                edKampung.setText(address.kampung)
-                edDesa.setText(address.desa)
-                edSubdistrict.setText(address.kecamatan)
-                edCity.setText(address.city)
-                edProvince.setText(address.provinsi)
-            }
+        if (args.user.addressUser != null){
+            binding.edAddressStore.setText(address)
         }
 
-        binding.apply {
-            val address = args.address
 
-            // Hide the delete button if no Address is received (for add new address)
-            if (address == null) {
-                buttonDelete.visibility = View.GONE
-            } else {
-                // Populate the fields with the existing Address data
-                edAddressTitle.setText(address.addressTitle)
-                edKampung.setText(address.kampung)
-                edDesa.setText(address.desa)
-                edSubdistrict.setText(address.kecamatan)
-                edCity.setText(address.city)
-                edProvince.setText(address.provinsi)
-            }
+        if (args.user.role == "seller"){
+            binding.destinationTIL.visibility = View.VISIBLE
+            cityStore = args.user.cityStore
+            binding.destinationAutoCompleteTV.setText(cityStore)
+        } else {
+            cityUser = args.user.cityUser
+            binding.originAutoCompleteTV.setText(cityUser)
+        }
 
-            buttonSave.setOnClickListener {
-                val addressTitle = edAddressTitle.text.toString()
-                val kampung = edKampung.text.toString()
-                val desa = edDesa.text.toString()
-                val kecamatan = edSubdistrict.text.toString()
-                val city = edCity.text.toString()
-                val state = edProvince.text.toString()
-
-                val newAddress = if (address == null) {
-                    // Create a new Address object if no existing address is available
-                    Address(
-                        UUID.randomUUID().toString(),
-                        addressTitle,
-                        kampung,
-                        desa,
-                        kecamatan,
-                        city,
-                        state
-                    )
-                } else {
-                    // Update the existing Address object with the same ID
-                    address.copy(
-                        addressTitle = addressTitle,
-                        kampung = kampung,
-                        desa = desa,
-                        kecamatan = kecamatan,
-                        city = city,
-                        provinsi = state
-                    )
+        viewModel.updateUserStoreDataResult
+            .onEach { resource ->
+                when (resource) {
+                    is Resource.Loading -> showLoading()
+                    is Resource.Success -> {
+                        hideLoading()
+                        ToastUtils.showMessage(requireContext(),"Data updated successfully!")
+                        findNavController().navigateUp()
+                    }
+                    is Resource.Error -> {
+                        hideLoading()
+                        ToastUtils.showMessage(requireContext(),"Data update failed")
+                    }
+                    else -> { }
                 }
-
-                viewModel.addAddress(newAddress)
             }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
+
+        binding.buttonSave.setOnClickListener {
+            saveUserAddress()
         }
 
         binding.imageAddressClose.setOnClickListener {
@@ -158,6 +147,66 @@ class AddressFragment: Fragment(){
                 alertDialog.show()
             }
         }
+
+    }
+
+    private fun loadCities() {
+        val listCity = mainViewModel.getCities()
+        listCity.observe(this) {
+            when (it) {
+                is ResultData.Success -> {
+                    binding.loadingPB.gone()
+                    initSpinner(it.data?.rajaOngkir?.results ?: return@observe)
+
+                }
+                is ResultData.Loading -> binding.loadingPB.visible()
+                is ResultData.Failed -> showErrorMessage(it.message.toString())
+                is ResultData.Exception -> showErrorMessage(it.message.toString())
+            }
+        }
+    }
+
+    private fun initSpinner(cityResults: List<CityResult?>) {
+        val cities = mutableListOf<String>()
+        val couriers = resources.getStringArray(R.array.list_courier)
+        for (i in cityResults.indices) cities.add(cityResults[i]?.cityName ?: "")
+        val cityAdapter = ArrayAdapter(requireContext(), R.layout.item_spinner_dropdown, cities)
+        val courierAdapter = ArrayAdapter(requireContext(), R.layout.item_spinner_dropdown, couriers)
+
+        binding.destinationAutoCompleteTV.setAdapter(cityAdapter)
+        binding.originAutoCompleteTV.setAdapter(cityAdapter)
+    }
+
+    private fun showErrorMessage(message: String) {
+        binding.loadingPB.gone()
+        ToastUtils.showMessage(requireContext(),getString(R.string.message_error, message))
+    }
+
+    private fun setUserInformation(user: String) {
+        binding.edAddressStore.setText(user)
+    }
+
+    fun showLoading() {
+        binding.progressbarAddress.visibility = View.VISIBLE
+    }
+
+    fun hideLoading() {
+        binding.progressbarAddress.visibility = View.GONE
+    }
+
+    fun saveUserAddress() {
+        val address = binding.edAddressStore.text.toString()
+        val cityUser = binding.originAutoCompleteTV.text.toString()
+        val cityStore = binding.destinationAutoCompleteTV.text.toString()
+
+        val user = User(
+            "","","","","seller",
+            addressUser = address,
+            cityStore = cityStore,
+            cityUser = cityUser
+        )
+
+        viewModel.updateUserStoreData(user)
 
     }
 

@@ -8,20 +8,16 @@ import android.view.ViewGroup
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import id.deeromptech.ebc.R
 import id.deeromptech.ebc.adapter.BestDealsAdapter
 import id.deeromptech.ebc.adapter.BestProductsAdapter
 import id.deeromptech.ebc.adapter.SpecialProductsAdapter
-import id.deeromptech.ebc.data.local.Cart
 import id.deeromptech.ebc.databinding.FragmentMainCategoryBinding
-import id.deeromptech.ebc.util.Constants.PRODUCT_FLAG
 import id.deeromptech.ebc.util.Resource
 import id.deeromptech.ebc.util.ToastUtils
 import id.deeromptech.ebc.util.showBottomNavigationView
@@ -57,17 +53,26 @@ class MainCategoryFragment : Fragment(R.layout.fragment_main_category) {
         setupBestProductsRV()
 
         specialProductsAdapter.onClick = {
-            val b = Bundle().apply { putParcelable("product",it) }
+            val b = Bundle().apply {
+                putParcelable("product", it)
+                putBoolean("seller", false)
+            }
             findNavController().navigate(R.id.action_navigation_home_to_productDetailFragment, b)
         }
 
         bestDealsAdapter.onClick = {
-            val b = Bundle().apply { putParcelable("product",it) }
+            val b = Bundle().apply {
+                putParcelable("product", it)
+                putBoolean("seller", false)
+            }
             findNavController().navigate(R.id.action_navigation_home_to_productDetailFragment, b)
         }
 
         bestProductsAdapter.onClick = {
-            val b = Bundle().apply { putParcelable("product",it) }
+            val b = Bundle().apply {
+                putParcelable("product", it)
+                putBoolean("seller", false)
+            }
             findNavController().navigate(R.id.action_navigation_home_to_productDetailFragment, b)
         }
 

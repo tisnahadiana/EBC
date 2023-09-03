@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -55,165 +56,112 @@
         app:layout_constraintStart_toStartOf="@id/guideline1"
         app:layout_constraintTop_toBottomOf="@id/toolbarAddresses" />
 
-    <EditText
-        android:id="@+id/edAddressTitle"
-        android:layout_width="0dp"
-        android:layout_height="45dp"
-        android:background="@color/white"
-        android:fontFamily="@font/montserrat_medium"
-        android:gravity="start|center_vertical"
-        android:hint="@string/address_location"
-        android:paddingStart="20dp"
-        android:paddingEnd="20dp"
-        android:singleLine="true"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@id/guideline2"
-        app:layout_constraintStart_toStartOf="@id/guideline1"
-        app:layout_constraintTop_toBottomOf="@+id/topLine"
-        android:layout_marginTop="15dp"/>
 
-    <EditText
-        android:id="@+id/edKampung"
-        android:layout_width="0dp"
-        android:layout_height="45dp"
-        android:background="@color/white"
-        android:fontFamily="@font/montserrat_medium"
-        android:gravity="start|center_vertical"
-        android:hint="@string/village"
-        android:paddingStart="20dp"
-        android:paddingEnd="20dp"
-        android:singleLine="true"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@id/guideline2"
-        app:layout_constraintStart_toStartOf="@id/guideline1"
-        app:layout_constraintTop_toBottomOf="@+id/edAddressTitle"
-        android:layout_marginTop="15dp"/>
-
-    <EditText
-        android:id="@+id/edDesa"
-        android:layout_width="0dp"
-        android:layout_height="45dp"
-        android:layout_marginTop="10dp"
-        android:background="@color/white"
-        android:fontFamily="@font/montserrat_medium"
-        android:gravity="start|center_vertical"
-        android:hint="@string/desa"
-        android:paddingStart="20dp"
-        android:paddingEnd="20dp"
-        android:singleLine="true"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@id/guideline2"
-        app:layout_constraintStart_toStartOf="@id/guideline1"
-        app:layout_constraintTop_toBottomOf="@id/edKampung" />
-
-    <LinearLayout
-        android:id="@+id/linear"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="@id/guideline2"
-        app:layout_constraintHorizontal_bias="0.484"
-        app:layout_constraintStart_toStartOf="@id/guideline1"
-        app:layout_constraintTop_toBottomOf="@+id/edSubdistrict"
-        android:orientation="horizontal">
-
-        <EditText
-            android:id="@+id/edCity"
-            android:layout_width="378dp"
-            android:layout_height="45dp"
-            android:background="@color/white"
-            android:fontFamily="@font/montserrat_medium"
-            android:gravity="start|center_vertical"
-            android:hint="@string/city"
-            android:paddingStart="20dp"
-            android:paddingEnd="20dp"
-            android:singleLine="true"
-            android:textStyle="bold"
-            android:layout_marginTop="10dp"
-            android:layout_weight="1"
-            android:layout_marginEnd="5dp" />
-
-        <EditText
-            android:id="@+id/edProvince"
-            android:layout_width="378dp"
-            android:layout_height="45dp"
-            android:background="@color/white"
-            android:fontFamily="@font/montserrat_medium"
-            android:gravity="start|center_vertical"
-            android:hint="@string/province"
-            android:paddingStart="20dp"
-            android:paddingEnd="20dp"
-            android:singleLine="true"
-            android:textStyle="bold"
-            android:layout_marginTop="10dp"
-            android:layout_weight="1"
-            android:layout_marginStart="5dp"/>
-
-    </LinearLayout>
-
-    <EditText
-        android:id="@+id/edSubdistrict"
-        android:layout_width="0dp"
-        android:layout_height="45dp"
-        android:background="@color/white"
-        android:fontFamily="@font/montserrat_medium"
-        android:layout_marginTop="10dp"
-        android:gravity="start|center_vertical"
-        android:hint="@string/subdistrict"
-        android:paddingStart="20dp"
-        android:paddingEnd="20dp"
-        android:singleLine="true"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/guideline2"
-        app:layout_constraintStart_toStartOf="@+id/guideline1"
-        app:layout_constraintTop_toBottomOf="@+id/edDesa" />
-
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="@id/guideline2"
+    <id.deeromptech.ebc.customview.CustomEditText
+        android:id="@+id/edAddressStore"
+        style="@style/EditText"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="50dp"
+        android:gravity="center"
+        android:hint="@string/enter_full_address_store"
+        android:inputType="textMultiLine"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@id/guideline1"
-        app:layout_constraintTop_toBottomOf="@id/linear"
-        app:layout_constraintVertical_bias="0.494"
-        android:layout_marginTop="45dp"
-        android:orientation="horizontal">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/topLine" />
 
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/originTIL"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:hint="@string/kota_asal"
+        app:hintEnabled="true"
+        app:layout_constraintEnd_toEndOf="@+id/edAddressStore"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/edAddressStore"
+        app:layout_constraintTop_toBottomOf="@+id/edAddressStore">
+
+        <com.google.android.material.textfield.MaterialAutoCompleteTextView
+            android:id="@+id/originAutoCompleteTV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <ProgressBar
+        android:id="@+id/loadingPB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|center_horizontal"
+        app:layout_constraintBottom_toBottomOf="@+id/originTIL"
+        app:layout_constraintEnd_toEndOf="@+id/originTIL"
+        app:layout_constraintStart_toStartOf="@+id/originTIL" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/destinationTIL"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:hint="@string/asal_kota_toko"
+        app:hintEnabled="true"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@+id/originTIL"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/originTIL"
+        app:layout_constraintTop_toBottomOf="@+id/originTIL">
+
+        <com.google.android.material.textfield.MaterialAutoCompleteTextView
+            android:id="@+id/destinationAutoCompleteTV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="@id/guideline2"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@id/guideline1"
+        app:layout_constraintTop_toBottomOf="@+id/originTIL">
 
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/buttonDelete"
             android:layout_width="0dp"
             android:layout_height="40dp"
+            android:layout_marginEnd="5dp"
             android:layout_marginBottom="20dp"
+            android:layout_weight="1"
             android:background="@color/white"
             android:fontFamily="@font/montserrat_medium"
             android:text="@string/delete"
             android:textAllCaps="false"
             android:textColor="@color/black"
             android:textSize="14sp"
-            android:visibility="visible"
-            android:layout_weight="1"
-            android:layout_marginEnd="5dp"
-            />
+            android:visibility="visible" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/buttonSave"
             android:layout_width="0dp"
             android:layout_height="40dp"
+            android:layout_marginStart="5dp"
             android:layout_marginBottom="20dp"
+            android:layout_weight="1"
             android:background="@color/green_variant"
             android:fontFamily="@font/montserrat_medium"
             android:text="@string/save"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="14sp"
-            android:visibility="visible"
-            android:layout_weight="1"
-            android:layout_marginStart="5dp"
-            />
+            android:visibility="visible" />
 
     </LinearLayout>
-
 
     <ProgressBar
         android:id="@+id/progressbarAddress"

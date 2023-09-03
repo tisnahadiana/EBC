@@ -10,8 +10,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import id.deeromptech.ebc.data.local.Product
 import id.deeromptech.ebc.databinding.BestDealsRvItemBinding
-import id.deeromptech.ebc.helper.getProductPrice
-import id.deeromptech.ebc.util.Constants.IMAGES
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.util.*
@@ -28,18 +26,23 @@ class BestDealsAdapter : RecyclerView.Adapter<BestDealsAdapter.BestDealsViewHold
             binding.apply {
                 Glide.with(itemView).load(product.images[0]).into(imgBestDeal)
 
+                if (product.offerPercentage == null){
+                    tvDealProductName.text = product.name
+                    tvNewPrice.visibility = View.GONE
+                    val formattedOldPrice = "Rp. ${decimalFormat.format(product.price)}"
+                    tvOldPrice.text = formattedOldPrice
+                } else {
+                    tvDealProductName.text = product.name
+                    val formattedOldPrice = "Rp. ${decimalFormat.format(product.price)}"
+                    tvOldPrice.text = formattedOldPrice
 
-                tvOldPrice.paintFlags= Paint.STRIKE_THRU_TEXT_FLAG
-                if (product.offerPercentage == null)
-                    tvNewPrice.visibility = View.INVISIBLE
-                tvDealProductName.text = product.name
+                    val discountedPrice =
+                        product.price - (product.price * (product.offerPercentage!! / 100))
+                    val formattedPrice = "Rp. ${decimalFormat.format(discountedPrice)}"
+                    tvNewPrice.text = formattedPrice
+                    tvOldPrice.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
+                }
 
-                val formattedOldPrice = "Rp. ${decimalFormat.format(product.price)}"
-                tvOldPrice.text = formattedOldPrice
-
-                val discountedPrice = product.price - (product.price * (product.offerPercentage!! / 100))
-                val formattedPrice = "Rp. ${decimalFormat.format(discountedPrice)}"
-                tvNewPrice.text = formattedPrice
             }
 
         }

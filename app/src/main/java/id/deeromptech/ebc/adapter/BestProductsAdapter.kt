@@ -10,40 +10,47 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import id.deeromptech.ebc.data.local.Product
 import id.deeromptech.ebc.databinding.ProductRvItemBinding
-import id.deeromptech.ebc.util.Constants.IMAGES
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.util.*
 
-class BestProductsAdapter: RecyclerView.Adapter<BestProductsAdapter.BestProductsViewHolder>() {
+class BestProductsAdapter : RecyclerView.Adapter<BestProductsAdapter.BestProductsViewHolder>() {
 
-    inner class BestProductsViewHolder(private val binding: ProductRvItemBinding):
+    inner class BestProductsViewHolder(private val binding: ProductRvItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        private val decimalFormat = DecimalFormat("#,###", DecimalFormatSymbols(Locale.getDefault()))
+        private val decimalFormat =
+            DecimalFormat("#,###", DecimalFormatSymbols(Locale.getDefault()))
 
-        fun bind(product: Product){
+        fun bind(product: Product) {
             binding.apply {
                 Glide.with(itemView).load(product.images[0]).into(imgProduct)
 
-                tvPrice.paintFlags= Paint.STRIKE_THRU_TEXT_FLAG
-                if (product.offerPercentage == null)
-                    tvNewPrice.visibility = View.INVISIBLE
-                tvName.text = product.name
+                if (product.offerPercentage == null){
+                    tvName.text = product.name
+                    tvNewPrice.visibility = View.GONE
+                    val formattedOldPrice = "Rp. ${decimalFormat.format(product.price)}"
+                    tvPrice.text = formattedOldPrice
+                } else {
+                    tvName.text = product.name
 
-                val formattedOldPrice = "Rp. ${decimalFormat.format(product.price)}"
-                tvPrice.text = formattedOldPrice
+                    val formattedOldPrice = "Rp. ${decimalFormat.format(product.price)}"
+                    tvPrice.text = formattedOldPrice
 
-                val discountedPrice = product.price - (product.price * (product.offerPercentage!! / 100))
-                val formattedPrice = "Rp. ${decimalFormat.format(discountedPrice)}"
-                tvNewPrice.text = formattedPrice
+                    val discountedPrice =
+                        product.price - (product.price * (product.offerPercentage!! / 100))
+                    val formattedPrice = "Rp. ${decimalFormat.format(discountedPrice)}"
+                    tvNewPrice.text = formattedPrice
+
+                    tvPrice.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
+                }
 
             }
         }
 
     }
 
-    private val diffCallback = object : DiffUtil.ItemCallback<Product>(){
+    private val diffCallback = object : DiffUtil.ItemCallback<Product>() {
         override fun areItemsTheSame(oldItem: Product, newItem: Product): Boolean {
             return oldItem.id == newItem.id
         }
@@ -53,7 +60,7 @@ class BestProductsAdapter: RecyclerView.Adapter<BestProductsAdapter.BestProducts
         }
     }
 
-    val differ = AsyncListDiffer(this,diffCallback)
+    val differ = AsyncListDiffer(this, diffCallback)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BestProductsViewHolder {
         return BestProductsViewHolder(
@@ -76,5 +83,5 @@ class BestProductsAdapter: RecyclerView.Adapter<BestProductsAdapter.BestProducts
         }
     }
 
-    var onClick:((Product) -> Unit)? = null
+    var onClick: ((Product) -> Unit)? = null
 }

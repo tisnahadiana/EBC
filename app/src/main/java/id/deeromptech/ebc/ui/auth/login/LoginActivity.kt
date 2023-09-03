@@ -9,12 +9,10 @@ import android.widget.EditText
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 import id.deeromptech.ebc.R
 import id.deeromptech.ebc.databinding.ActivityLoginBinding
@@ -56,6 +54,7 @@ class LoginActivity : AppCompatActivity() {
 
     }
 
+
     private fun onFacebookSignIn() {
 
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -80,7 +79,10 @@ class LoginActivity : AppCompatActivity() {
                 }
 
                 is Resource.Success -> {
-                    ToastUtils.showMessage(this@LoginActivity, getString(R.string.success_message_login))
+                    ToastUtils.showMessage(
+                        this@LoginActivity,
+                        getString(R.string.success_message_login)
+                    )
                     viewModelRegister.resetPassword.postValue(null)
                     return@Observer
                 }
@@ -90,10 +92,12 @@ class LoginActivity : AppCompatActivity() {
                     Log.e(TAG, response.message.toString())
 
                     return@Observer
-                } else -> Unit
+                }
+                else -> Unit
             }
         })
     }
+
     private fun onForgotPasswordClick() {
         binding.tvForgotPassword.setOnClickListener {
             setupBottomSheetDialogLogin()
@@ -139,7 +143,7 @@ class LoginActivity : AppCompatActivity() {
     private fun observerLoginError() {
         viewModelRegister.loginError.observe(this, Observer { error ->
             Log.e(TAG, error)
-            ToastUtils.showMessage(this,"Please check your information")
+            ToastUtils.showMessage(this, "Please check your information")
             binding.btnLoginActivity.revertAnimation()
 
         })
@@ -158,7 +162,8 @@ class LoginActivity : AppCompatActivity() {
     private fun onLoginClick() {
         binding.btnLoginActivity.setOnClickListener {
             binding.btnLoginActivity.spinningBarColor = resources.getColor(R.color.white)
-            binding.btnLoginActivity.spinningBarWidth = resources.getDimension(com.intuit.sdp.R.dimen._3sdp)
+            binding.btnLoginActivity.spinningBarWidth =
+                resources.getDimension(com.intuit.sdp.R.dimen._3sdp)
 
             val email = getEmail()?.trim()
             val password = getPassword()
@@ -226,7 +231,7 @@ class LoginActivity : AppCompatActivity() {
             try {
                 // Google Sign In was successful, authenticate with Firebase
                 val account = task.getResult(ApiException::class.java)!!
-                Log.d("test,",account.email.toString())
+                Log.d("test,", account.email.toString())
                 Log.d(TAG, "firebaseAuthWithGoogle:" + account.id)
                 viewModelRegister.signInWithGoogle(account.idToken!!)
             } catch (e: ApiException) {
@@ -236,26 +241,26 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun observeSaveUserInformation(){
-        viewModelRegister.saveUserInformationGoogleSignIn.observe(this, Observer { response->
-            when(response){
+    private fun observeSaveUserInformation() {
+        viewModelRegister.saveUserInformationGoogleSignIn.observe(this, Observer { response ->
+            when (response) {
                 is Resource.Loading -> {
-                    Log.d(TAG,"GoogleSignIn:Loading")
+                    Log.d(TAG, "GoogleSignIn:Loading")
                     binding.btnLoginActivity.startAnimation()
                     return@Observer
                 }
 
                 is Resource.Success -> {
-                    Log.d(TAG,"GoogleSignIn:Successful")
+                    Log.d(TAG, "GoogleSignIn:Successful")
                     binding.btnLoginActivity.stopAnimation()
                     startActivity(Intent(this, ShoppingActivity::class.java))
                     finish()
                     return@Observer
                 }
 
-                is Resource.Error ->{
-                    Log.e(TAG,"GoogleSignIn:Error ${response.message.toString()}")
-                    ToastUtils.showMessage(this@LoginActivity,getString(R.string.error_occurred))
+                is Resource.Error -> {
+                    Log.e(TAG, "GoogleSignIn:Error ${response.message.toString()}")
+                    ToastUtils.showMessage(this@LoginActivity, getString(R.string.error_occurred))
                     return@Observer
                 }
                 else -> Unit

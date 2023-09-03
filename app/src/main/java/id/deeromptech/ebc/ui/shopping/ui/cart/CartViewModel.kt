@@ -1,6 +1,5 @@
 package id.deeromptech.ebc.ui.shopping.ui.cart
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
@@ -8,10 +7,7 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.lifecycle.HiltViewModel
 import id.deeromptech.ebc.data.local.Cart
-import id.deeromptech.ebc.data.local.Product
 import id.deeromptech.ebc.firebase.FirebaseCommon
-import id.deeromptech.ebc.firebase.FirebaseDb
-import id.deeromptech.ebc.helper.getProductPrice
 import id.deeromptech.ebc.util.Resource
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -51,8 +47,13 @@ class CartViewModel @Inject constructor(
 
     private fun calculatePrice(data: List<Cart>): Float {
         return data.sumByDouble { cart ->
-            val productPrice = cart.product.price * (1 - cart.product.offerPercentage!! / 100.0)
-            productPrice * cart.quantity
+            if (cart.product.offerPercentage == null) {
+                val productPrice = cart.product.price.toDouble()
+                productPrice * cart.quantity
+            } else {
+                val productPrice = cart.product.price * (1 - cart.product.offerPercentage!! / 100.0)
+                productPrice * cart.quantity
+            }
         }.toFloat()
     }
 

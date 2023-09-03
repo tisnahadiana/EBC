@@ -88,7 +88,9 @@ class SellerVerificationViewModel @Inject constructor(
             .update(
                 "storeName", user.storeName,
                 "rekening", user.rekening,
-                "role", user.role
+                "role", user.role,
+                "addressStore", user.addressStore,
+                "cityStore", user.cityStore
             )
             .addOnSuccessListener {
                 viewModelScope.launch {

@@ -1,28 +1,13 @@
 package id.deeromptech.ebc.ui.shopping.ui.setting
 
 import android.app.Application
-import android.graphics.Bitmap
-import android.net.Uri
-import android.provider.MediaStore
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.storage.StorageReference
 import dagger.hilt.android.lifecycle.HiltViewModel
-import id.deeromptech.ebc.EbcApplication
 import id.deeromptech.ebc.data.local.User
 import id.deeromptech.ebc.firebase.FirebaseDb
-import id.deeromptech.ebc.util.RegisterValidation
 import id.deeromptech.ebc.util.Resource
-import id.deeromptech.ebc.util.validateEmail
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
-import java.io.ByteArrayOutputStream
 import java.util.UUID
 import javax.inject.Inject
 
@@ -47,10 +32,16 @@ class UserAccountViewModel @Inject constructor(
         }
     }
 
-    fun updateInformation(name: String, email: String, phone: String, imageName: String) {
+    fun updateInformation(name: String, email: String, phone: String, imageName: String, role: String,
+                          addressUser: String,
+                          storeName: String,
+                          addressStore: String,
+                          rekening : String,
+                          cityUserData : String,
+                          cityStoreData : String  ) {
         updateUserInformation.postValue(Resource.Loading())
 
-        firebaseDatabase.getImageUrl(name, email, phone, imageName) { user, exception ->
+        firebaseDatabase.getImageUrl(name, email, phone, imageName, role, addressUser, storeName, addressStore, rekening, cityUserData, cityStoreData) { user, exception ->
 
             if (exception != null)
                 updateUserInformation.postValue(Resource.Error(exception))

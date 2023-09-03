@@ -5,7 +5,7 @@ import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.RawValue
 
 @Parcelize
-data class CartProductsList (
+data class CartProductsList(
     val products: @RawValue List<Cart>
 ) : Parcelable {
 

@@ -14,11 +14,8 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
@@ -29,8 +26,6 @@ import id.deeromptech.ebc.R
 import id.deeromptech.ebc.data.local.User
 import id.deeromptech.ebc.databinding.FragmentUserAccountBinding
 import id.deeromptech.ebc.util.Resource
-import id.deeromptech.ebc.util.ToastUtils
-import kotlinx.coroutines.flow.collectLatest
 import java.io.ByteArrayOutputStream
 
 @AndroidEntryPoint
@@ -42,8 +37,27 @@ class UserAccountFragment : Fragment() {
     private val args by navArgs<UserAccountFragmentArgs>()
     private var isPicked = false
     var imageArray: ByteArray? = null
+    private lateinit var userRole : String
+    private lateinit var addressUser : String
+    private lateinit var storeName : String
+    private lateinit var addressStore : String
+    private lateinit var rekening : String
+    private lateinit var cityUser : String
+    private lateinit var cityStore : String
 
     private val viewModel by viewModels<UserAccountViewModel> ()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        userRole = args.user.role.toString()
+        addressUser = args.user.addressUser.toString()
+        storeName = args.user.storeName.toString()
+        addressStore = args.user.addressStore.toString()
+        rekening = args.user.rekening.toString()
+        cityUser = args.user.cityUser.toString()
+        cityStore = args.user.cityStore.toString()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -59,6 +73,7 @@ class UserAccountFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
         setUserInformation(args.user)
         onCloseClick()
         onSaveClick()
@@ -69,6 +84,10 @@ class UserAccountFragment : Fragment() {
         observeResetPassword()
 
         observeUpdateInformation()
+
+        binding.edEmail.isEnabled = false
+        binding.edEmail.isFocusable = false
+        binding.edEmail.isFocusableInTouchMode = false
     }
 
     private fun setUserInformation(user: User) {
@@ -97,7 +116,15 @@ class UserAccountFragment : Fragment() {
                 val email = binding.edEmail.text.toString()
                 val phone = binding.edPhone.text.toString()
                 val image=""
-                viewModel.updateInformation(name,email,phone,image)
+                val role = userRole
+                val addressUserData = addressUser
+                val storeNameData = storeName
+                val addressStoreData = addressStore
+                val rekeningData = rekening
+                val cityUserData = cityUser
+                val cityStoreData = cityStore
+
+                viewModel.updateInformation(name,email,phone,image, role, addressUserData, storeNameData, addressStoreData, rekeningData, cityUserData, cityStoreData)
             }
         }
 
@@ -153,7 +180,7 @@ class UserAccountFragment : Fragment() {
                     val email = binding.edEmail.text.toString()
                     val phone = binding.edPhone.text.toString()
 
-                    viewModel.updateInformation(firstName, email, phone, response.data!!)
+                    viewModel.updateInformation(firstName, email, phone, response.data!!, userRole, addressUser, storeName, addressStore, rekening, cityUser, cityStore)
                     return@observe
                 }
 

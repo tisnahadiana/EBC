@@ -1,5 +1,6 @@
 package id.deeromptech.ebc.ui.shopping.ui.cart
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import id.deeromptech.ebc.R
 import id.deeromptech.ebc.adapter.CartProductAdapter
+import id.deeromptech.ebc.data.local.Cart
 import id.deeromptech.ebc.databinding.FragmentCartBinding
 import id.deeromptech.ebc.firebase.FirebaseCommon
 import id.deeromptech.ebc.util.Resource
@@ -32,6 +34,7 @@ class CartFragment : Fragment() {
     private val cartAdapter by lazy { CartProductAdapter() }
     private val viewModel by activityViewModels<CartViewModel>()
     private val decimalFormat = DecimalFormat("#,###", DecimalFormatSymbols(Locale.getDefault()))
+    private val checkedProducts = mutableSetOf<Cart>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,19 +47,27 @@ class CartFragment : Fragment() {
         return root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState:  Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         setupCartRv()
 
         var totalPrice = 0f
 
+        binding.buttonCheckout.isEnabled = false
+        binding.buttonCheckout.setBackgroundResource(R.drawable.bg_button_off)
+
+        if (checkedProducts.isNotEmpty()) {
+            val uniqueSellers = checkedProducts.map { it.product.seller }.distinct()
+            if (uniqueSellers.size > 1) {
+                ToastUtils.showMessage(requireContext(), "Pilih produk pada toko yang sama.")
+            }
+        }
+
         lifecycleScope.launchWhenStarted {
             viewModel.productPrice.collectLatest { price ->
                 price?.let {
                     totalPrice = it
-//                    binding.tvTotalPrice.text = "Rp. $price"
-
                     val formattedPrice = "Rp. ${decimalFormat.format(price)}"
                     binding.tvTotalPrice.text = formattedPrice
                 }
@@ -64,7 +75,10 @@ class CartFragment : Fragment() {
         }
 
         cartAdapter.onProductClick = {
-            val b = Bundle().apply { putParcelable("product", it.product) }
+            val b = Bundle().apply {
+                putParcelable("product", it.product)
+                putBoolean("seller", false)
+            }
             findNavController().navigate(R.id.action_navigation_cart_to_productDetailFragment, b)
         }
 
@@ -94,6 +108,12 @@ class CartFragment : Fragment() {
                     alertDialog.show()
                 }
             }
+        }
+
+        cartAdapter.onCheckedItemsChanged = { checkedItems ->
+            checkedProducts.clear()
+            checkedProducts.addAll(checkedItems)
+            updateCheckoutButtonState()
         }
 
         binding.buttonCheckout.setOnClickListener {
@@ -149,6 +169,20 @@ class CartFragment : Fragment() {
 
         binding.imageCloseCart.setOnClickListener {
             findNavController().navigateUp()
+        }
+    }
+
+    @SuppressLint("ResourceType")
+    private fun updateCheckoutButtonState() {
+        val uniqueSellers = checkedProducts.map { it.product.seller }.distinct()
+        val enableCheckout = uniqueSellers.size == 1 && uniqueSellers[0] != null
+
+        binding.buttonCheckout.isEnabled = enableCheckout
+
+        if (binding.buttonCheckout.isEnabled) {
+            binding.buttonCheckout.setBackgroundResource(R.drawable.bg_button)
+        } else {
+            binding.buttonCheckout.setBackgroundResource(R.drawable.bg_button_off)
         }
     }
 

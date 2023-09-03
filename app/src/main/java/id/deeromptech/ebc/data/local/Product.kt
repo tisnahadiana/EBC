@@ -3,7 +3,6 @@ package id.deeromptech.ebc.data.local
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
-
 @Parcelize
 data class Product(
     val id: String,
@@ -14,8 +13,15 @@ data class Product(
     val description: String? = null,
     val stock: String,
     val seller: String? = "",
-    val images: List<String>
-): Parcelable {
-    constructor(): this("0", "","",0f,0f,"", "","", images = emptyList())
+    val images: List<String>,
+    val addressStore: String? = "",
+    val sellerPhone: String? = "",
+    val cityStore: String? = "",
+    val weight: String? = "",
+    val rekeningSeller: String? = ""
+) : Parcelable {
+    constructor() : this(
+        "0", "", "", 0f, 0f, "", "", "", images = emptyList(), "", "", "", "", ""
+    )
 }
 
