@@ -131,23 +131,60 @@ class InputProductFragment : Fragment() {
         }
 
         binding.btnSaveProduct.setOnClickListener {
-            val productValidation = validateInformation()
-            if (!productValidation) {
-                ToastUtils.showMessage(requireContext(), "Check your inputs")
-            }
-            saveProduct() {
-                Log.d("test", it.toString())
+
+            if (binding.edName.text.toString().isEmpty()) {
+                Toast.makeText(requireContext(), "Please enter a name.", Toast.LENGTH_SHORT).show()
+            } else if (binding.edDescription.text.toString().isEmpty()) {
+                Toast.makeText(requireContext(), "Please enter a description.", Toast.LENGTH_SHORT)
+                    .show()
+            } else if (binding.edPrice.text.toString().isEmpty()) {
+                Toast.makeText(requireContext(), "Please enter a price.", Toast.LENGTH_SHORT).show()
+            } else if (binding.edWeight.text.toString().isEmpty()) {
+                Toast.makeText(requireContext(), "Please enter a weight.", Toast.LENGTH_SHORT)
+                    .show()
+            } else if (selectedImages.isEmpty()) {
+                Toast.makeText(
+                    requireContext(),
+                    "Please select at least one image.",
+                    Toast.LENGTH_SHORT
+                ).show()
+            } else {
+                saveProduct { success ->
+                    if (success) {
+                        Log.d("test", "Product saved successfully.")
+                    } else {
+                        Log.d("test", "Failed to save product.")
+                    }
+                }
             }
         }
 
         binding.btnEditProduct.setOnClickListener {
-            val productValidation = validateInformation()
-            if (!productValidation) {
-                ToastUtils.showMessage(requireContext(), "Check your inputs")
-            }
 
-            createEditedProduct() {
-                Log.d("test", it.toString())
+            if (binding.edName.text.toString().isEmpty()) {
+                Toast.makeText(requireContext(), "Please enter a name.", Toast.LENGTH_SHORT).show()
+            } else if (binding.edDescription.text.toString().isEmpty()) {
+                Toast.makeText(requireContext(), "Please enter a description.", Toast.LENGTH_SHORT)
+                    .show()
+            } else if (binding.edPrice.text.toString().isEmpty()) {
+                Toast.makeText(requireContext(), "Please enter a price.", Toast.LENGTH_SHORT).show()
+            } else if (binding.edWeight.text.toString().isEmpty()) {
+                Toast.makeText(requireContext(), "Please enter a weight.", Toast.LENGTH_SHORT)
+                    .show()
+            } else if (selectedImages.isEmpty()) {
+                Toast.makeText(
+                    requireContext(),
+                    "Please select at least one image.",
+                    Toast.LENGTH_SHORT
+                ).show()
+            } else {
+                createEditedProduct { success ->
+                    if (success) {
+                        Log.d("test", "Product saved successfully.")
+                    } else {
+                        Log.d("test", "Failed to save product.")
+                    }
+                }
             }
         }
 
@@ -175,29 +212,55 @@ class InputProductFragment : Fragment() {
                         val existingImages = editedProduct.images
                         if (existingImages.contains(imageUrlToDelete)) {
                             // Remove the image URL from the images list in Firestore
-                            document.reference.update("images", FieldValue.arrayRemove(imageUrlToDelete))
+                            document.reference.update(
+                                "images",
+                                FieldValue.arrayRemove(imageUrlToDelete)
+                            )
                                 .addOnSuccessListener {
                                     // Delete the image from Firebase Storage
-                                    val storageRef = Firebase.storage.getReferenceFromUrl(imageUrlToDelete)
+                                    val storageRef =
+                                        Firebase.storage.getReferenceFromUrl(imageUrlToDelete)
                                     storageRef.delete().addOnSuccessListener {
-                                        Toast.makeText(requireContext(), "Image deleted", Toast.LENGTH_SHORT).show()
+                                        Toast.makeText(
+                                            requireContext(),
+                                            "Image deleted",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
                                     }.addOnFailureListener {
-                                        Toast.makeText(requireContext(), "Failed to delete image", Toast.LENGTH_SHORT).show()
+                                        Toast.makeText(
+                                            requireContext(),
+                                            "Failed to delete image",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
                                     }
                                 }.addOnFailureListener { exception ->
-                                    Log.e("FirestoreError", "Firestore update error: ${exception.message}", exception)
-                                    Toast.makeText(requireContext(), "Failed to update product images", Toast.LENGTH_SHORT).show()
+                                    Log.e(
+                                        "FirestoreError",
+                                        "Firestore update error: ${exception.message}",
+                                        exception
+                                    )
+                                    Toast.makeText(
+                                        requireContext(),
+                                        "Failed to update product images",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
                                 }
                         } else {
-                            Toast.makeText(requireContext(), "Image Deleted", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(requireContext(), "Image Deleted", Toast.LENGTH_SHORT)
+                                .show()
                         }
                     } else {
                         // Image doesn't exist in Firestore, remove it from selectedImages
                         Toast.makeText(requireContext(), "Image deleted", Toast.LENGTH_SHORT).show()
                     }
                 }.addOnFailureListener { exception ->
-                    Log.e("FirestoreError", "Firestore query error: ${exception.message}", exception)
-                    Toast.makeText(requireContext(), "Failed to query product", Toast.LENGTH_SHORT).show()
+                    Log.e(
+                        "FirestoreError",
+                        "Firestore query error: ${exception.message}",
+                        exception
+                    )
+                    Toast.makeText(requireContext(), "Failed to query product", Toast.LENGTH_SHORT)
+                        .show()
                 }
 
                 dialog.dismiss()
@@ -209,6 +272,7 @@ class InputProductFragment : Fragment() {
 
         alertDialog.show()
     }
+
     private fun setUserInformation(product: Product) {
         binding.apply {
 
@@ -266,21 +330,6 @@ class InputProductFragment : Fragment() {
         }
     }
 
-    private fun validateInformation(): Boolean {
-        if (selectedImages.isEmpty())
-            return false
-        if (binding.edName.text.toString().trim().isEmpty())
-            return false
-        if (binding.edPrice.text.toString().trim().isEmpty())
-            return false
-        if (binding.edDescription.text.toString().trim().isEmpty())
-            return false
-        if (binding.offerPercentage.text.toString().trim().isEmpty())
-            return false
-        if (binding.edWeight.text.toString().trim().isEmpty())
-            return false
-        return true
-    }
 
     private fun saveProduct(state: (Boolean) -> Unit) {
         observeData()

@@ -26,19 +26,24 @@ class SellerProductAdapter : RecyclerView.Adapter<SellerProductAdapter.SellerPro
             binding.apply {
                 Glide.with(itemView).load(product.images[0]).into(imgBestDeal)
 
+                if (product.offerPercentage == null){
+                    tvDealProductName.text = product.name
+                    tvNewPrice.visibility = View.GONE
+                    val formattedOldPrice = "Rp. ${decimalFormat.format(product.price)}"
+                    tvOldPrice.text = formattedOldPrice
+                } else {
+                    tvDealProductName.text = product.name
 
-                tvOldPrice.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
-                if (product.offerPercentage == null)
-                    tvNewPrice.visibility = View.INVISIBLE
-                tvDealProductName.text = product.name
+                    val formattedOldPrice = "Rp. ${decimalFormat.format(product.price)}"
+                    tvOldPrice.text = formattedOldPrice
 
-                val formattedOldPrice = "Rp. ${decimalFormat.format(product.price)}"
-                tvOldPrice.text = formattedOldPrice
+                    val discountedPrice =
+                        product.price - (product.price * (product.offerPercentage!! / 100))
+                    val formattedPrice = "Rp. ${decimalFormat.format(discountedPrice)}"
+                    tvNewPrice.text = formattedPrice
 
-                val discountedPrice =
-                    product.price - (product.price * (product.offerPercentage!! / 100))
-                val formattedPrice = "Rp. ${decimalFormat.format(discountedPrice)}"
-                tvNewPrice.text = formattedPrice
+                    tvOldPrice.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
+                }
             }
 
         }

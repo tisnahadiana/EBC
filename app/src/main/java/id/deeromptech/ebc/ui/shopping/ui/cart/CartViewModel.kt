@@ -47,8 +47,13 @@ class CartViewModel @Inject constructor(
 
     private fun calculatePrice(data: List<Cart>): Float {
         return data.sumByDouble { cart ->
-            val productPrice = cart.product.price * (1 - cart.product.offerPercentage!! / 100.0)
-            productPrice * cart.quantity
+            if (cart.product.offerPercentage == null) {
+                val productPrice = cart.product.price.toDouble()
+                productPrice * cart.quantity
+            } else {
+                val productPrice = cart.product.price * (1 - cart.product.offerPercentage!! / 100.0)
+                productPrice * cart.quantity
+            }
         }.toFloat()
     }
 

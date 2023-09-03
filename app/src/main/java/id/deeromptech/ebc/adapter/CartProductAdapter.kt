@@ -23,15 +23,21 @@ class CartProductAdapter : RecyclerView.Adapter<CartProductAdapter.CartProductsV
         fun bind(cart: Cart) {
             binding.apply {
                 Glide.with(itemView).load(cart.product.images[0]).into(imageCartProduct)
-                tvcartProductName.text = cart.product.name
-                tvQuantity.text = cart.quantity.toString()
 
+                if (cart.product.offerPercentage == null) {
+                    tvcartProductName.text = cart.product.name
+                    tvQuantity.text = cart.quantity.toString()
+                    val formattedPrice = "Rp. ${decimalFormat.format(cart.product.price)}"
+                    tvcartProductPrice.text = formattedPrice
+                } else {
+                    tvcartProductName.text = cart.product.name
+                    tvQuantity.text = cart.quantity.toString()
 
-                val discountedPrice =
-                    cart.product.price - (cart.product.price * (cart.product.offerPercentage!! / 100))
-                val formattedPrice = "Rp. ${decimalFormat.format(discountedPrice)}"
-                tvcartProductPrice.text = formattedPrice
-
+                    val discountedPrice =
+                        cart.product.price - (cart.product.price * (cart.product.offerPercentage!! / 100))
+                    val formattedPrice = "Rp. ${decimalFormat.format(discountedPrice)}"
+                    tvcartProductPrice.text = formattedPrice
+                }
             }
         }
 

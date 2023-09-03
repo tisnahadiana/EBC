@@ -24,12 +24,20 @@ class SpecialProductsAdapter :
         fun bind(product: Product) {
             binding.apply {
                 Glide.with(itemView).load(product.images[0]).into(imgSpecialRv)
-                tvSpecialName.text = product.name
 
-                val discountedPrice =
-                    product.price - (product.price * (product.offerPercentage!! / 100))
-                val formattedPrice = "Rp. ${decimalFormat.format(discountedPrice)}"
-                tvSpecialPrice.text = formattedPrice
+                if (product.offerPercentage == null){
+                    tvSpecialName.text = product.name
+                    val formattedOldPrice = "Rp. ${decimalFormat.format(product.price)}"
+                    tvSpecialPrice.text = formattedOldPrice
+                } else {
+                    tvSpecialName.text = product.name
+
+                    val discountedPrice =
+                        product.price - (product.price * (product.offerPercentage!! / 100))
+                    val formattedPrice = "Rp. ${decimalFormat.format(discountedPrice)}"
+                    tvSpecialPrice.text = formattedPrice
+                }
+
             }
         }
 

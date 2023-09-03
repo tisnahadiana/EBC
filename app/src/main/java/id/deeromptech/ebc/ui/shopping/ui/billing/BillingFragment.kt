@@ -146,14 +146,12 @@ class BillingFragment : Fragment() {
             val formattedOldPrice = "Rp. ${decimalFormat.format(selectedPostageFee.value)}"
             binding.tvTotalOngkir.text = formattedOldPrice
 
-            val totalPriceWithoutOngkir =
-                totalPrice // Get the original total price without shipping cost
+            val totalPriceWithoutOngkir = totalPrice
             val totalPriceWithOngkir =
-                totalPriceWithoutOngkir + selectedPostageFee.value!! // Calculate total price with shipping cost
+                totalPriceWithoutOngkir + selectedPostageFee.value!!
 
             val formattedTotalPriceWithOngkir = "Rp. ${decimalFormat.format(totalPriceWithOngkir)}"
-            binding.tvTotalPrice.text =
-                formattedTotalPriceWithOngkir // Update the total price including shipping cost
+            binding.tvTotalPrice.text = formattedTotalPriceWithOngkir
 
             binding.codeTV.text = selectedPostageFee.code
             binding.estimationTV.text = selectedPostageFee.etd
@@ -285,14 +283,6 @@ class BillingFragment : Fragment() {
         })
         dialogResult.show()
     }
-
-//    private fun setupAddressRv() {
-//        binding.rvAddress.apply {
-//            layoutManager = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
-//            adapter = addressAdapter
-//            addItemDecoration(HorizontalItemDecoration())
-//        }
-//    }
 
     private fun setupBillingProductsRv() {
         binding.rvProducts.apply {

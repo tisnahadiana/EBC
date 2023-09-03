@@ -94,17 +94,27 @@ class ProductDetailFragment : Fragment() {
         }
 
         binding.apply {
-            tvProductName.text = product.name
 
-            val discountedPrice = product.price - (product.price * (product.offerPercentage!! / 100))
-            val formattedPrice = "Rp. ${decimalFormat.format(discountedPrice)}"
-            tvProductPrice.text = formattedPrice
+            if (product.offerPercentage == null){
+                tvProductName.text = product.name
+                val formattedPrice = "Rp. ${decimalFormat.format(product.price)}"
+                tvProductPrice.text = formattedPrice
+                tvProductDescription.text = product.description
+                tvProductSeller.text = "Store : ${product.seller}"
+                tvProductStock.text = "Stock : ${product.stock}"
+                tvStoreAddress.text = "Address : ${product.addressStore}"
+            } else {
+                tvProductName.text = product.name
 
-//            tvProductPrice.text = "Rp. ${product.price}"
-            tvProductDescription.text = product.description
-            tvProductSeller.text = "Store : ${product.seller}"
-            tvProductStock.text = "Stock : ${product.stock}"
-            tvStoreAddress.text = "Address : ${product.addressStore}"
+                val discountedPrice = product.price - (product.price * (product.offerPercentage!! / 100))
+                val formattedPrice = "Rp. ${decimalFormat.format(discountedPrice)}"
+                tvProductPrice.text = formattedPrice
+                tvProductDescription.text = product.description
+                tvProductSeller.text = "Store : ${product.seller}"
+                tvProductStock.text = "Stock : ${product.stock}"
+                tvStoreAddress.text = "Address : ${product.addressStore}"
+            }
+
         }
 
         viewPagerAdapter.differ.submitList(product.images)

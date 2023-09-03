@@ -26,18 +26,24 @@ class BestProductsAdapter : RecyclerView.Adapter<BestProductsAdapter.BestProduct
             binding.apply {
                 Glide.with(itemView).load(product.images[0]).into(imgProduct)
 
-                tvPrice.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
-                if (product.offerPercentage == null)
-                    tvNewPrice.visibility = View.INVISIBLE
-                tvName.text = product.name
+                if (product.offerPercentage == null){
+                    tvName.text = product.name
+                    tvNewPrice.visibility = View.GONE
+                    val formattedOldPrice = "Rp. ${decimalFormat.format(product.price)}"
+                    tvPrice.text = formattedOldPrice
+                } else {
+                    tvName.text = product.name
 
-                val formattedOldPrice = "Rp. ${decimalFormat.format(product.price)}"
-                tvPrice.text = formattedOldPrice
+                    val formattedOldPrice = "Rp. ${decimalFormat.format(product.price)}"
+                    tvPrice.text = formattedOldPrice
 
-                val discountedPrice =
-                    product.price - (product.price * (product.offerPercentage!! / 100))
-                val formattedPrice = "Rp. ${decimalFormat.format(discountedPrice)}"
-                tvNewPrice.text = formattedPrice
+                    val discountedPrice =
+                        product.price - (product.price * (product.offerPercentage!! / 100))
+                    val formattedPrice = "Rp. ${decimalFormat.format(discountedPrice)}"
+                    tvNewPrice.text = formattedPrice
+
+                    tvPrice.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
+                }
 
             }
         }

@@ -28,15 +28,23 @@ class BillingProductsAdapter :
         fun bind(billingProduct: Cart) {
             binding.apply {
                 Glide.with(itemView).load(billingProduct.product.images[0]).into(imageCartProduct)
-                tvBillingProductQuantity.text = billingProduct.quantity.toString()
 
-                val discountedPrice =
-                    billingProduct.product.price - (billingProduct.product.price * (billingProduct.product.offerPercentage!! / 100))
-                val formattedPrice = "Rp. ${decimalFormat.format(discountedPrice)}"
-                tvProductCartPrice.text = formattedPrice
+                if (billingProduct.product.offerPercentage == null) {
+                    tvProductCartName.text = billingProduct.product.name
+                    tvSellerBilling.text = "Store : ${billingProduct.product.seller}"
+                    tvBillingProductQuantity.text = billingProduct.quantity.toString()
+                    val formattedPrice = "Rp. ${decimalFormat.format(billingProduct.product.price)}"
+                    tvProductCartPrice.text = formattedPrice
+                } else {
+                    tvProductCartName.text = billingProduct.product.name
+                    tvSellerBilling.text = "Store : ${billingProduct.product.seller}"
+                    tvBillingProductQuantity.text = billingProduct.quantity.toString()
 
-                tvProductCartName.text = billingProduct.product.name
-                tvSellerBilling.text = "Store : ${billingProduct.product.seller}"
+                    val discountedPrice =
+                        billingProduct.product.price - (billingProduct.product.price * (billingProduct.product.offerPercentage!! / 100))
+                    val formattedPrice = "Rp. ${decimalFormat.format(discountedPrice)}"
+                    tvProductCartPrice.text = formattedPrice
+                }
             }
         }
 

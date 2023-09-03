@@ -41,16 +41,7 @@ class CategoriesRecyclerAdapter :
     override fun onBindViewHolder(
         holder: CategoriesRecyclerAdapter.CategoriesRecyclerAdapterViewHolder,
         position: Int
-    ) {
-//        val category = differ.currentList[position]
-//        holder.binding.apply {
-//            Glide.with(holder.itemView).load(category.image).into(imgCategory)
-//            tvCategoryName.text = category.name
-//        }
-//        holder.itemView.setOnClickListener {
-//            onItemClick?.invoke(category)
-//        }
-    }
+    ) { }
 
     override fun getItemCount(): Int {
         return differ.currentList.size
